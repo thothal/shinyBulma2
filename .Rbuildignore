@@ -1,0 +1,10 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^tools$
+^srcjs$
+^\.yarnrc$
+^\.yarn\.lock$
+^README\.md$
+^package\.json$
+^\.gitignore$
+^\.Rhistory$
