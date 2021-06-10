@@ -8,3 +8,4 @@
 ^package\.json$
 ^\.gitignore$
 ^\.Rhistory$
+^\.Rprofile
