@@ -1,4 +1,4 @@
-Package: shinyBulma
+Package: shinyBulma2
 Title: Bulma for Shiny
 Version: 0.0.0.9000
 Authors@R: 
@@ -7,8 +7,8 @@ Authors@R:
            role = c("aut", "cre"),
            email = "thorn.thaler@thothal.at")
 Description: Exposes the bulma framework including additional addins to shiny.
-URL: https://github.com/thothal/shinyBulma
-BugReports: https://github.com/thothal/shinyBulma/issues
+URL: https://github.com/thothal/shinyBulma2
+BugReports: https://github.com/thothal/shinyBulma2/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
