@@ -1,65 +1,149 @@
 // Stub is taken from: https://bit.ly/3x82MqW
+/**
+ * - yarn packages sit in node_modules
+ * - we compile them to ../dist/lib/{package_name}
+ * - mandatory css/js are also copied to the respective R place
+ *   (i.e. ../dist/lib/bulma/bulma.min.css -> inst/lib/bulma/bulma.min.css)
+ * - template css are rather big, hence the R package will provide a function to download
+ *   them after installation (this allows smaller R package for a potential
+ *   publictaion on CRAN)
+ * - this install script will take the minified css from the github repo from folder dist/
+ * - hence, we will despite good practices check in the dist folder
+ * - homebrewed css/js will also be handled by this grunt file, for R reasons we cannot
+ *   use the canonical folder name src, but use srcjs/ and srccss/ instead
+ **/
 
 module.exports = function(grunt) {
+  require('load-grunt-tasks')(grunt);
+  require('time-grunt')(grunt);
 
-  const src_dir_js = '../srcjs/';
-  const src_dir_css = '../inst/';
-  const dest_dir_js = '../inst/';
-  const dest_dir_css = '../inst/';
+  const sass = require('sass');
+
+  const global_config = {
+    src_dir_js: '../srcjs/',
+    src_dir_css: '../srccss/',
+    dest_dist_dir: '../dist/lib/',
+    dest_R_dir: '../inst/lib/',
+  };
 
   grunt.initConfig({
     pkg: pkgInfo(),
+    global_config: global_config,
 
     clean: {
-      options: { force: true },
-      src: [dest_dir_js + '**/*.{js,map}',
-            dest_dir_css + '**/*.css',
-            dest_dir_css + '{bulma,bulmaswatch}/'
-      ]
+      options: {
+        force: true
+      },
+      all: {
+        src: ['<%= clean.inst.src %>',
+              '<%= clean.dist.src']
+      },
+      bulma: {
+        src: ['<%= global_config.dest_dist_dir %>bulma/*.css',
+              '!<%= global_config.dest_dist_dir %>bulma/*.min.css']
+      },
+      bulmaswatch: {
+        src: ['<%= global_config.dest_dist_dir %>bulmaswatch/*.css',
+              '!<%= global_config.dest_dist_dir %>bulmaswatch/*.min.css']
+      },
+      inst: {
+        src: '<%= global_config.dest_R_dir %>/{bulma,bulmaswatch}/*'
+      },
+      dist: {
+        src: '<%= global_config.dest_dist_dir %>/**/'
+      }
     },
 
-    copy: {
+    sass: {
+      options: {
+        implementation: sass,
+        sourceMap: false,
+        includePaths: ['node_modules/bulma']
+      },
       bulma: {
         expand: true,
-        src: ['node_modules/bulma/css/bulma.min.css',
-              'node_modules/bulma/css/bulma.css.map'],
-        dest: dest_dir_css + 'bulma/',
+        src: ['node_modules/bulma/bulma.sass'],
+        dest:  '<%= global_config.dest_dist_dir %>bulma/',
+        ext: '.css',
         flatten: true
       },
       bulmaswatch: {
         expand: true,
-        src: ['node_modules/bulmaswatch/*/*.min.css',
-              'node_modules/bulmaswatch/*/*.css.map'],
-        dest: dest_dir_css + 'bulmaswatch/',
+        src: ['node_modules/bulmaswatch/*/bulmaswatch.scss'],
+        dest:  '<%= global_config.dest_dist_dir %>bulmaswatch/',
+        /**
+         * Files in bulmaswatch are all named bulmaswatch.scss rename to basefolder
+         **/
         rename: function(dest, src) {
           const path = require('path');
           const folder_name = path.basename(path.dirname(src));
-          const file_extension = path.basename(src).replace(/.+(\.min\.css(\.map)?)/, '$1');
-          const file = dest + folder_name + file_extension;
+          const file = dest + folder_name + '.css';
           return file;
         }
       }
     },
 
-    watch: {
+    cssmin: {
       bulma: {
-        files: '<%= copy.bulma.src %>',
-        tasks: ['newer:copy:bulma']
+        expand: true,
+        cwd: '<%= sass.bulma.dest %>',
+        src: ['*.css', '!*.min.css'],
+        dest: '<%= sass.bulma.dest %>',
+        ext: '.min.css',
+        flatten: true
       },
       bulmaswatch: {
-        files: '<%= copy.bulmaswatch.src %>',
-        tasks: ['newer:copy:bulmaswatch']
+        expand: true,
+        cwd: '<%= sass.bulmaswatch.dest %>',
+        src: ['*.css', '!*.min.css'],
+        dest: '<%= sass.bulmaswatch.dest %>',
+        ext: '.min.css',
+        flatten: true
+      }
+    },
+
+    copy: {
+      bulma: {
+        expand: true,
+        src: '<%= cssmin.bulma.dest %>*.min.css',
+        dest: '<%= global_config.dest_R_dir %>bulma',
+        flatten: true
+      },
+      bulmaswatch: {
+        expand: true,
+        src: '<%= cssmin.bulmaswatch.dest %>*.min.css',
+        dest: '<%= global_config.dest_R_dir %>bulmaswatch',
+        flatten: true
+      }
+    },
+
+    watch: {
+      bulma: {
+        files: '<%= sass.bulma.src %>',
+        tasks: ['newer:sass:bulma',
+                'newer:cssmin:bulma',
+                'newer:clean:bulma',
+                'newer:copy:bulma']
+      },
+      bulmaswatch: {
+        files: '<%= sass.bulmaswatch.src %>',
+        tasks: ['newer:sass:bulmaswatch',
+                'newer:cssmin:bulmaswatch',
+                'newer:clean:bulmaswatch']
       }
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-newer');
+  grunt.registerTask('bulma',
+    ['sass:bulma',
+     'cssmin:bulma',
+     'clean:bulma',
+     'copy:bulma']);
 
-  //grunt.registerTask('default', ['newer:concat', 'newer:eslint', 'newer:uglify', 'newer:cssmin']);
-
+  grunt.registerTask('bulmaswatch',
+    ['sass:bulmaswatch',
+     'cssmin:bulmaswatch',
+     'clean:bulmaswatch']);
 
   // ---------------------------------------------------------------------------
   // Utility functions
