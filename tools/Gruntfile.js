@@ -30,6 +30,10 @@ module.exports = function(grunt) {
     pkg: pkgInfo(),
     global_config: global_config,
 
+    patch: {
+
+    },
+
     clean: {
       options: {
         force: true
