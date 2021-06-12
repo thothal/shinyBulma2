@@ -1,0 +1,190 @@
+diff --git a/node_modules/bulma/sass/components/level.sass b/node_modules/bulma/sass/components/level.sass
+index 0133ebf..6ecda78 100644
+--- a/node_modules/bulma/sass/components/level.sass
++++ b/node_modules/bulma/sass/components/level.sass
+@@ -1,6 +1,8 @@
++@use "sass:math"
++
+ @import "../utilities/mixins"
+ 
+-$level-item-spacing: ($block-spacing / 2) !default
++$level-item-spacing: math.div($block-spacing, 2) !default
+ 
+ .level
+   @extend %block
+diff --git a/node_modules/bulma/sass/elements/button.sass b/node_modules/bulma/sass/elements/button.sass
+index ca3bc3d..b8b0d59 100644
+--- a/node_modules/bulma/sass/elements/button.sass
++++ b/node_modules/bulma/sass/elements/button.sass
+@@ -1,3 +1,5 @@
++@use "sass:math"
++
+ @import "../utilities/controls"
+ @import "../utilities/mixins"
+ 
+@@ -84,14 +86,14 @@ $button-colors: $colors !default
+       height: 1.5em
+       width: 1.5em
+     &:first-child:not(:last-child)
+-      +ltr-property("margin", calc(#{-1 / 2 * $button-padding-horizontal} - #{$button-border-width}), false)
+-      +ltr-property("margin", $button-padding-horizontal / 4)
++      +ltr-property("margin", calc(#{math.div(-1, 2) * $button-padding-horizontal} - #{$button-border-width}), false)
++      +ltr-property("margin", math.div($button-padding-horizontal, 4))
+     &:last-child:not(:first-child)
+-      +ltr-property("margin", $button-padding-horizontal / 4, false)
+-      +ltr-property("margin", calc(#{-1 / 2 * $button-padding-horizontal} - #{$button-border-width}))
++      +ltr-property("margin", math.div($button-padding-horizontal, 4), false)
++      +ltr-property("margin", calc(#{math.div(-1, 2) * $button-padding-horizontal} - #{$button-border-width}))
+     &:first-child:last-child
+-      margin-left: calc(#{-1 / 2 * $button-padding-horizontal} - #{$button-border-width})
+-      margin-right: calc(#{-1 / 2 * $button-padding-horizontal} - #{$button-border-width})
++      margin-left: calc(#{math.div(-1, 2) * $button-padding-horizontal} - #{$button-border-width})
++      margin-right: calc(#{math.div(-1, 2) * $button-padding-horizontal} - #{$button-border-width})
+   // States
+   &:hover,
+   &.is-hovered
+diff --git a/node_modules/bulma/sass/grid/columns.sass b/node_modules/bulma/sass/grid/columns.sass
+index 2c6c47c..d9afad6 100644
+--- a/node_modules/bulma/sass/grid/columns.sass
++++ b/node_modules/bulma/sass/grid/columns.sass
+@@ -1,3 +1,5 @@
++@use "sass:math"
++
+ @import "../utilities/mixins"
+ 
+ $column-gap: 0.75rem !default
+@@ -62,9 +64,9 @@ $column-gap: 0.75rem !default
+   @for $i from 0 through 12
+     .columns.is-mobile > &.is-#{$i}
+       flex: none
+-      width: percentage($i / 12)
++      width: percentage(math.div($i, 12))
+     .columns.is-mobile > &.is-offset-#{$i}
+-      +ltr-property("margin", percentage($i / 12), false)
++      +ltr-property("margin", percentage(math.div($i, 12)), false)
+   +mobile
+     &.is-narrow-mobile
+       flex: none
+@@ -120,9 +122,9 @@ $column-gap: 0.75rem !default
+     @for $i from 0 through 12
+       &.is-#{$i}-mobile
+         flex: none
+-        width: percentage($i / 12)
++        width: percentage(math.div($i, 12))
+       &.is-offset-#{$i}-mobile
+-        +ltr-property("margin", percentage($i / 12), false)
++        +ltr-property("margin", percentage(math.div($i, 12)), false)
+   +tablet
+     &.is-narrow,
+     &.is-narrow-tablet
+@@ -199,10 +201,10 @@ $column-gap: 0.75rem !default
+       &.is-#{$i},
+       &.is-#{$i}-tablet
+         flex: none
+-        width: percentage($i / 12)
++        width: percentage(math.div($i, 12))
+       &.is-offset-#{$i},
+       &.is-offset-#{$i}-tablet
+-        +ltr-property("margin", percentage($i / 12), false)
++        +ltr-property("margin", percentage(math.div($i, 12)), false)
+   +touch
+     &.is-narrow-touch
+       flex: none
+@@ -258,9 +260,9 @@ $column-gap: 0.75rem !default
+     @for $i from 0 through 12
+       &.is-#{$i}-touch
+         flex: none
+-        width: percentage($i / 12)
++        width: percentage(math.div($i, 12))
+       &.is-offset-#{$i}-touch
+-        +ltr-property("margin", percentage($i / 12), false)
++        +ltr-property("margin", percentage(math.div($i, 12)), false)
+   +desktop
+     &.is-narrow-desktop
+       flex: none
+@@ -316,9 +318,9 @@ $column-gap: 0.75rem !default
+     @for $i from 0 through 12
+       &.is-#{$i}-desktop
+         flex: none
+-        width: percentage($i / 12)
++        width: percentage(math.div($i, 12))
+       &.is-offset-#{$i}-desktop
+-        +ltr-property("margin", percentage($i / 12), false)
++        +ltr-property("margin", percentage(math.div($i, 12)), false)
+   +widescreen
+     &.is-narrow-widescreen
+       flex: none
+@@ -374,9 +376,9 @@ $column-gap: 0.75rem !default
+     @for $i from 0 through 12
+       &.is-#{$i}-widescreen
+         flex: none
+-        width: percentage($i / 12)
++        width: percentage(math.div($i, 12))
+       &.is-offset-#{$i}-widescreen
+-        +ltr-property("margin", percentage($i / 12), false)
++        +ltr-property("margin", percentage(math.div($i, 12)), false)
+   +fullhd
+     &.is-narrow-fullhd
+       flex: none
+@@ -432,9 +434,9 @@ $column-gap: 0.75rem !default
+     @for $i from 0 through 12
+       &.is-#{$i}-fullhd
+         flex: none
+-        width: percentage($i / 12)
++        width: percentage(math.div($i, 12))
+       &.is-offset-#{$i}-fullhd
+-        +ltr-property("margin", percentage($i / 12), false)
++        +ltr-property("margin", percentage(math.div($i, 12)), false)
+ 
+ .columns
+   +ltr-property("margin", (-$column-gap), false)
+diff --git a/node_modules/bulma/sass/grid/tiles.sass b/node_modules/bulma/sass/grid/tiles.sass
+index ebd136f..9ff119f 100644
+--- a/node_modules/bulma/sass/grid/tiles.sass
++++ b/node_modules/bulma/sass/grid/tiles.sass
+@@ -1,3 +1,5 @@
++@use "sass:math"
++
+ @import "../utilities/mixins"
+ 
+ $tile-spacing: 0.75rem !default
+@@ -33,4 +35,4 @@ $tile-spacing: 0.75rem !default
+     @for $i from 1 through 12
+       &.is-#{$i}
+         flex: none
+-        width: ($i / 12) * 100%
++        width: math.div($i, 12) * 100%
+diff --git a/node_modules/bulma/sass/utilities/functions.sass b/node_modules/bulma/sass/utilities/functions.sass
+index 270121f..bd5d00e 100644
+--- a/node_modules/bulma/sass/utilities/functions.sass
++++ b/node_modules/bulma/sass/utilities/functions.sass
+@@ -1,3 +1,5 @@
++@use "sass:math"
++
+ @function mergeColorMaps($bulma-colors, $custom-colors)
+   // We return at least Bulma's hard-coded colors
+   $merged-colors: $bulma-colors
+@@ -58,7 +60,7 @@
+       $value: $value * $number
+   @else if $exp < 0
+     @for $i from 1 through -$exp
+-      $value: $value / $number
++      $value: math.div($value, $number)
+   @return $value
+ 
+ @function colorLuminance($color)
+@@ -67,11 +69,11 @@
+   $color-rgb: ('red': red($color),'green': green($color),'blue': blue($color))
+   @each $name, $value in $color-rgb
+     $adjusted: 0
+-    $value: $value / 255
++    $value: math.div($value, 255)
+     @if $value < 0.03928
+-      $value: $value / 12.92
++      $value: math.div($value, 12.92)
+     @else
+-      $value: ($value + .055) / 1.055
++      $value: math.div($value + .055, 1.055)
+       $value: powerNumber($value, 2)
+     $color-rgb: map-merge($color-rgb, ($name: $value))
+   @return (map-get($color-rgb, 'red') * .2126) + (map-get($color-rgb, 'green') * .7152) + (map-get($color-rgb, 'blue') * .0722)
