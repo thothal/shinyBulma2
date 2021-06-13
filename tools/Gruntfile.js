@@ -1,14 +1,12 @@
 // Stub is taken from: https://bit.ly/3x82MqW
 /**
  * - yarn packages sit in node_modules
- * - we compile them to ../dist/lib/{package_name}
- * - mandatory css/js are also copied to the respective R place
- *   (i.e. ../dist/lib/bulma/bulma.min.css -> inst/lib/bulma/bulma.min.css)
+ * - we compile them to ../inst/lib/{package_name}
  * - template css are rather big, hence the R package will provide a function to download
  *   them after installation (this allows smaller R package for a potential
  *   publictaion on CRAN)
- * - this install script will take the minified css from the github repo from folder dist/
- * - hence, we will despite good practices check in the dist folder
+ * - this install script will take the minified css from the github repo from folder inst/
+ * - the .Rbuildignore file excludes all files from the theme folder from building
  * - homebrewed css/js will also be handled by this grunt file, for R reasons we cannot
  *   use the canonical folder name src, but use srcjs/ and srccss/ instead
  **/
@@ -22,8 +20,7 @@ module.exports = function(grunt) {
   const global_config = {
     src_dir_js: '../srcjs/',
     src_dir_css: '../srccss/',
-    dest_dist_dir: '../dist/lib/',
-    dest_R_dir: '../inst/lib/',
+    dest_dir: '../inst/lib/',
   };
 
   grunt.initConfig({
@@ -39,22 +36,18 @@ module.exports = function(grunt) {
         force: true
       },
       all: {
-        src: ['<%= clean.inst.src %>',
-              '<%= clean.dist.src']
+        src: ['<%= clean.inst.src %>']
       },
       bulma: {
-        src: ['<%= global_config.dest_dist_dir %>bulma/*.css',
-              '!<%= global_config.dest_dist_dir %>bulma/*.min.css']
+        src: ['<%= global_config.dest_dir %>bulma/*.css',
+              '!<%= global_config.dest_dir %>bulma/*.min.css']
       },
       bulmaswatch: {
-        src: ['<%= global_config.dest_dist_dir %>bulmaswatch/*.css',
-              '!<%= global_config.dest_dist_dir %>bulmaswatch/*.min.css']
+        src: ['<%= global_config.dest_dir %>bulmaswatch/*.css',
+              '!<%= global_config.dest_dir %>bulmaswatch/*.min.css']
       },
       inst: {
-        src: '<%= global_config.dest_R_dir %>/{bulma,bulmaswatch}/*'
-      },
-      dist: {
-        src: '<%= global_config.dest_dist_dir %>/**/'
+        src: '<%= global_config.dest_dir %>/{bulma,bulmaswatch}/*'
       }
     },
 
@@ -67,14 +60,15 @@ module.exports = function(grunt) {
       bulma: {
         expand: true,
         src: ['node_modules/bulma/bulma.sass'],
-        dest:  '<%= global_config.dest_dist_dir %>bulma/',
+        dest:  '<%= global_config.dest_dir %>bulma/',
         ext: '.css',
         flatten: true
       },
       bulmaswatch: {
         expand: true,
-        src: ['node_modules/bulmaswatch/*/bulmaswatch.scss'],
-        dest:  '<%= global_config.dest_dist_dir %>bulmaswatch/',
+        src: ['node_modules/bulmaswatch/*/bulmaswatch.scss',
+              '!node_modules/bulmaswatch/default/bulmaswatch.scss'],
+        dest:  '<%= global_config.dest_dir %>bulmaswatch/',
         /**
          * Files in bulmaswatch are all named bulmaswatch.scss rename to basefolder
          **/
@@ -106,28 +100,12 @@ module.exports = function(grunt) {
       }
     },
 
-    copy: {
-      bulma: {
-        expand: true,
-        src: '<%= cssmin.bulma.dest %>*.min.css',
-        dest: '<%= global_config.dest_R_dir %>bulma',
-        flatten: true
-      },
-      bulmaswatch: {
-        expand: true,
-        src: '<%= cssmin.bulmaswatch.dest %>*.min.css',
-        dest: '<%= global_config.dest_R_dir %>bulmaswatch',
-        flatten: true
-      }
-    },
-
     watch: {
       bulma: {
         files: '<%= sass.bulma.src %>',
         tasks: ['newer:sass:bulma',
                 'newer:cssmin:bulma',
-                'newer:clean:bulma',
-                'newer:copy:bulma']
+                'newer:clean:bulma']
       },
       bulmaswatch: {
         files: '<%= sass.bulmaswatch.src %>',
@@ -141,13 +119,14 @@ module.exports = function(grunt) {
   grunt.registerTask('bulma',
     ['sass:bulma',
      'cssmin:bulma',
-     'clean:bulma',
-     'copy:bulma']);
+     'clean:bulma']);
 
   grunt.registerTask('bulmaswatch',
     ['sass:bulmaswatch',
      'cssmin:bulmaswatch',
      'clean:bulmaswatch']);
+
+  grunt.registerTask('default', ['bulma', 'bulmaswatch'])
 
   // ---------------------------------------------------------------------------
   // Utility functions
