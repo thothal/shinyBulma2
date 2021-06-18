@@ -20,8 +20,11 @@ module.exports = function(grunt) {
   const global_config = {
     src_dir_js: '../srcjs/',
     src_dir_css: '../srccss/',
-    dest_dir: '../inst/lib/',
+    dest_dir_lib: '../inst/lib/',
+    dest_dir_fonts: '../inst/fonts/'
   };
+
+
 
   grunt.initConfig({
     pkg: pkgInfo(),
@@ -36,18 +39,22 @@ module.exports = function(grunt) {
         force: true
       },
       all: {
-        src: ['<%= clean.inst.src %>']
+        src: ['<%= clean.libs.src %>',
+              '<%= clean.fonts.src %>']
       },
       bulma: {
-        src: ['<%= global_config.dest_dir %>bulma/*.css',
-              '!<%= global_config.dest_dir %>bulma/*.min.css']
+        src: ['<%= global_config.dest_dir_lib %>bulma/*.css',
+              '!<%= global_config.dest_dir_lib %>bulma/*.min.css']
       },
       bulmaswatch: {
-        src: ['<%= global_config.dest_dir %>bulmaswatch/*.css',
-              '!<%= global_config.dest_dir %>bulmaswatch/*.min.css']
+        src: ['<%= global_config.dest_dir_lib %>bulmaswatch/*.css',
+              '!<%= global_config.dest_dir_lib %>bulmaswatch/*.min.css']
       },
-      inst: {
-        src: '<%= global_config.dest_dir %>/{bulma,bulmaswatch}/*'
+      fonts: {
+        src: ['<%= global_config.dest_dir_fonts %>*']
+      },
+      libs: {
+        src: '<%= global_config.dest_dir_lib %>{bulma,bulmaswatch}/*'
       }
     },
 
@@ -60,7 +67,7 @@ module.exports = function(grunt) {
       bulma: {
         expand: true,
         src: ['node_modules/bulma/bulma.sass'],
-        dest:  '<%= global_config.dest_dir %>bulma/',
+        dest:  '<%= global_config.dest_dir_lib %>bulma/',
         ext: '.css',
         flatten: true
       },
@@ -68,7 +75,7 @@ module.exports = function(grunt) {
         expand: true,
         src: ['node_modules/bulmaswatch/*/bulmaswatch.scss',
               '!node_modules/bulmaswatch/default/bulmaswatch.scss'],
-        dest:  '<%= global_config.dest_dir %>bulmaswatch/',
+        dest:  '<%= global_config.dest_dir_lib %>bulmaswatch/',
         /**
          * Files in bulmaswatch are all named bulmaswatch.scss rename to basefolder
          **/
@@ -78,6 +85,17 @@ module.exports = function(grunt) {
           const file = dest + folder_name + '.css';
           return file;
         }
+      }
+    },
+
+    run: {
+      fonts: {
+        cmd: 'Rscript',
+        args: ['change_gfont_to_local.R',
+               '<%= grunt.file.expand([' +
+                     'grunt.config.get("sass.bulmaswatch.dest") + "/*.css", ' +
+                     '"!" + grunt.config.get("sass.bulmaswatch.dest") + "/*.min.css"' +
+               ']) %>']
       }
     },
 
@@ -110,6 +128,7 @@ module.exports = function(grunt) {
       bulmaswatch: {
         files: '<%= sass.bulmaswatch.src %>',
         tasks: ['newer:sass:bulmaswatch',
+                'newer:run:fonts',
                 'newer:cssmin:bulmaswatch',
                 'newer:clean:bulmaswatch']
       }
@@ -123,14 +142,23 @@ module.exports = function(grunt) {
 
   grunt.registerTask('bulmaswatch',
     ['sass:bulmaswatch',
+     'run:fonts',
      'cssmin:bulmaswatch',
      'clean:bulmaswatch']);
 
-  grunt.registerTask('default', ['bulma', 'bulmaswatch'])
+  grunt.registerTask('default', ['bulma', 'bulmaswatch']);
 
+  grunt.registerMultiTask('foo', 'TL;DR', function() {
+    grunt.log.writeln(this.filesSrc);
+  });
   // ---------------------------------------------------------------------------
   // Utility functions
   // ---------------------------------------------------------------------------
+
+
+  function getCSSFromPattern(src_dest) {
+
+  }
 
   // Return an object which merges information from package.json and the
   // DESCRIPTION file.
