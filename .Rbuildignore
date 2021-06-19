@@ -10,3 +10,6 @@
 ^\.Rhistory$
 ^\.Rprofile
 ^LICENSE\.md$
+^dist$
+^\.Rinstignore
+^inst/lib/bulmaswatch/.*
