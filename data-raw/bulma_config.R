@@ -4,6 +4,8 @@ library(rvest)
 library(dplyr)
 library(stringr)
 library(htmltools)
+library(sass)
+library(glue)
 
 ## get primary colors from official bulma doc
 
@@ -15,64 +17,63 @@ initial_vars <- bulma_doc %>%
   html_table() %>%
   setNames(c("variable", "type", "value"))
 
-## theoretically we could get the values also from here, but rather parse it from sass
+bulma_table <- bulma_doc %>%
+  html_nodes(".bd-is-body")
 
-bulma_color_initial_sass <- here("tools", "node_modules", "bulma", "sass", "utilities",
-                         "initial-variables.sass") %>%
-  readLines()
+colors_derived_idx <- which(bulma_table %>%
+                              html_elements(".bd-var-computed-type") %>%
+                              html_text() == "color")
 
 color_names_initial <- initial_vars %>%
   filter(type == "color") %>%
   transmute(variable = str_remove(variable, fixed("$"))) %>%
   pull(variable)
-
-colors_initial <- bulma_color_initial_sass %>%
-  str_subset(str_c("\\$", color_names_initial, collapse = "|")) %>%
-  str_match("^\\$(.*):\\s*([^!]+) .*")
-
-colors_initial <- tibble(theme = "bulma",
-                       group = "color",
-                       subgroup = "initial",
-                       variable = colors_initial[, 2],
-                       value = parseCssColors(colors_initial[, 3])) %>%
-  bind_rows(c(theme = "bulma",
-            group = "font",
-            subgroup = NA_character_,
-            variable = "Google Font",
-            value = NA_character_))
-
-## derived values
-bulma_table <- bulma_doc %>%
-  html_nodes(".bd-is-body")
-
-colors_derived_idx <- which(bulma_table %>%
-  html_elements(".bd-var-computed-type") %>%
-  html_text() == "color" &
-    bulma_table %>%
-    html_elements(".bd-var-type") %>%
-    html_text() == "variable")
-
 color_names_derived <- (bulma_table %>%
-  html_elements(".bd-var-name .nt") %>%
-  html_text())[colors_derived_idx]
+                          html_elements(".bd-var-name .nt") %>%
+                          html_text())[colors_derived_idx]
 
-bulma_color_derived_sass <- here("tools", "node_modules", "bulma", "sass", "utilities",
-                                 "derived-variables.sass") %>%
-  readLines()
+## create a temporary SASS file which includes all colors and imports
+## bulma function definitions and assign each color to a own class
+## parse this document and get back the final colors / fonts
 
-colors_derived <- bulma_color_derived_sass %>%
-  str_subset(str_c("^\\$", color_names_derived, ":", collapse = "|")) %>%
-  str_match("^\\$(.*):\\s*\\$([^!]+) .*") %>%
+color_classes <- lapply(c(color_names_initial, color_names_derived),
+                        function(color) {
+                          glue("${color} : default !default;",
+                               ".{color} {{",
+                               "  color: ${color};",
+                               "}}",
+                               .sep  ="\n", .trim = FALSE)
+                        }) %>%
+  paste(collapse = "\n")
+
+tmp_sass <- glue("{sass_import('initial-variables')}",
+                 "{sass_import('derived-variables')}",
+                 "{sass_import('functions')}",
+                 "{color_classes}\n",
+                 .sep = "\n")
+
+sass_f <- normalizePath(tempfile(fileext = ".saas"), mustWork = FALSE)
+css_f <- normalizePath(tempfile(fileext = ".css"), mustWork = FALSE)
+cat(tmp_sass, file = sass_f)
+
+bulma_src <- normalizePath(here("tools", "node_modules", "bulma", "sass", "utilities"))
+
+## need to call sass directly (instead of sass) b/c need to use the dart implementation
+withr::with_dir(here("tools"),
+                system(glue("sass --style=compressed --no-source-map --load-path=\"{bulma_src}\" ",
+                            "\"{sass_f}\":\"{css_f}\"")))
+colors <- readLines(css_f)
+bulma_config <- str_match_all(colors, "\\.([^{]+)\\{color:([^}]+)\\}")[[1]] %>%
   as_tibble(.name_repair = "minimal") %>%
-  setNames(c("match", "variable", "link")) %>%
-  left_join(colors_initial %>%
-              select(link = variable, value),
-            "link") %>%
-  left_join(., I(.) %>% select(variable, value), by = c(link = "variable")) %>%
-  transmute(theme = "bulma", group = "color", subgroup = "derived", variable,
-            value = coalesce(value.x, value.y))
-
-bulma_config <- rbind(colors_initial, colors_derived) %>%
-  arrange(group, desc(subgroup, variable))
+  setNames(c("match", "variable", "value")) %>%
+  filter(value != "default") %>%
+  transmute(theme = "bulma",
+            group = "color",
+            variable,
+            value = parseCssColors(value)) %>%
+  bind_rows(c(theme = "bulma",
+              group = "font",
+              variable = "Google Font",
+              value = NA_character_))
 
 usethis::use_data(bulma_config, overwrite = TRUE)
