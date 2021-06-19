@@ -13,3 +13,4 @@
 ^dist$
 ^\.Rinstignore
 ^inst/lib/bulmaswatch/.*
+^data-raw$
