@@ -2,7 +2,7 @@
 % Please edit documentation in R/page.R
 \name{bulma_page}
 \alias{bulma_page}
-\title{Create a bulma Page}
+\title{Create a Bulma Page}
 \usage{
 bulma_page(..., title = NULL, theme = NULL, lang = NULL)
 }
@@ -21,7 +21,7 @@ valid bulma theme name from
 string.}
 }
 \value{
-A UI defintion that can be passed to \code{\link[shiny]{shinyApp}}.
+A UI definition that can be passed to \code{\link[shiny]{shinyApp}}.
 }
 \description{
 This function creates a bulma page and allows themes from bulmsawatch to be used.
