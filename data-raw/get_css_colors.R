@@ -84,19 +84,30 @@ get_css_colors <- function(theme = NULL) {
       res %>%
         bind_rows(c(theme = "bulma",
                     group = "font",
-                    variable = "Google Font",
-                    value = NA_character_))
+                    variable = "name",
+                    value = NA_character_),
+                  c(theme = "bulma",
+                    group = "font",
+                    variable = "id",
+                    value = NA_character_)) %>%
+        as.data.frame()
     } else {
       theme_scss <- readLines(here("tools", "node_modules", "bulmaswatch", theme,
                                    "_overrides.scss"), warn = FALSE)
       mtch <- str_subset(theme_scss, fixed("@import")) %>%
-        str_match("family=([^:]+)")
+        str_match("family=([^:&]+)")
       family <- str_replace_all(mtch[,2], "\\+", " ")
+      id <- gfonts::get_all_fonts()[gfonts::get_all_fonts()$family == family, "id"]
       res %>%
         bind_rows(c(theme = theme,
                     group = "font",
-                    variable = "Google Font",
-                    value = family))
+                    variable = "name",
+                    value = family),
+                  c(theme = theme,
+                    group = "font",
+                    variable = "id",
+                    value = id)) %>%
+        as.data.frame()
     }
   }
   if (is.null(theme)) {

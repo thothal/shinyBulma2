@@ -10,7 +10,8 @@
 #'      \code{\link{bulmaswatch_config}}.)}
 #'   \item{group}{character, either \sQuote{color} or \sQuote{font} describing whether the
 #'   variable describes a color or the font.}
-#'   \item{variable}{character, the name of color or \sQuote{Google Font}.}
+#'   \item{variable}{character, the name of color or \sQuote{name} or \sQuote{id} for
+#'   fonts describing the name or the id.}
 #'   \item{value}{character, the hex color code or the name of the font used.}
 #' }
 #' @seealso \code{\link{bulmaswatch_config}}
@@ -27,7 +28,8 @@
 #'   \item{theme}{character, the name of the theme.}
 #'   \item{group}{character, either \sQuote{color} or \sQuote{font} describing whether the
 #'   variable describes a color or the font.}
-#'   \item{variable}{character, the name of color or \sQuote{Google Font}.}
+#'   \item{variable}{character, the name of color or \sQuote{name} or \sQuote{id} for
+#'   fonts describing the name or the id.}
 #'   \item{value}{character, the hex color code or the name of the font used.}
 #' }
 #' @seealso \code{\link{bulma_config}}
