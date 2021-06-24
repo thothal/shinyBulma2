@@ -5,26 +5,24 @@
 \alias{bulmaswatch_config}
 \title{Colors and Font Used in the Bulmaswatch Themes}
 \format{
-A data frame with 1476 rows and 4 variables:
+A data frame with 1497 rows and
+4 variables:
 \describe{
-\item{theme}{character, the name of the theme.}
-\item{group}{character, either \sQuote{color} or \sQuote{font} describing whether the
+\item{theme}{[\code{character(1)}], the name of the theme.}
+\item{group}{[\code{character(1)}], either \sQuote{color} or \sQuote{font} describing whether the
 variable describes a color or the font.}
-\item{variable}{character, the name of color or \sQuote{Google Font}.}
-\item{value}{character, the hex color code or the name of the font used.}
+\item{variable}{[\code{character(1)}], the name of color or \sQuote{name} or \sQuote{id} for
+fonts describing the name or the id.}
+\item{value}{[\code{character(1)}], the hex color code or the name of the font used.}
 }
 }
 \source{
 \url{https://jenil.github.io/bulmaswatch/}
-}
-\usage{
-bulmaswatch_config
 }
 \description{
 A dataset containing all the colors and the imported Google font in the bulmaswatch
 themes.
 }
 \seealso{
-\code{\link{bulma_config}}
+\link{bulma_config}
 }
-\keyword{datasets}

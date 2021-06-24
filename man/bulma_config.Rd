@@ -5,28 +5,26 @@
 \alias{bulma_config}
 \title{Colors and Font Used in Bulma}
 \format{
-A data frame with 70 rows and 4 variables:
+A data frame with 71 rows and 4
+variables:
 \describe{
-\item{theme}{character, the name of the theme (here this equals always
+\item{theme}{[\code{character(1)}], the name of the theme (here this equals always
 \sQuote{bulma} and is included to be inline with
-\code{\link{bulmaswatch_config}}.)}
-\item{group}{character, either \sQuote{color} or \sQuote{font} describing whether the
-variable describes a color or the font.}
-\item{variable}{character, the name of color or \sQuote{Google Font}.}
-\item{value}{character, the hex color code or the name of the font used.}
+\link{bulmaswatch_config}.)}
+\item{group}{[\code{character(1)}], either \sQuote{color} or \sQuote{font} describing
+whether the variable describes a color or the font.}
+\item{variable}{[\code{character(1)}], the name of color or \sQuote{name} or
+\sQuote{id} for fonts describing the name or the id.}
+\item{value}{[\code{character(1)}], the hex color code or the name of the font used.}
 }
 }
 \source{
 \url{https://bulma.io/documentation/customize/variables/#derived-variables}
-}
-\usage{
-bulma_config
 }
 \description{
 A dataset containing all the colors and the imported Google font in the bulma
 stylesheet.
 }
 \seealso{
-\code{\link{bulmaswatch_config}}
+\link{bulmaswatch_config}
 }
-\keyword{datasets}
