@@ -1,8 +1,9 @@
 setHook("rstudio.sessionInit", function(newSession) {
-     .pid <- rstudioapi::terminalExecute("grunt watch",
-                                          here::here("tools"),
-                                          show = FALSE)
-     message(glue::glue("grunt started with id <{.pid}>"))
+  .pid <<- rstudioapi::terminalCreate("Grunt", FALSE)
+  rstudioapi::terminalSend(.pid, as.character(glue::glue("cd \"{here::here('tools')}\" ",
+                                                         "&& grunt watch\r\n")))
+
+  message(glue::glue("grunt started with id <{.pid}>"))
 }, action = "append")
 
-
+invisible(reg.finalizer(.GlobalEnv, function(e) rstudioapi::terminalKill(.pid), TRUE))
