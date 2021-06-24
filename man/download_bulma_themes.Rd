@@ -10,7 +10,7 @@ download_bulma_themes(themes = "all", gh_user = NULL, gh_password = NULL)
 \item{themes}{[\code{character(n)}: \sQuote{all}]\cr the names of the themes to be
 installed. If \sQuote{all}, all available themes are downloaded.}
 
-\item{gh_user, }{gh_password [\code{character(1)}: \sQuote{NULL}]\cr GitHub credentials,
+\item{gh_user, gh_password}{[\code{character(1)}: \sQuote{NULL}]\cr GitHub credentials,
 see \emph{Note}.}
 }
 \value{

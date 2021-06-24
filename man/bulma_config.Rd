@@ -21,6 +21,9 @@ whether the variable describes a color or the font.}
 \source{
 \url{https://bulma.io/documentation/customize/variables/#derived-variables}
 }
+\usage{
+bulma_config
+}
 \description{
 A dataset containing all the colors and the imported Google font in the bulma
 stylesheet.
@@ -28,3 +31,4 @@ stylesheet.
 \seealso{
 \link{bulmaswatch_config}
 }
+\keyword{datasets}

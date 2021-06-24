@@ -26,7 +26,7 @@ get_bulma_themes <- function() {
 #'
 #' @param themes \[`character(n)`: \sQuote{all}\]\cr the names of the themes to be
 #' installed. If \sQuote{all}, all available themes are downloaded.
-#' @param gh_user, gh_password \[`character(1)`: \sQuote{NULL}\]\cr GitHub credentials,
+#' @param gh_user,gh_password \[`character(1)`: \sQuote{NULL}\]\cr GitHub credentials,
 #' see *Note*.
 #'
 #' @section Note:
@@ -100,7 +100,7 @@ download_bulma_themes <- function(themes = "all",
   download_to_folder <- function(url, base_folder) {
     message(sprintf("Downloading file <%s>", basename(url)))
     dest_fn <- file.path(base_folder, basename(url))
-    download.file(url, dest_fn, quiet = TRUE)
+    utils::download.file(url, dest_fn, quiet = TRUE)
   }
 
   ## I like to use plain old for loops when a function is called only for its side effects
@@ -108,10 +108,12 @@ download_bulma_themes <- function(themes = "all",
     download_to_folder(url, base_folder = themes_src)
   }
 
-  needed_fonts <- bulmaswatch_config[bulmaswatch_config$group == "font" &
-                                       bulmaswatch_config$variable == "id" &
-                                       bulmaswatch_config$theme %in% themes &
-                                       !is.na(bulmaswatch_config$value), , drop = FALSE]
+  ## need to namespace data even if it is in the very same package
+  config <- shinyBulma2::bulmaswatch_config
+  needed_fonts <- config[config$group == "font" &
+                           config$variable == "id" &
+                           config$theme %in% themes &
+                           !is.na(config$value), , drop = FALSE]
   folder <- paste0("inst/fonts/", needed_fonts$value, collapse = "|")
   fonts_resources <- fonts_resources[grep(folder, fonts_resources$parent), , drop = FALSE]
 

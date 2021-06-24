@@ -19,6 +19,9 @@ fonts describing the name or the id.}
 \source{
 \url{https://jenil.github.io/bulmaswatch/}
 }
+\usage{
+bulmaswatch_config
+}
 \description{
 A dataset containing all the colors and the imported Google font in the bulmaswatch
 themes.
@@ -26,3 +29,4 @@ themes.
 \seealso{
 \link{bulma_config}
 }
+\keyword{datasets}
