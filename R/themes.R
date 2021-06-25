@@ -108,8 +108,7 @@ download_bulma_themes <- function(themes = "all",
     download_to_folder(url, base_folder = themes_src)
   }
 
-  ## need to namespace data even if it is in the very same package
-  config <- shinyBulma2::bulmaswatch_config
+  config <- bulmaswatch_config
   needed_fonts <- config[config$group == "font" &
                            config$variable == "id" &
                            config$theme %in% themes &
