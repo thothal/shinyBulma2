@@ -22,7 +22,8 @@ get_bulma_themes <- function() {
 #'
 #' This function downloads pre-compiled CSS files and Google font files for the
 #' [bulmaswatch themes](https://jenil.github.io/bulmaswatch/). These files are
-#' hosted on this package's [Github repository](`r sub("URL:\\s*", "", grep("^URL:", readLines("DESCRIPTION"), value = TRUE))`).
+#' hosted on this package's
+#' [Github repository](`r sub("URL:\\s*", "", grep("^URL:", readLines("DESCRIPTION"), value = TRUE))`).
 #'
 #' @param themes \[`character(n)`: \sQuote{all}\]\cr the names of the themes to be
 #' installed. If \sQuote{all}, all available themes are downloaded.

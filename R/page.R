@@ -14,6 +14,10 @@ bulma_lib <- function(theme = NULL) {
                       mustWork = TRUE)
   }
   version <- extract_version(fn)
+  shiny::addResourcePath("fonts",
+                         system.file("fonts",
+                                           package = get_package_name(),
+                                           mustWork = TRUE))
   htmltools::htmlDependency(if (is.null(theme)) "bulma" else "bulmaswatch",
                             version,
                             c(file = dirname(fn)),
