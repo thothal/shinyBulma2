@@ -27,7 +27,7 @@ if(!length(args)) {
 
 get_relative_path <- function(path, proj_root = .proj_root,
                               add_root = TRUE) {
-  path <- normalizePath(path, mustWork = FALSE)
+  path <- glue("{normalizePath(path, mustWork = FALSE)}\\")
   if (add_root) {
     glue(str_replace(path, fixed(proj_root), "{col_grey('project root')}"))
   } else {
@@ -136,10 +136,11 @@ process_css <- function(css_fn) {
       } else {
         cli_alert_success("All variants already installed")
       }
+      font_dir <- get_relative_path(font_subfolder, add_root = FALSE) %>%
+        str_remove("[/\\\\]?inst[/\\\\]?") %>%
+        str_replace_all("\\\\", "/")
       font_css <- generate_css(id, font_info$variants,
-                               font_dir = str_remove(
-                                 get_relative_path(font_subfolder, add_root = FALSE),
-                                 "[/\\\\]?inst[/\\\\]?"))
+                               font_dir = str_c("/", font_dir))
       cli_alert_info("Replacing @import directive with generic font css")
       css_new <- paste(str_replace_all(css,
                                        fixed(as.character(glue("@import url(\"{url}\");"))),
