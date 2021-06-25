@@ -18,6 +18,7 @@
 #' @name bulma_config
 #' @seealso [bulmaswatch_config]
 #' @docType data
+#' @export
 #' @source <https://bulma.io/documentation/customize/variables/#derived-variables>
 "bulma_config"
 
@@ -39,5 +40,6 @@
 #' @name bulmaswatch_config
 #' @seealso [bulma_config]
 #' @docType data
+#' @export
 #' @source <https://jenil.github.io/bulmaswatch/>
 "bulmaswatch_config"

@@ -9,5 +9,3 @@ themes <- list.dirs(here("tools", "node_modules", "bulmaswatch"), recursive = FA
   setdiff(c("api", "default"))
 
 bulmaswatch_config <- get_css_colors(themes)
-
-usethis::use_data(bulmaswatch_config, overwrite = TRUE)
