@@ -7,10 +7,10 @@
 get_bulma_themes()
 }
 \value{
-character vector, all installed bulma themes
+character vector, all installed bulma themes.
 }
 \description{
-This function looks into the lib/ folder located in the package's base folder and
+This function looks into the \verb{lib/} folder located in the package's base folder and
 returns all found themes in the corresponding subfolder. Themes are compiled from
 bulmaswatch.
 }

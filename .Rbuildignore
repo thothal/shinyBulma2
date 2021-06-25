@@ -13,3 +13,5 @@
 ^dist$
 ^\.Rinstignore
 ^inst/lib/bulmaswatch/.*
+^inst/fonts/.*
+^data-raw$
