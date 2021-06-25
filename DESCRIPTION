@@ -19,6 +19,8 @@ Imports:
     htmltools
 Suggests: 
     httr,
+    testthat (>= 3.0.0),
     shiny
 Depends: 
     R (>= 2.10)
+Config/testthat/edition: 3
