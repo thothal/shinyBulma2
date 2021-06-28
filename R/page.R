@@ -63,7 +63,10 @@ bulma_lib <- function(theme = NULL) {
 #' shiny::shinyApp(ui, server)
 #' }
 bulma_page <- function(..., title = NULL, theme = NULL, lang = NULL) {
-  stopifnot(is.null(theme) || theme %in% get_bulma_themes())
+  if (!(is.null(theme) || theme %in% get_bulma_themes())) {
+    msg <- sprintf("theme '%s' is not installed")
+    stop(msg, domain = NA)
+  }
   args <- list(if (!is.null(title)) htmltools::tags$head(htmltools::tags$title(title)),
                list(...),
                bulma_lib(theme))
