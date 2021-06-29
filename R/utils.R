@@ -50,3 +50,7 @@ get_download_links_gh <- function(owner, repo,
   download_fun(path, 1L)
 }
 
+is_integer <- function(x) {
+  x %% 1L == 0L
+}
+

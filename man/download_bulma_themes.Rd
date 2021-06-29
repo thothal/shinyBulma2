@@ -20,7 +20,8 @@ respectively.
 \description{
 This function downloads pre-compiled CSS files and Google font files for the
 \href{https://jenil.github.io/bulmaswatch/}{bulmaswatch themes}. These files are
-hosted on this package's \href{https://github.com/thothal/shinyBulma2}{Github repository}.
+hosted on this package's
+\href{https://github.com/thothal/shinyBulma2}{Github repository}.
 }
 \section{Note}{
 
