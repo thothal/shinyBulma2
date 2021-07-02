@@ -10,7 +10,10 @@ test_that("column sizes are properly validated", {
   expect_equal(validate_bulma_column_size("1/1"), "is-full")
   expect_equal(validate_bulma_column_size("1/2"), "is-half")
   expect_equal(validate_bulma_column_size("narrow"), "is-narrow")
-  expect_equal(validate_bulma_column_size("narrow-widescreen"), "is-narrow-widescreen")
+  expect_equal(validate_bulma_column_size("narrow", "widescreen"), "is-narrow-widescreen")
+  expect_equal(validate_bulma_column_size(1, "widescreen"), "is-1-widescreen")
+  expect_equal(validate_bulma_column_size("2/3", "desktop"), "is-two-thirds-desktop")
+  expect_equal(validate_bulma_column_size("one-fifth", "touch"), "is-one-fifth-touch")
 })
 
 test_that("column offsets are properly validated", {
@@ -23,6 +26,19 @@ test_that("column offsets are properly validated", {
   expect_equal(validate_bulma_column_offset("three-fifth"), "is-offset-three-fifth")
   expect_equal(validate_bulma_column_offset("4/5"), "is-offset-four-fifth")
   expect_equal(validate_bulma_column_offset("1/2"), "is-offset-half")
+  expect_equal(validate_bulma_column_offset(4, "tablet"), "is-offset-4-tablet")
+  expect_equal(validate_bulma_column_offset("two-thirds", "mobile"),
+               "is-offset-two-thirds-mobile")
+})
+
+test_that("media breakpoints are properly validated", {
+  expect_null(validate_bulma_media_breakpoint(NULL))
+  expect_equal(validate_bulma_media_breakpoint("mobile"), "mobile")
+  expect_equal(validate_bulma_media_breakpoint("tablet"), "tablet")
+  expect_equal(validate_bulma_media_breakpoint("touch"), "touch")
+  expect_equal(validate_bulma_media_breakpoint("desktop"), "desktop")
+  expect_equal(validate_bulma_media_breakpoint("widescreen"), "widescreen")
+  expect_equal(validate_bulma_media_breakpoint("fullhd"), "fullhd")
 })
 
 test_that("improper sizes are raising an error", {
@@ -42,6 +58,8 @@ test_that("improper sizes are raising an error", {
                "\".*\" is not a valid size specifier")
   expect_error(validate_bulma_column_size("one.third"),
                "\".*\" is not a valid size specifier")
+  expect_error(validate_bulma_column_size("1/1", "fulhd"),
+               "\".*\" is not a valid media breakpoint")
 })
 
 test_that("improper offsets are raising an error", {
@@ -65,4 +83,27 @@ test_that("improper offsets are raising an error", {
                "\".*\" is not a valid offset specifier")
   expect_error(validate_bulma_column_offset("one.third"),
                "\".*\" is not a valid offset specifier")
+  expect_error(validate_bulma_column_size("3/4", "touchscreen"),
+               "\".*\" is not a valid media breakpoint")
+})
+
+test_that("improper media breakpoints are rasiing an error", {
+  expect_error(validate_bulma_media_breakpoint("fulhd"),
+               "\".*\" is not a valid media breakpoint")
+  expect_error(validate_bulma_media_breakpoint("touchscreen"),
+               "\".*\" is not a valid media breakpoint")
+  expect_error(validate_bulma_media_breakpoint("tablett"),
+               "\".*\" is not a valid media breakpoint")
+})
+
+test_that("bulma columns are properly formatted", {
+  expect_equal(as.character(bulma_columns()), "<div class=\"columns\"></div>")
+  expect_equal(as.character(bulma_column()), "<div class=\"column\"></div>")
+  expect_equal(as.character(bulma_column(width = "2/3")),
+               "<div class=\"column is-two-thirds\"></div>")
+  expect_equal(as.character(bulma_column(width = "2/3", offset = 3)),
+               "<div class=\"column is-two-thirds is-offset-3\"></div>")
+  expect_equal(as.character(bulma_column(width = "full", offset = 1,
+                                         media_breakpoint = "fullhd")),
+               "<div class=\"column is-full-fullhd is-offset-1-fullhd\"></div>")
 })

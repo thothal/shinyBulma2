@@ -3,35 +3,51 @@
 \name{validate_bulma_column_size}
 \alias{validate_bulma_column_size}
 \alias{validate_bulma_column_offset}
-\title{Validate Proper Width or Offset Definition for a Bulma Column}
+\alias{validate_bulma_media_breakpoint}
+\title{Validate Proper Width, Offset or Media Breakpoint Definition for a Bulma Column}
 \usage{
-validate_bulma_column_size(x)
+validate_bulma_column_size(x, media_breakpoint = NULL)
 
-validate_bulma_column_offset(x)
+validate_bulma_column_offset(x, media_breakpoint = NULL)
+
+validate_bulma_media_breakpoint(x)
 }
 \arguments{
 \item{x}{[\code{character(1)} or \code{integer(1)}]\cr
-The size or offset to validate.}
+The size, offset or media breakpoint to validate.}
+
+\item{media_breakpoint}{[\code{character(1)}: \sQuote{NULL}]\cr
+The media breakpoint to be used.}
 }
 \value{
 The proper bulma size or offset class, if possible. Otherwise an error.
+\code{validate_bulma_media_brakpoint} returns simply its argument if it is valid,
+otherwise it will raise an error.
 }
 \description{
-Checks that the argument is a valid column width or offset specifier. Valid values are
-integers between 1 and 12, or strings like \code{two-fifth} or \code{full}. For the size \code{narrow}
-is also a valid option. Additionally, to the original specifiers
+\code{validate_bulma_column_(size|offset)} checks that the argument is a valid column width
+or offset specifier, respectively. Valid values are integers between 1 and 12, or
+strings like \code{two-fifth} or \code{full}. For the size \code{narrow} is also a valid option.
+Additionally, to the original specifiers
 (cf. \href{https://bulma.io/documentation/columns/sizes/}{column sizes}), you can also
 abbreviate the number-ish strings, e.g. \code{"2/5"} instead of \code{"two-fifth"}.
+}
+\details{
+\code{validate_media_brakpoint} checks that the argument is a valid media breakpoint.
 }
 \examples{
 validate_bulma_column_size(1)
 validate_bulma_column_size("one-third")
 validate_bulma_column_size("1/1")
-validate_bulma_column_size("narrow-widescreen")
+validate_bulma_column_size("narrow", "tablet")
 
 validate_bulma_column_offset(6)
 validate_bulma_column_offset("two-thirds")
-validate_bulma_column_offset("4/5")
+validate_bulma_column_offset("4/5", "desktop")
+
+validate_bulma_media_breakpoint("fullhd")
+validate_bulma_media_breakpoint("mobile")
+validate_bulma_media_breakpoint("touch")
 
 \dontrun{
 ## these will each raise an error
@@ -40,9 +56,13 @@ validate_bulma_column_size(1:2)
 validate_bulma_column_size(11.3)
 validate_bulma_column_size("one-sixth")
 validate_bulma_column_size("one.third")
+validate_bulma_column_size(1, "touchscreen")
 
 validate_bulma_column_offset("narrow")
 validate_bulma_column_offset("full")
 validate_bulma_column_offset("1/1")
+validate_bulma_column_offset("1/3", "4k")
+
+validate_bulma_media_breakpoint("fulhd")
 }
 }
