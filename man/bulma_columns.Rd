@@ -5,23 +5,45 @@
 \alias{bulma_column}
 \title{Create a Columns Layout}
 \usage{
-bulma_columns(...)
+bulma_columns(
+  ...,
+  center = c("none", "horizontal", "vertical", "both"),
+  multiline = FALSE,
+  gap_width = NULL,
+  media_breakpoint = NULL
+)
 
-bulma_column(..., width = NULL, offset = NULL, media_breakpoint = NULL)
+bulma_column(..., width = NULL, offset = NULL)
 }
 \arguments{
 \item{...}{[\verb{html tags} or \verb{html attributes}]\cr
 Elements to include within the column.}
 
-\item{width}{[\code{character(1)} or \code{integer(1)}: \sQuote{NULL}]\cr
-The width to be used (see \link{validate_bulma_column_size} for valid values).
+\item{center}{[\code{character(1)}: \sQuote{none}]\cr
+Must be either \dQuote{none}, \dQuote{horizontal}, \dQuote{vertical} or
+\dQuote{both} specifying whether columns should be horizontally and/or
+vertically centered.}
+
+\item{multiline}{[\code{logical(1)}: \sQuote{FALSE}]\cr
+Should the columns be defined as \dQuote{multiline}, i.e. spreading more than
+one line in case space is needed.}
+
+\item{gap_width}{[\code{integer(1)}: sQuote{NULL}]\cr
+The size of the gap between columns. Must be an integer between 0 and 8.}
+
+\item{media_breakpoint}{[\code{character(1)}: \sQuote{NULL}]\cr
+Define where columns are shown in the first place. By default columns are used
+on tablets onwards and stacked at lower widths. By specifying either \code{mobile} or
+\code{desktop} you can either show columns earlier or later. Other media breakpoints
+are ignored for.}
+
+\item{width}{[\code{character(n)} or \code{integer(n)}: \sQuote{NULL}]\cr
+The width to be used (see \link{validate_bulma_size} for valid values).
 If \code{NULL}, all available space is used. If several columns use \code{NULL}, the
 space is distributed among those columns.}
 
-\item{offset}{[\code{character(1)} or \code{integer(1)}: \sQuote{NULL}]\cr
-The offset to be used (see \link{validate_bulma_column_offset} for valid values).}
-
-\item{media_breakpoint}{[\code{character(1)}: \sQuote{NULL}]\cr}
+\item{offset}{[\code{character(n)} or \code{integer(n)}: \sQuote{NULL}]\cr
+The offset to be used (see \link{validate_bulma_offset} for valid values).}
 }
 \value{
 A Bulma column layout.
@@ -32,24 +54,142 @@ Create a Columns Layout
 \examples{
 
 ## Only run examples in interactive R sessions
+## Examples inspired by <https://bulma.io/documentation/columns/>
 if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
 
-ui <- bulma_page(
+  make_notification <- function(..., color = TRUE) {
+    p(..., class = "column-notification",
+      class = if (color) "has-background-primary")
+  }
+
+  ui <- bulma_page(
+    tags$style(".column-notification {
+                    background-color: #f5f5f5;
+                    border-radius: .375em;
+                    font-weight: 600;
+                    padding: 1.25rem 0;
+                    position: relative;
+                    text-align: center;
+                }"),
+    bulma_columns(
+      bulma_column(make_notification("First Column")),
+      bulma_column(make_notification("Second Column")),
+      bulma_column(make_notification("Third Column")),
+      bulma_column(make_notification("Fourth Column"))
+    ),
+    bulma_columns(
+      bulma_column(make_notification("is-two-third"), width = "2/3"),
+      bulma_column(make_notification("auto", color = FALSE)),
+      bulma_column(make_notification("auto", color = FALSE))
+    ),
+    bulma_columns(
+      bulma_column(make_notification("is-11"), width = 11),
+      bulma_column(make_notification("1", color = FALSE))
+    ),
+    bulma_columns(
+      bulma_column(make_notification(span("is-half", tags$br(), "is-offset-one-third")),
+                   width = "half", offset = "one-third")
+    ),
+    bulma_columns(
+      bulma_column(div(class = "box", style = "width: 200px",
+                       p(class = "title is-5", "Narrow Column"),
+                       p(class = "subtitle", "This column is only 200px wide."))),
+                   width = "narrow"),
+      bulma_column(div(class = "box",
+                       p(class = "title is-5", "Flexible Column"),
+                       p(class = "subtitle", paste("This column will take up the",
+                       "remaining space available.")))
+    ),
+    bulma_columns(
+      bulma_column(make_notification(tags$code("is-three-quarters-mobile"), tags$br(),
+                                     tags$code("is-two-thirds-tablet"), tags$br(),
+                                     tags$code("is-half-desktop"), tags$br(),
+                                     tags$code("is-one-third-widescreen"), tags$br(),
+                                     tags$code("is-one-quarter-fullhd")),
+                   width = c("3/4-mobile", "two-thirds-tablet", "1/2-desktop",
+                             "1/3-widescreen", "1/4-fullhd")),
+      bulma_column(make_notification(2)),
+      bulma_column(make_notification(3)),
+      bulma_column(make_notification(4)),
+      bulma_column(make_notification(5)),
+      media_breakpoint = "mobile"
+    ),
+    bulma_columns(
+      bulma_column(
+        make_notification("First column"),
         bulma_columns(
-           bulma_column(tags$h1("Column 1"), width = 3, offset = 2,
-                        class = "has-background-primary"),
-           bulma_column(tags$h1("Column 2"), width = 4, offset = 1,
-                        class = "has-background-link")
+          bulma_column(
+            make_notification("First nested column")
+          ),
+          bulma_column(
+            make_notification("Second nested column")
+          ),
+          media_breakpoint = "mobile"
+        )
+      ),
+      bulma_column(
+        make_notification("Second column"),
+        bulma_columns(
+          bulma_column(
+            make_notification("50\%"),
+            width = "1/2"
+          ),
+          bulma_column(
+            make_notification("Auto")
+          ),
+          bulma_column(
+            make_notification("Auto")
+          )
         )
       )
-server <- function(input, output) {
-}
+    ),
+    bulma_columns(
+      bulma_column(make_notification("is-one-quarter"),
+                   width = "1/4"),
+      bulma_column(make_notification("is-one-quarter"),
+                   width = "1/4"),
+      bulma_column(make_notification("is-one-quarter"),
+                   width = "1/4"),
+      bulma_column(make_notification("is-one-quarter"),
+                   width = "1/4"),
+      bulma_column(make_notification("is-half"),
+                   width = "1/2"),
+      bulma_column(make_notification("is-one-quarter"),
+                   width = "1/4"),
+      bulma_column(make_notification("is-one-quarter"),
+                   width = "1/4"),
+      bulma_column(make_notification("is-one-quarter"),
+                   width = "1/4"),
+      bulma_column(make_notification("Auto")),
+      multiline = TRUE, gap_width = "gapless",
+      media_breakpoint = "mobile"
+    ),
+    bulma_columns(
+      bulma_column(
+        make_notification("First Column"),
+        width = 8
+      ),
+      bulma_column(
+        make_notification(paste("Second column with more content. This is so you can",
+                                "see the vertical alignment."))
+      ),
+      center = "vertical"
+    ),
+    bulma_columns(
+      bulma_column(make_notification("is-half"), width = "1/2"),
+      center = "horizontal"
+    )
+  )
 
-shiny::shinyApp(ui, server)
+
+  server <- function(input, output) {
+  }
+
+  shiny::shinyApp(ui, server)
 }
 }
 \seealso{
-\link{validate_bulma_column_size},\link{validate_bulma_column_offset},
-\link{validate_bulma_media_breakpoint},
+\link{validate_bulma_size},\link{validate_bulma_offset},
+\link{get_bulma_media_breakpoints},
 \href{https://bulma.io/documentation/columns/basics/}{Bulma Columns}
 }
