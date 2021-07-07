@@ -157,16 +157,16 @@ test_that("bulma_columns are properly formatted", {
                "<div class=\"columns is-1 is-variable\"></div>")
   expect_equal(as.character(bulma_columns(gap_width = "gapless")),
                "<div class=\"columns is-gapless\"></div>")
-  expect_equal(as.character(bulma_columns(media_breakpoint = "mobile")),
+  expect_equal(as.character(bulma_columns(enable_from = "mobile")),
                "<div class=\"columns is-mobile\"></div>")
-  expect_equal(as.character(bulma_columns(media_breakpoint = "desktop")),
+  expect_equal(as.character(bulma_columns(enable_from = "desktop")),
                "<div class=\"columns is-desktop\"></div>")
 })
 
 test_that("bulma_columns raises a warning when an invalid media breakpoint is used", {
-  expect_warning(bulma_columns(media_breakpoint = "fullhd"),
+  expect_warning(bulma_columns(enable_from = "fullhd"),
                  "\".*\" is not supported by bulma columns")
-  expect_warning(bulma_columns(media_breakpoint = "touch"),
+  expect_warning(bulma_columns(enable_from = "touch"),
                  "\".*\" is not supported by bulma columns")
 })
 

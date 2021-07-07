@@ -10,7 +10,7 @@ bulma_columns(
   center = c("none", "horizontal", "vertical", "both"),
   multiline = FALSE,
   gap_width = NULL,
-  media_breakpoint = NULL
+  enable_from = NULL
 )
 
 bulma_column(..., width = NULL, offset = NULL)
@@ -31,11 +31,11 @@ one line in case space is needed.}
 \item{gap_width}{[\code{integer(1)}: sQuote{NULL}]\cr
 The size of the gap between columns. Must be an integer between 0 and 8.}
 
-\item{media_breakpoint}{[\code{character(1)}: \sQuote{NULL}]\cr
+\item{enable_from}{[\code{character(1)}: \sQuote{NULL}]\cr
 Define where columns are shown in the first place. By default columns are used
 on tablets onwards and stacked at lower widths. By specifying either \code{mobile} or
 \code{desktop} you can either show columns earlier or later. Other media breakpoints
-are ignored for.}
+are ignored and will raise a warning.}
 
 \item{width}{[\code{character(n)} or \code{integer(n)}: \sQuote{NULL}]\cr
 The width to be used (see \link{validate_bulma_size} for valid values).
@@ -112,7 +112,7 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
       bulma_column(make_notification(3)),
       bulma_column(make_notification(4)),
       bulma_column(make_notification(5)),
-      media_breakpoint = "mobile"
+      enable_from = "mobile"
     ),
     bulma_columns(
       bulma_column(
@@ -124,7 +124,7 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
           bulma_column(
             make_notification("Second nested column")
           ),
-          media_breakpoint = "mobile"
+          enable_from = "mobile"
         )
       ),
       bulma_column(
@@ -162,7 +162,7 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
                    width = "1/4"),
       bulma_column(make_notification("Auto")),
       multiline = TRUE, gap_width = "gapless",
-      media_breakpoint = "mobile"
+      enable_from = "mobile"
     ),
     bulma_columns(
       bulma_column(

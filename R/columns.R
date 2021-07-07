@@ -228,11 +228,11 @@ get_bulma_media_breakpoints <- function(x) {
 #' @param multiline \[`logical(1)`: \sQuote{FALSE}\]\cr
 #'        Should the columns be defined as \dQuote{multiline}, i.e. spreading more than
 #'        one line in case space is needed.
-#' @param media_breakpoint \[`character(1)`: \sQuote{NULL}\]\cr
+#' @param enable_from \[`character(1)`: \sQuote{NULL}\]\cr
 #'        Define where columns are shown in the first place. By default columns are used
 #'        on tablets onwards and stacked at lower widths. By specifying either `mobile` or
 #'        `desktop` you can either show columns earlier or later. Other media breakpoints
-#'        are ignored for.
+#'        are ignored and will raise a warning.
 #'
 #' @seealso [validate_bulma_size],[validate_bulma_offset],
 #'          [get_bulma_media_breakpoints],
@@ -302,7 +302,7 @@ get_bulma_media_breakpoints <- function(x) {
 #'       bulma_column(make_notification(3)),
 #'       bulma_column(make_notification(4)),
 #'       bulma_column(make_notification(5)),
-#'       media_breakpoint = "mobile"
+#'       enable_from = "mobile"
 #'     ),
 #'     bulma_columns(
 #'       bulma_column(
@@ -314,7 +314,7 @@ get_bulma_media_breakpoints <- function(x) {
 #'           bulma_column(
 #'             make_notification("Second nested column")
 #'           ),
-#'           media_breakpoint = "mobile"
+#'           enable_from = "mobile"
 #'         )
 #'       ),
 #'       bulma_column(
@@ -352,7 +352,7 @@ get_bulma_media_breakpoints <- function(x) {
 #'                    width = "1/4"),
 #'       bulma_column(make_notification("Auto")),
 #'       multiline = TRUE, gap_width = "gapless",
-#'       media_breakpoint = "mobile"
+#'       enable_from = "mobile"
 #'     ),
 #'     bulma_columns(
 #'       bulma_column(
@@ -379,15 +379,15 @@ get_bulma_media_breakpoints <- function(x) {
 #' }
 bulma_columns <- function(..., center = c("none", "horizontal", "vertical", "both"),
                           multiline = FALSE, gap_width = NULL,
-                          media_breakpoint = NULL) {
+                          enable_from = NULL) {
   class <- "columns"
   center <- match.arg(center)
   valid_breakpoints <- c("mobile", "desktop")
-  if (!is.null(media_breakpoint)) {
-    if (media_breakpoint %in% valid_breakpoints) {
-      class <- add_class(class, make_class(media_breakpoint))
+  if (!is.null(enable_from)) {
+    if (enable_from %in% valid_breakpoints) {
+      class <- add_class(class, make_class(enable_from))
     } else {
-      warning("\"", media_breakpoint, "\" is not supported by bulma columns")
+      warning("\"", enable_from, "\" is not supported by bulma columns")
     }
   }
   gap_class <- validate_bulma_gap(gap_width)
