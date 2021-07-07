@@ -83,14 +83,14 @@ validate_bulma_unit  <- function(x,
   if (is.null(x)) {
     return(x)
   }
-  if (!(is.character(x)  || is.numeric(x))) {
-    stop("column ", type,
-         " must be a numeric or character vector",
-         domain = NA)
-  }
   if (any(is.na(x))) {
     stop("column ", type,
          " must not contain any 'NAs'",
+         domain = NA)
+  }
+  if (!(is.character(x)  || is.numeric(x))) {
+    stop("column ", type,
+         " must be a numeric or character vector",
          domain = NA)
   }
   if (is.numeric(x)) {
