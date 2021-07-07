@@ -13,7 +13,7 @@ get_css_colors <- function(theme = NULL) {
 
   ## initial values
   initial_vars <- bulma_doc %>%
-    html_node("#initial-variables ~ .table-container > table") %>%
+    html_element("#initial-variables ~ .table-container > table") %>%
     html_table() %>%
     setNames(c("variable", "type", "value"))
 
@@ -24,14 +24,14 @@ get_css_colors <- function(theme = NULL) {
 
   ## derived values
   bulma_table <- bulma_doc %>%
-    html_nodes(".bd-is-body")
+    html_elements(".bd-is-body")
 
   colors_derived_idx <- which(bulma_table %>%
-                                html_elements(".bd-var-computed-type") %>%
+                                html_nodes(".bd-var-computed-type") %>%
                                 html_text() == "color")
 
   color_names_derived <- (bulma_table %>%
-                            html_elements(".bd-var-name .nt") %>%
+                            html_nodes(".bd-var-name .nt") %>%
                             html_text())[colors_derived_idx]
 
   ## create a temporary SASS file which includes all colors and imports
