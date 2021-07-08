@@ -248,48 +248,46 @@ get_bulma_media_breakpoints <- function(x) {
 #' if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
 #'
 #'   make_notification <- function(..., color = TRUE) {
-#'     p(..., class = "column-notification",
+#'     p(..., class = "notification",
 #'       class = if (color) "has-background-primary")
 #'   }
 #'
 #'   ui <- bulma_page(
-#'     tags$style(".column-notification {
-#'                     background-color: #f5f5f5;
-#'                     border-radius: .375em;
-#'                     font-weight: 600;
-#'                     padding: 1.25rem 0;
-#'                     position: relative;
-#'                     text-align: center;
-#'                 }"),
+#'     h1("Equal Size", class = "title"),
 #'     bulma_columns(
 #'       bulma_column(make_notification("First Column")),
 #'       bulma_column(make_notification("Second Column")),
 #'       bulma_column(make_notification("Third Column")),
 #'       bulma_column(make_notification("Fourth Column"))
 #'     ),
+#'     h1("Proportional Size", class = "title"),
 #'     bulma_columns(
 #'       bulma_column(make_notification("is-two-third"), width = "2/3"),
 #'       bulma_column(make_notification("auto", color = FALSE)),
 #'       bulma_column(make_notification("auto", color = FALSE))
 #'     ),
+#'     h1("1-12 \"Grid\" Sizes", class = "title"),
 #'     bulma_columns(
 #'       bulma_column(make_notification("is-11"), width = 11),
 #'       bulma_column(make_notification("1", color = FALSE))
 #'     ),
+#'     h1("Offset", class = "title"),
 #'     bulma_columns(
 #'       bulma_column(make_notification(span("is-half", tags$br(), "is-offset-one-third")),
 #'                    width = "half", offset = "one-third")
 #'     ),
+#'     h1("Narrow Size", class = "title"),
 #'     bulma_columns(
 #'       bulma_column(div(class = "box", style = "width: 200px",
 #'                        p(class = "title is-5", "Narrow Column"),
-#'                        p(class = "subtitle", "This column is only 200px wide."))),
+#'                        p(class = "subtitle", "This column is only 200px wide.")),
 #'                    width = "narrow"),
 #'       bulma_column(div(class = "box",
 #'                        p(class = "title is-5", "Flexible Column"),
 #'                        p(class = "subtitle", paste("This column will take up the",
-#'                        "remaining space available.")))
+#'                        "remaining space available."))))
 #'     ),
+#'     h1("Responisve Sizes", class = "title"),
 #'     bulma_columns(
 #'       bulma_column(make_notification(tags$code("is-three-quarters-mobile"), tags$br(),
 #'                                      tags$code("is-two-thirds-tablet"), tags$br(),
@@ -304,6 +302,7 @@ get_bulma_media_breakpoints <- function(x) {
 #'       bulma_column(make_notification(5)),
 #'       enable_from = "mobile"
 #'     ),
+#'     h1("Nesting", class = "title"),
 #'     bulma_columns(
 #'       bulma_column(
 #'         make_notification("First column"),
@@ -333,6 +332,7 @@ get_bulma_media_breakpoints <- function(x) {
 #'         )
 #'       )
 #'     ),
+#'     h1("Gap Size & Multiline", class = "title"),
 #'     bulma_columns(
 #'       bulma_column(make_notification("is-one-quarter"),
 #'                    width = "1/4"),
@@ -354,6 +354,7 @@ get_bulma_media_breakpoints <- function(x) {
 #'       multiline = TRUE, gap_width = "gapless",
 #'       enable_from = "mobile"
 #'     ),
+#'     h1("Vertical Alignment", class = "title"),
 #'     bulma_columns(
 #'       bulma_column(
 #'         make_notification("First Column"),
@@ -365,6 +366,7 @@ get_bulma_media_breakpoints <- function(x) {
 #'       ),
 #'       center = "vertical"
 #'     ),
+#'     h1("Horizontal", class = "title"),
 #'     bulma_columns(
 #'       bulma_column(make_notification("is-half"), width = "1/2"),
 #'       center = "horizontal"
