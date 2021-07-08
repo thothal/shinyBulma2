@@ -55,6 +55,10 @@ get_css_colors <- function(theme = NULL) {
     tmp_sass <- glue("{sass_import('variables')}",
                      "{tmp_sass}", .sep = "\n")
   }
+  tmp_sass <- glue("@use \"sass:map\";",
+                   "{tmp_sass}",
+                   "/*! Color Map Keys: #{{map.keys($colors)}} */",
+                   .sep = "\n")
   sass_f <- normalizePath(tempfile(fileext = ".saas"), mustWork = FALSE)
   css_f <- normalizePath(tempfile(fileext = ".css"), mustWork = FALSE)
   cat(tmp_sass, file = sass_f)
@@ -80,8 +84,12 @@ get_css_colors <- function(theme = NULL) {
                 group = "color",
                 variable,
                 value = parseCssColors(value))
+    ## TODO: continue here -- extract color map keys comment and add to result
+    color_map_keys <- str_match(colors, "/\\*! Color Map Keys: ([\\w\\s,]+) ")[, 2] %>%
+      str_split(", ") %>%
+      unlist()
     if (is.null(theme)) {
-      res %>%
+      res <- res %>%
         bind_rows(c(theme = "bulma",
                     group = "font",
                     variable = "name",
@@ -89,8 +97,7 @@ get_css_colors <- function(theme = NULL) {
                   c(theme = "bulma",
                     group = "font",
                     variable = "id",
-                    value = NA_character_)) %>%
-        as.data.frame()
+                    value = NA_character_))
     } else {
       theme_scss <- readLines(here("tools", "node_modules", "bulmaswatch", theme,
                                    "_overrides.scss"), warn = FALSE)
@@ -98,7 +105,7 @@ get_css_colors <- function(theme = NULL) {
         str_match("family=([^:&]+)")
       family <- str_replace_all(mtch[,2], "\\+", " ")
       id <- gfonts::get_all_fonts()[gfonts::get_all_fonts()$family == family, "id"]
-      res %>%
+      res <- res %>%
         bind_rows(c(theme = theme,
                     group = "font",
                     variable = "name",
@@ -106,9 +113,11 @@ get_css_colors <- function(theme = NULL) {
                   c(theme = theme,
                     group = "font",
                     variable = "id",
-                    value = id)) %>%
-        as.data.frame()
+                    value = id))
     }
+    res %>%
+      mutate(is_color_map_key = variable %in% color_map_keys) %>%
+      as.data.frame()
   }
   if (is.null(theme)) {
     extract_colors(NULL)
