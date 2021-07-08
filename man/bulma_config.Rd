@@ -5,7 +5,7 @@
 \alias{bulma_config}
 \title{Colors and Font Used in Bulma}
 \format{
-A data frame with 71 rows and 4
+A data frame with 71 rows and 5
 variables:
 \describe{
 \item{theme}{[\code{character(1)}], the name of the theme (here this equals always
@@ -16,6 +16,9 @@ whether the variable describes a color or the font.}
 \item{variable}{[\code{character(1)}], the name of color or \sQuote{name} or
 \sQuote{id} for fonts describing the name or the id.}
 \item{value}{[\code{character(1)}], the hex color code or the name of the font used.}
+\item{is_color_map_key}{[\code{logical(1)}], is the particular color a key in the SASS
+\verb{$colors} map? These colors are used in \code{is-{color}} classes, e.g. \code{is-primary} or
+\code{is-black}.}
 }
 }
 \source{

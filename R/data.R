@@ -14,6 +14,9 @@
 #'   \item{variable}{\[`character(1)`\], the name of color or \sQuote{name} or
 #'      \sQuote{id} for fonts describing the name or the id.}
 #'   \item{value}{\[`character(1)`\], the hex color code or the name of the font used.}
+#'   \item{is_color_map_key}{\[`logical(1)`\], is the particular color a key in the SASS
+#'   `$colors` map? These colors are used in `is-{color}` classes, e.g. `is-primary` or
+#'   `is-black`.}
 #' }
 #' @name bulma_config
 #' @seealso [bulmaswatch_config]
@@ -36,6 +39,9 @@
 #'   \item{variable}{\[`character(1)`\], the name of color or \sQuote{name} or \sQuote{id} for
 #'   fonts describing the name or the id.}
 #'   \item{value}{\[`character(1)`\], the hex color code or the name of the font used.}
+#'   \item{is_color_map_key}{\[`logical(1)`\], is the particular color a key in the SASS
+#'   `$colors` map? These colors are used in `is-{color}` classes, e.g. `is-primary` or
+#'   `is-black`.}
 #' }
 #' @name bulmaswatch_config
 #' @seealso [bulma_config]
