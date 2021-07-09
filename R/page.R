@@ -67,6 +67,8 @@ bulma_page <- function(..., title = NULL, theme = NULL, lang = NULL) {
     msg <- sprintf("theme '%s' is not installed")
     stop(msg, domain = NA)
   }
+  # store used in theme as a global, needed for determining the used colors for instance
+  bulma_global$used_theme <- theme
   args <- list(if (!is.null(title)) htmltools::tags$head(htmltools::tags$title(title)),
                list(...),
                bulma_lib(theme))
