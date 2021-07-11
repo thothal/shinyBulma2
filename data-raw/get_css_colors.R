@@ -5,6 +5,7 @@ library(stringr)
 library(htmltools)
 library(sass)
 library(glue)
+library(purrr)
 
 get_css_colors <- function(theme = NULL) {
   ## get primary colors from official bulma doc
@@ -28,7 +29,10 @@ get_css_colors <- function(theme = NULL) {
 
   colors_derived_idx <- which(bulma_table %>%
                                 html_nodes(".bd-var-computed-type") %>%
-                                html_text() == "color")
+                                html_text() == "color" |
+                                bulma_table %>%
+                                html_nodes(".bd-var-type") %>%
+                                html_text() == "compound")
 
   color_names_derived <- (bulma_table %>%
                             html_nodes(".bd-var-name .nt") %>%
@@ -84,7 +88,6 @@ get_css_colors <- function(theme = NULL) {
                 group = "color",
                 variable,
                 value = parseCssColors(value))
-    ## TODO: continue here -- extract color map keys comment and add to result
     color_map_keys <- str_match(colors, "/\\*! Color Map Keys: ([\\w\\s,]+) ")[, 2] %>%
       str_split(", ") %>%
       unlist()
@@ -120,8 +123,21 @@ get_css_colors <- function(theme = NULL) {
       as.data.frame()
   }
   if (is.null(theme)) {
-    extract_colors(NULL)
+    res  <- extract_colors(NULL)
   } else {
-    map_dfr(theme, extract_colors)
+    res <- map_dfr(theme, extract_colors)
   }
+  color_doc <- read_html("https://bulma.io/documentation/helpers/color-helpers/")
+  color_classes <- color_doc %>%
+    html_elements("table") %>%
+    html_table() %>%
+    map_dfr(~ .x %>% select(Class)) %>%
+    transmute(color = str_remove(Class, "has-(text|background)-"),
+           type = str_extract(Class, "text|background")) %>%
+    group_by(color) %>%
+    summarise(color_class = paste(type, collapse = ", "), .groups = "drop")
+  res %>%
+    left_join(color_classes,
+              c(variable = "color"))
+
 }

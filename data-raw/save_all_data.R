@@ -7,3 +7,4 @@ usethis::use_data(bulma_config,
                   bulmaswatch_config,
                   internal = TRUE,
                   overwrite = TRUE)
+

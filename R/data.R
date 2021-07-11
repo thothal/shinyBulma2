@@ -17,6 +17,11 @@
 #'   \item{is_color_map_key}{\[`logical(1)`\], is the particular color a key in the SASS
 #'   `$colors` map? These colors are used in `is-{color}` classes, e.g. `is-primary` or
 #'   `is-black`.}
+#'   \item{color_class}{\[`character(1)`\], either `NA` if the variable is not a color or
+#'   there is no color helper class to use this color. Otherwise it contains a comma
+#'   separated string with elements \sQuote{text} if it can be used via
+#'   `has-text-{color}` and \sQuote{background} it it can be used via
+#'   `has-background-{color}`.}
 #' }
 #' @name bulma_config
 #' @seealso [bulmaswatch_config]
@@ -42,6 +47,11 @@
 #'   \item{is_color_map_key}{\[`logical(1)`\], is the particular color a key in the SASS
 #'   `$colors` map? These colors are used in `is-{color}` classes, e.g. `is-primary` or
 #'   `is-black`.}
+#'   \item{color_class}{\[`character(1)`\], either `NA` if the variable is not a color or
+#'   there is no color helper class to use this color. Otherwise it contains a comma
+#'   separated string with elements \sQuote{text} if it can be used via
+#'   `has-text-{color}` and \sQuote{background} it it can be used via
+#'   `has-background-{color}`.}
 #' }
 #' @name bulmaswatch_config
 #' @seealso [bulma_config]
