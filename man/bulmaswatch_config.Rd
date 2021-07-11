@@ -6,7 +6,7 @@
 \title{Colors and Font Used in the Bulmaswatch Themes}
 \format{
 A data frame with 1497 rows and
-4 variables:
+5 variables:
 \describe{
 \item{theme}{[\code{character(1)}], the name of the theme.}
 \item{group}{[\code{character(1)}], either \sQuote{color} or \sQuote{font} describing whether the
@@ -14,6 +14,9 @@ variable describes a color or the font.}
 \item{variable}{[\code{character(1)}], the name of color or \sQuote{name} or \sQuote{id} for
 fonts describing the name or the id.}
 \item{value}{[\code{character(1)}], the hex color code or the name of the font used.}
+\item{is_color_map_key}{[\code{logical(1)}], is the particular color a key in the SASS
+\verb{$colors} map? These colors are used in \code{is-{color}} classes, e.g. \code{is-primary} or
+\code{is-black}.}
 }
 }
 \source{

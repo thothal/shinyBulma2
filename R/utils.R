@@ -50,3 +50,25 @@ get_download_links_gh <- function(owner, repo,
   download_fun(path, 1L)
 }
 
+is_integer <- function(x) {
+  is.numeric(x) & x %% 1L == 0L
+}
+
+add_class <- function(old, new) {
+  if (is.null(new)) {
+    old
+  } else {
+    paste(old, paste(new, collapse = " "))
+  }
+}
+
+
+make_class <- function(..., prefix = c("is", "has")) {
+  prefix <- match.arg(prefix)
+  args <- list(prefix, ..., sep = "-")
+  classes <- do.call(paste, args)
+  ## remove trailing dashes
+  classes <- sub("-$", "", classes)
+  paste(classes,
+        collapse = " ")
+}
