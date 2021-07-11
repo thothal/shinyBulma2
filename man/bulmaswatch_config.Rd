@@ -5,8 +5,8 @@
 \alias{bulmaswatch_config}
 \title{Colors and Font Used in the Bulmaswatch Themes}
 \format{
-A data frame with 1497 rows and
-5 variables:
+A data frame with 1770 rows and
+6 variables:
 \describe{
 \item{theme}{[\code{character(1)}], the name of the theme.}
 \item{group}{[\code{character(1)}], either \sQuote{color} or \sQuote{font} describing whether the
@@ -17,6 +17,11 @@ fonts describing the name or the id.}
 \item{is_color_map_key}{[\code{logical(1)}], is the particular color a key in the SASS
 \verb{$colors} map? These colors are used in \code{is-{color}} classes, e.g. \code{is-primary} or
 \code{is-black}.}
+\item{color_class}{[\code{character(1)}], either \code{NA} if the variable is not a color or
+there is no color helper class to use this color. Otherwise it contains a comma
+separated string with elements \sQuote{text} if it can be used via
+\code{has-text-{color}} and \sQuote{background} it it can be used via
+\code{has-background-{color}}.}
 }
 }
 \source{
