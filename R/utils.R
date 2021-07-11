@@ -63,8 +63,8 @@ add_class <- function(old, new) {
 }
 
 
-make_class <- function(..., prefix = c("is", "has")) {
-  prefix <- match.arg(prefix)
+make_class <- function(..., prefix = NULL) {
+  prefix <- match.arg(prefix, c("is", "has"), several.ok = TRUE)
   args <- list(prefix, ..., sep = "-")
   classes <- do.call(paste, args)
   ## remove trailing dashes
