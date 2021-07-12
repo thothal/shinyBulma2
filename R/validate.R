@@ -204,7 +204,7 @@ validate_bulma_gap <- function(x) {
 
 #' @rdname validate_bulma_unit
 #' @export
-get_bulma_media_breakpoints <- function(x) {
+get_bulma_media_breakpoints <- function() {
   c("mobile", "tablet", "touch",
     "desktop", "widescreen", "fullhd")
 }
@@ -279,19 +279,29 @@ validate_bulma_color <- function(x, context = c("text", "background"),
   lkp <- lkp[lkp$group == "color" &
                !is.na(lkp$color_class), ]
   lkp <- lkp[grepl(context, lkp$color_class, fixed = TRUE), ]
+  orig <- lkp
   if (must_be_key) {
     lkp <- lkp[lkp$is_color_map_key, ]
   }
   NOK <- !x %in% lkp$variable
   if (any(NOK)) {
     bad_cols <- paste(paste0("\"", x[NOK], "\""), collapse = ", ")
+    not_key <- x[NOK] %in% orig$variable
     msg <- ngettext(sum(NOK),
-                    paste(bad_cols, "is not a valid color"),
-                    paste(bad_cols, "are not valid colors"))
+                    paste(bad_cols, "is not a valid bulma color"),
+                    paste(bad_cols, "are not valid bulma colors"))
+    if (any(not_key)) {
+      bad_cols <- paste(paste0("\"", x[NOK][not_key], "\""), collapse = ", ")
+      msg <- ngettext(sum(not_key),
+                      paste0(msg, " (", bad_cols,
+                             " is indeed a bulma color but not a color key)"),
+                      paste0(msg, " (", bad_cols,
+                             " are indeed bulma colors but not color keys)"))
+    }
     stop(msg,
          domain = NA)
   }
   lkp <- lkp[lkp$variable %in% x, ]
   make_class(context, lkp$variable,
-    prefix = "has")
+    prefix = "has", collapse = FALSE)
 }
