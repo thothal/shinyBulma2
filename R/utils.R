@@ -79,3 +79,11 @@ make_class <- function(..., prefix = NULL, collapse = TRUE) {
     classes
   }
 }
+
+`%||%` <- function(x, y) {
+  if (is.null(x) | length(x) == 0) {
+    y
+  } else {
+    x
+  }
+}

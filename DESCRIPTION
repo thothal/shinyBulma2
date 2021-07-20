@@ -16,11 +16,12 @@ BuildKeepEmpty: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: 
-    htmltools
+    htmltools,
+    shiny
 Suggests: 
     httr,
     testthat (>= 3.0.0),
-    shiny
+    rlang
 Depends: 
     R (>= 2.10)
 Config/testthat/edition: 3

@@ -171,7 +171,7 @@ test_that("improper colors are raising an error", {
 })
 
 test_that("previously used theme will print a message", {
-  skip_on_cran()
+  skip_if(!"flatly" %in% get_bulma_themes(), "theme 'flatly' not installed")
   ui <- bulma_page(theme = "flatly")
   expect_message(validate_bulma_color("link"), "using config for theme <flatly>")
   ui <- bulma_page()

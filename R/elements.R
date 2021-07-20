@@ -113,6 +113,7 @@ bulma_content <- function(...,
 #' @examples
 #' if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
 #'   ui <- bulma_page(
+#'     tags$head(tags$style(HTML("#sizes > span {vertical-align: middle;}"))),
 #'     bulma_block(
 #'       h1("Icon with Text", class = "title"),
 #'       bulma_icon("home", "Home")),
@@ -138,6 +139,7 @@ bulma_content <- function(...,
 #'       bulma_block("Your image has been successfully uploaded.")
 #'     ),
 #'     bulma_block(
+#'       id = "sizes",
 #'       h1("Icons with Sizing", class = "title"),
 #'       tagAppendAttributes(bulma_icon("home", size = "medium", class = "fas"),
 #'                           class = "has-background-warning"),
@@ -145,7 +147,6 @@ bulma_content <- function(...,
 #'                           class = "has-background-warning"),
 #'       tagAppendAttributes(bulma_icon("home", size = "medium", class = "fas fa-2x"),
 #'                           class = "has-background-warning")
-#'
 #'     )
 #'   )
 #'
@@ -182,8 +183,9 @@ bulma_icon <- function(name, text = NULL,
       icon <- htmltools::tagAppendAttributes(icon, class = make_class(size))
       text <- if (!is.na(txt)) htmltools::span(txt)
       htmltools::tagList(icon, text)
-    }, name, text)
-    res <- container(class = "icon-text", icons)
+    }, name, text, USE.NAMES = FALSE)
+    res <- do.call(container, c(class = "icon-text",
+                                unlist(icons, recursive = FALSE)))
   }
   htmltools::tagAppendAttributes(res, class = color)
 }
