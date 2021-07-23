@@ -47,6 +47,7 @@ Create bulma Icon Container
 \examples{
 if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
   ui <- bulma_page(
+    tags$head(tags$style(HTML("#sizes > span {vertical-align: middle;}"))),
     bulma_block(
       h1("Icon with Text", class = "title"),
       bulma_icon("home", "Home")),
@@ -72,6 +73,7 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
       bulma_block("Your image has been successfully uploaded.")
     ),
     bulma_block(
+      id = "sizes",
       h1("Icons with Sizing", class = "title"),
       tagAppendAttributes(bulma_icon("home", size = "medium", class = "fas"),
                           class = "has-background-warning"),
@@ -79,7 +81,6 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
                           class = "has-background-warning"),
       tagAppendAttributes(bulma_icon("home", size = "medium", class = "fas fa-2x"),
                           class = "has-background-warning")
-
     )
   )
 

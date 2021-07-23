@@ -164,6 +164,10 @@ bulma_icon <- function(name, text = NULL,
   container <- match.fun(container)
   size <- match.arg(size)
   if (is.null(text)) {
+    if (length(name) > 1) {
+      stop("\"name\" must be length one, if no \"text\" is given",
+           domain = NA)
+    }
     res <- htmltools::span(
       class = "icon",
       shiny::icon(name, class, lib, ...)

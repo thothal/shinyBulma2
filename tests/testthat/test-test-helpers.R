@@ -50,12 +50,32 @@ test_that("tag type expectation works as intended", {
   expect_failure(expect_tag_type(e, "div"), "`e` is not a `<div>` tag but a `<p>` tag")
   expect_success(expect_tag_type(f, "shiny.tag.list"))
   expect_failure(expect_tag_type(f, "p"), "`f` is not a tag object")
+  expect_failure(expect_tag_type(e, "shiny.tag.list"), "`e` is not a shiny tag list")
 })
 
 test_that("tag classed type expectation works as intended", {
   ## include test for the sake of completeness as it is a mere wrapper for other tests
   expect_success(expect_tag_classed_type(htmltools::p(class = "test"),
                                          "p", "test"))
+})
+
+test_that("tag attrib expectation works as intended", {
+  e <- htmltools::p(disable = NA, id = "test", tabindex = 2)
+  expect_success(expect_tag_attrib(e, c("disable", "id"), c(NA, "test")))
+  expect_success(expect_tag_attrib(e, "tabindex", 2))
+  expect_success(expect_tag_attrib(e, "id", "t..t", regex = TRUE))
+
+  expect_failure(expect_tag_attrib(e, "style", "width = 120px"),
+                 "'style' is not a valid attribute of `e`")
+  expect_failure(expect_tag_attrib(htmltools::tagList(htmltools::p(id = "test")),
+                                   "id", "test"),
+                 ".* is not a tag object")
+  expect_failure(expect_tag_attrib(e, "id", "test2"),
+                 "`e` does not contain attribute \\[id = \"test2\"\\]")
+  expect_failure(expect_tag_attrib(e, "id", "t..t2", regex = TRUE),
+                 "`e` does not contain attribute \\[id ~= /t\\.\\.t2/\\]")
+  expect_failure(expect_tag_attrib(e, c("tabindex", "id"), list(3, "test2")),
+                 "`e` does not contain attributes \\[tabindex = \"3\", id = \"test2\"\\]")
 })
 
 test_that("number of children expectation works as intended", {
@@ -65,6 +85,8 @@ test_that("number of children expectation works as intended", {
   expect_success(expect_tag_children_length(f, 1))
   expect_failure(expect_tag_children_length(f, 2),
                  "`f` has 1 children, not 2 children")
+  expect_failure(expect_tag_children_length(list(), 0),
+                 ".* is not a tag object")
 })
 
 test_that("type and class of children expectation works as intended", {

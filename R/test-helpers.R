@@ -127,6 +127,54 @@ expect_tag_classed_type <- function(object, tag, class, ...) {
   expect_tag_class({{object}}, class, ...)
 }
 
+expect_tag_attrib <- function(object, attrib, value, regex = FALSE, ...) {
+  stopifnot(length(attrib) == length(value))
+  act <- testthat::quasi_label(rlang::enquo(object), arg = "object")
+  if (!inherits(act$val, "shiny.tag")) {
+    testthat::fail(sprintf("%s is not a tag object.", act$lab))
+  } else {
+    attribs <- split(object$attribs, names(object$attribs))
+    NOK <- !attrib %in% names(attribs)
+    if (any(NOK)) {
+      testthat::fail(sprintf("%s %s valid attribute%s of %s",
+                             paste0("'", attrib[NOK], "'", collapse = ", "),
+                             ifelse(sum(NOK) > 1, "are not", "is not a"),
+                             ifelse(sum(NOK) > 1, "s", ""),
+                             act$lab))
+    } else {
+      values <- stats::setNames(value, attrib)
+      res <- vapply(attrib, function(nm) {
+        vals <- unlist(values[nm])
+        if (!regex) {
+          NOK <- !vals %in% unlist(attribs[[nm]])
+        } else {
+          NOK <- !grepl(vals, unlist(attribs[[nm]]), ...)
+        }
+        if (any(NOK)) {
+          if (!regex) {
+            vals <- paste0("= \"", paste(vals[NOK], collapse  = " "), "\"")
+          } else {
+            vals <- paste0("~= /", paste(vals[NOK], collapse = "|"), "/")
+          }
+          paste(nm, vals)
+        } else {
+          NA_character_
+        }
+      }, character(1))
+      res <- res[!is.na(res)]
+      if (length(res)) {
+        testthat::fail(sprintf("%s does not contain attribute%s %s",
+                               act$lab,
+                               ifelse(length(res) > 1, "s", ""),
+                               paste0("[", paste(res, collapse = ", "), "]")))
+      }
+    }
+
+  }
+  testthat::succeed()
+  invisible(act$val)
+}
+
 expect_tag_children_length <- function(object, n) {
   act <- testthat::quasi_label(rlang::enquo(object), arg = "object")
   if (!inherits(act$val, "shiny.tag")) {
@@ -234,3 +282,4 @@ expect_tag_children <- function(object, type = NULL, class = NULL,
   testthat::succeed()
   invisible(act$val)
 }
+
