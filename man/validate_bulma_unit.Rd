@@ -16,7 +16,7 @@ validate_bulma_offset(x)
 
 validate_bulma_gap(x)
 
-get_bulma_media_breakpoints(x)
+get_bulma_media_breakpoints()
 }
 \arguments{
 \item{x}{[\code{character(n)} or \code{integer(n)}]\cr

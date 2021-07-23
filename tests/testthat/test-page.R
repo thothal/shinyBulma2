@@ -1,6 +1,6 @@
 test_that("unknown theme raises an error", {
   expect_error(bulma_page(theme = "unknown", "theme '.*' is not installed"))
-  skip_if(identical(Sys.getenv("NOT_CRAN"), "true"), "Not on CRAN")
+  skip_if(identical(Sys.getenv("NOT_CRAN"), "true"), "Not a fresh install")
   expect_error(bulma_page(theme = "flatly", "theme '.*' is not installed"))
 })
 

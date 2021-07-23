@@ -204,7 +204,104 @@ validate_bulma_gap <- function(x) {
 
 #' @rdname validate_bulma_unit
 #' @export
-get_bulma_media_breakpoints <- function(x) {
+get_bulma_media_breakpoints <- function() {
   c("mobile", "tablet", "touch",
     "desktop", "widescreen", "fullhd")
+}
+
+
+#' Validate Proper Bulma Color Definition
+#'
+#' `validate_bulma_color` checks that the argument is a valid bulma color and can be used
+#' by the `has-(text|background)-.*` helpers respectively.
+#'
+#' @param x \[`character(n)`\]\cr
+#'        The color to validate.
+#' @param context \[`character(1)`: \sQuote{text}\]\cr
+#'        If \dQuote{text} the color must work as a text color via `has-text-{color}`. If
+#'        \dQuote{background} the color must work as a background color via
+#'        `has-background-{color}`.
+#' @param must_be_key \[`logical(1)`: \sQuote{FALSE}\]\cr
+#'        If \sQuote{TRUE}, the color to checked must be a key of the SASS `$colors` map.
+#'        These colors can be used by some elements directly via `is-{color}` instead of
+#'        `has-text-{color}`.
+#'
+#' @details This function uses the bulma config data sets [bulma_config] and
+#' [bulmaswatch_config] respectively to check whether the argument is valid. The relevant
+#' column in these datasets are scraped from the official bulma documentation.
+#'
+#' # Note
+#' In order to determine whether the bulma or the bulmaswatch config dataset should be
+#' used, this function relies on an internal variable which points to the theme used in
+#' `bulma_page` (if any was specified.). Thus, the results may differ depending on the
+#' last call to `bulma_page`. At the time being, the same colors are defined for the
+#' default `bulma` theme and the `bulmaswatch` themes. However, this may change in the
+#' future. Thus, we opted for this approach.
+#'
+#' @return The proper bulma color class, if possible. Otherwise an error is raised.
+#' @export
+#'
+#' @examples
+#' validate_bulma_color("black")
+#' validate_bulma_color("primary-light")
+#' ## standard bulma config will be used
+#' validate_bulma_color("link")
+#' if ("flatly" %in% get_bulma_themes()) {
+#'    ## flatly theme config will be used
+#'    bulma_page(theme = "flatly")
+#'    validate_bulma_color("link")
+#'    ## reset theme
+#'    bulma_page()
+#' }
+#' validate_bulma_color("success", "background")
+validate_bulma_color <- function(x, context = c("text", "background"),
+                                 must_be_key = FALSE) {
+  if (is.null(x)) {
+    return(x)
+  }
+  if (any(is.na(x))) {
+    stop("color must not contain any 'NAs'",
+         domain = NA)
+  }
+  if (!is.character(x)) {
+    stop("color must be a character vector",
+         domain = NA)
+  }
+  context <- match.arg(context)
+  theme <- bulma_global$theme
+  if (is.null(theme) || is.na(theme)) {
+    lkp <- bulma_config
+  } else {
+    message("using config for theme <", theme, ">",
+            domain = NA)
+    lkp <- bulmaswatch_config[bulmaswatch_config$theme == theme, ]
+  }
+  lkp <- lkp[lkp$group == "color" &
+               !is.na(lkp$color_class), ]
+  lkp <- lkp[grepl(context, lkp$color_class, fixed = TRUE), ]
+  orig <- lkp
+  if (must_be_key) {
+    lkp <- lkp[lkp$is_color_map_key, ]
+  }
+  NOK <- !x %in% lkp$variable
+  if (any(NOK)) {
+    bad_cols <- paste(paste0("\"", x[NOK], "\""), collapse = ", ")
+    not_key <- x[NOK] %in% orig$variable
+    msg <- ngettext(sum(NOK),
+                    paste(bad_cols, "is not a valid bulma color"),
+                    paste(bad_cols, "are not valid bulma colors"))
+    if (any(not_key)) {
+      bad_cols <- paste(paste0("\"", x[NOK][not_key], "\""), collapse = ", ")
+      msg <- ngettext(sum(not_key),
+                      paste0(msg, " (", bad_cols,
+                             " is indeed a bulma color but not a color key)"),
+                      paste0(msg, " (", bad_cols,
+                             " are indeed bulma colors but not color keys)"))
+    }
+    stop(msg,
+         domain = NA)
+  }
+  lkp <- lkp[lkp$variable %in% x, ]
+  make_class(context, lkp$variable,
+    prefix = "has", collapse = FALSE)
 }
