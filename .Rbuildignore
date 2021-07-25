@@ -13,5 +13,8 @@
 ^dist$
 ^\.Rinstignore
 ^inst/lib/bulmaswatch/.*
+<<<<<<< HEAD
+^inst/fonts/.*
 ^inst/fonts/.*
 ^data-raw$
+^\.covrignore
