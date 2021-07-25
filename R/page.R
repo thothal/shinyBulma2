@@ -8,11 +8,11 @@ bulma_lib <- function(theme = NULL) {
     fn <- system.file("lib", "bulma", "bulma.min.css",
                       package = get_package_name(),
                       mustWork = TRUE)
-  } else {
+  } else { # nocov start
     fn <- system.file("lib", "bulmaswatch", paste0(theme, ".min.css"),
                       package = get_package_name(),
                       mustWork = TRUE)
-  }
+  } # nocov end
   version <- extract_version(fn)
   shiny::addResourcePath("fonts",
                          system.file("fonts",

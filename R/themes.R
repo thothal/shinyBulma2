@@ -46,6 +46,7 @@ get_bulma_themes <- function() {
 #' \dontrun{
 #' download_bulma_themes("flatly")
 #' }
+# nocov start
 download_bulma_themes <- function(themes = "all",
                                   gh_user = NULL,
                                   gh_password = NULL) {
@@ -130,3 +131,4 @@ download_bulma_themes <- function(themes = "all",
   invisible(list(themes = requested_themes$download_url,
                  fonts = fonts_resources$download_url))
 }
+# nocov end

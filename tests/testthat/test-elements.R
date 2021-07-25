@@ -74,4 +74,9 @@ test_that("bulma_image is properly formatted", {
       expect_tag_children(el, "img", make_class("rounded"))
     }
   }, args$class, args$ref, args$is_fixed)
+
+  expect_error(bulma_image(args$ref[1]),
+               "either \"fixed\" or \"ratio\" must be non NULL")
+  expect_error(bulma_image(args$ref[1], fixed = 16, ratio = "square"),
+               "either \"fixed\" or \"ratio\" must be defined but not both")
 })

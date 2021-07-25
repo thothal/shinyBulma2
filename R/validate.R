@@ -271,11 +271,11 @@ validate_bulma_color <- function(x, context = c("text", "background"),
   theme <- bulma_global$theme
   if (is.null(theme) || is.na(theme)) {
     lkp <- bulma_config
-  } else {
+  } else { # nocov start
     message("using config for theme <", theme, ">",
             domain = NA)
     lkp <- bulmaswatch_config[bulmaswatch_config$theme == theme, ]
-  }
+  } # nocov end
   lkp <- lkp[lkp$group == "color" &
                !is.na(lkp$color_class), ]
   lkp <- lkp[grepl(context, lkp$color_class, fixed = TRUE), ]
