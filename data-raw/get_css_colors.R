@@ -146,6 +146,9 @@ get_css_colors <- function(theme = NULL) {
               type = str_extract(Class, "text|background")) %>%
     group_by(color) %>%
     summarise(color_class = paste(type, collapse = ", "), .groups = "drop") %>%
+    mutate(color_class = ifelse(grepl("background", color_class, fixed = TRUE),
+                                paste0(color_class, ", button"),
+                                color_class)) %>%
     bind_rows(
       c(color = "ghost",
         color_class = "button")
