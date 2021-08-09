@@ -121,11 +121,15 @@ get_css_colors <- function(theme = NULL) {
     }
     res %>%
       bind_rows(
-        c(theme = ifelse(is.null(theme), "bulma", theme),
+        c(theme = if_else(is.null(theme), "bulma", theme),
           group = "color",
           variable = "ghost",
           value = NA_character_
-        )) %>%
+        ),
+        c(theme = if_else(is.null(theme), "bulma", theme),
+          group = "color",
+          variable = "text",
+          value = NA_character_)) %>%
       mutate(is_color_map_key = variable %in% color_map_keys) %>%
       arrange(group,
               desc(is_color_map_key),
@@ -146,11 +150,13 @@ get_css_colors <- function(theme = NULL) {
               type = str_extract(Class, "text|background")) %>%
     group_by(color) %>%
     summarise(color_class = paste(type, collapse = ", "), .groups = "drop") %>%
-    mutate(color_class = ifelse(grepl("background", color_class, fixed = TRUE),
+    mutate(color_class = if_else(grepl("background", color_class, fixed = TRUE),
                                 paste0(color_class, ", button"),
                                 color_class)) %>%
     bind_rows(
       c(color = "ghost",
+        color_class = "button"),
+      c(color = "text",
         color_class = "button")
     )
   res %>%
