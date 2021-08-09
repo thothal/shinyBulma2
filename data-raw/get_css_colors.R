@@ -93,14 +93,15 @@ get_css_colors <- function(theme = NULL) {
       unlist()
     if (is.null(theme)) {
       res <- res %>%
-        bind_rows(c(theme = "bulma",
-                    group = "font",
-                    variable = "name",
-                    value = NA_character_),
-                  c(theme = "bulma",
-                    group = "font",
-                    variable = "id",
-                    value = NA_character_))
+        bind_rows(
+          c(theme = "bulma",
+            group = "font",
+            variable = "name",
+            value = NA_character_),
+          c(theme = "bulma",
+            group = "font",
+            variable = "id",
+            value = NA_character_))
     } else {
       theme_scss <- readLines(here("tools", "node_modules", "bulmaswatch", theme,
                                    "_overrides.scss"), warn = FALSE)
@@ -119,7 +120,16 @@ get_css_colors <- function(theme = NULL) {
                     value = id))
     }
     res %>%
+      bind_rows(
+        c(theme = ifelse(is.null(theme), "bulma", theme),
+          group = "color",
+          variable = "ghost",
+          value = NA_character_
+        )) %>%
       mutate(is_color_map_key = variable %in% color_map_keys) %>%
+      arrange(group,
+              desc(is_color_map_key),
+              variable) %>%
       as.data.frame()
   }
   if (is.null(theme)) {
@@ -133,9 +143,13 @@ get_css_colors <- function(theme = NULL) {
     html_table() %>%
     map_dfr(~ .x %>% select(Class)) %>%
     transmute(color = str_remove(Class, "has-(text|background)-"),
-           type = str_extract(Class, "text|background")) %>%
+              type = str_extract(Class, "text|background")) %>%
     group_by(color) %>%
-    summarise(color_class = paste(type, collapse = ", "), .groups = "drop")
+    summarise(color_class = paste(type, collapse = ", "), .groups = "drop") %>%
+    bind_rows(
+      c(color = "ghost",
+        color_class = "button")
+    )
   res %>%
     left_join(color_classes,
               c(variable = "color"))
