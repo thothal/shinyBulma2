@@ -2,7 +2,7 @@ test_that("bulma_button is properly formatted", {
   btn <- bulma_button("Label", "cog", "primary", TRUE,
                       "medium", "small", icon_pos = "end", full_width = TRUE,
                       disabled = TRUE, style = c("outlined", "inverted", "rounded"),
-                      state = "hovered")
+                      state = "hovered", id = "myid")
   btn2 <- bulma_button("Label", "cog", container = htmltools::a)
   expect_tag_classed_type(btn,
                           "button",
@@ -10,7 +10,7 @@ test_that("bulma_button is properly formatted", {
                             "outlined", "inverted", "rounded", "hovered",
                             "fullwidth"))),
                           all_or_any = "all")
-  expect_tag_attrib(btn, "disabled", NA)
+  expect_tag_attrib(btn, c("disabled", "id"), c(NA, "myid"))
   expect_tag_children(btn, c("span", "span"), list(NULL, c("icon", make_class("small"))),
                       strict = TRUE)
   expect_tag_classed_type(btn2,

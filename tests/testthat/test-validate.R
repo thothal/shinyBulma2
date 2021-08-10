@@ -150,24 +150,29 @@ test_that("validate_bulma_unit gives same results as validate_bulma_{size|offset
 
 test_that("valid colors are properly translated", {
   expect_null(validate_bulma_color(NULL))
-  expect_equal(validate_bulma_color("primary", "text"), "has-text-primary")
-  expect_equal(validate_bulma_color("success", "text"), "has-text-success")
-  expect_equal(validate_bulma_color("warning", "background"), "has-background-warning")
-  expect_equal(validate_bulma_color("danger-light", "background"),
-               "has-background-danger-light")
+  expect_equal(validate_bulma_color(c("primary", "success"), "text"),
+               c("has-text-primary", "has-text-success"))
+  expect_equal(validate_bulma_color(c("warning", "danger-light"), "background"),
+               c("has-background-warning", "has-background-danger-light"))
+  expect_equal(validate_bulma_color(c("primary", "warning"), must_be_key = TRUE),
+               c("is-primary", "is-warning"))
   expect_equal(validate_bulma_color(c("black", "white")),
                c("has-text-black", "has-text-white"))
+  expect_equal(validate_bulma_color(c("link", "ghost", "text"), "button"),
+               c("is-link", "is-ghost", "is-text"))
 })
 
 test_that("improper colors are raising an error", {
   expect_error(validate_bulma_color(1), "color must be a character vector")
   expect_error(validate_bulma_color(list("black")), "color must be a character vector")
   expect_error(validate_bulma_color(NA), "color must not contain any 'NAs'")
-  expect_error(validate_bulma_color("orange"), "\".*\" is not a valid bulma color")
+  expect_error(validate_bulma_color("orange"), "\".*\" is not a valid bulma .* color")
   expect_error(validate_bulma_color(c("orange", "yellow")),
-               "\".*\" are not valid bulma colors")
+               "\".*\" are not valid bulma .* colors")
   expect_error(validate_bulma_color("primary-light", must_be_key = TRUE),
-               "\".*\" is not a valid bulma color \\(\".*\" is indeed a bulma color .*")
+               "\".*\" is not a valid bulma .* color \\(\".*\" is indeed a bulma color .*")
+  expect_error(validate_bulma_color("ghost", "text"),
+               "\".*\" is not a valid bulma .* color")
 })
 
 test_that("previously used theme will print a message", {
