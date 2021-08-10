@@ -58,13 +58,18 @@ add_class <- function(old, new) {
   if (is.null(new)) {
     old
   } else {
-    paste(old, paste(new, collapse = " "))
+    new <- paste(new, collapse = " ")
+    if (is.null(old)) {
+      new
+    } else {
+      paste(old, new)
+    }
   }
 }
 
 
 make_class <- function(..., prefix = NULL, collapse = TRUE) {
-  prefix <- match.arg(prefix, c("is", "has"), several.ok = TRUE)
+  prefix <- match.arg(prefix, c("is", "has", "are"), several.ok = TRUE)
   if (!length(c(...))) {
     return(NULL)
   }

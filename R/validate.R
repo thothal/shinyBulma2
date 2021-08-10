@@ -220,7 +220,8 @@ get_bulma_media_breakpoints <- function() {
 #' @param context \[`character(1)`: \sQuote{text}\]\cr
 #'        If \dQuote{text} the color must work as a text color via `has-text-{color}`. If
 #'        \dQuote{background} the color must work as a background color via
-#'        `has-background-{color}`.
+#'        `has-background-{color}`, if \dQuote{button} the color must work as button
+#'        (background) color via `is-{color}`.
 #' @param must_be_key \[`logical(1)`: \sQuote{FALSE}\]\cr
 #'        If \sQuote{TRUE}, the color to checked must be a key of the SASS `$colors` map.
 #'        These colors can be used by some elements directly via `is-{color}` instead of
@@ -243,9 +244,10 @@ get_bulma_media_breakpoints <- function() {
 #'
 #' @examples
 #' validate_bulma_color("black")
-#' validate_bulma_color("primary-light")
+#' validate_bulma_color("primary-light", "text")
 #' ## standard bulma config will be used
 #' validate_bulma_color("link")
+#' validate_bulma_color(c("primary", "ghost"), "button")
 #' if ("flatly" %in% get_bulma_themes()) {
 #'    ## flatly theme config will be used
 #'    bulma_page(theme = "flatly")
@@ -254,7 +256,7 @@ get_bulma_media_breakpoints <- function() {
 #'    bulma_page()
 #' }
 #' validate_bulma_color("success", "background")
-validate_bulma_color <- function(x, context = c("text", "background"),
+validate_bulma_color <- function(x, context = c("text", "background", "button"),
                                  must_be_key = FALSE) {
   if (is.null(x)) {
     return(x)
@@ -288,8 +290,8 @@ validate_bulma_color <- function(x, context = c("text", "background"),
     bad_cols <- paste(paste0("\"", x[NOK], "\""), collapse = ", ")
     not_key <- x[NOK] %in% orig$variable
     msg <- ngettext(sum(NOK),
-                    paste(bad_cols, "is not a valid bulma color"),
-                    paste(bad_cols, "are not valid bulma colors"))
+                    paste(bad_cols, "is not a valid bulma", context, "color"),
+                    paste(bad_cols, "are not valid bulma", context, "colors"))
     if (any(not_key)) {
       bad_cols <- paste(paste0("\"", x[NOK][not_key], "\""), collapse = ", ")
       msg <- ngettext(sum(not_key),
@@ -302,6 +304,10 @@ validate_bulma_color <- function(x, context = c("text", "background"),
          domain = NA)
   }
   lkp <- lkp[lkp$variable %in% x, ]
-  make_class(context, lkp$variable,
-    prefix = "has", collapse = FALSE)
+  if (must_be_key || context == "button") {
+    make_class(lkp$variable, collapse = FALSE)
+  } else {
+    make_class(context, lkp$variable,
+               prefix = "has", collapse = FALSE)
+  }
 }

@@ -2,10 +2,13 @@
 
 export(bulma_block)
 export(bulma_box)
+export(bulma_button)
+export(bulma_buttons)
 export(bulma_column)
 export(bulma_columns)
 export(bulma_config)
 export(bulma_content)
+export(bulma_delete)
 export(bulma_icon)
 export(bulma_image)
 export(bulma_page)
