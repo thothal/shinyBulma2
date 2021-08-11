@@ -4,7 +4,11 @@
 \alias{validate_bulma_color}
 \title{Validate Proper Bulma Color Definition}
 \usage{
-validate_bulma_color(x, context = c("text", "background"), must_be_key = FALSE)
+validate_bulma_color(
+  x,
+  context = c("text", "background", "button"),
+  must_be_key = FALSE
+)
 }
 \arguments{
 \item{x}{[\code{character(n)}]\cr
@@ -13,7 +17,8 @@ The color to validate.}
 \item{context}{[\code{character(1)}: \sQuote{text}]\cr
 If \dQuote{text} the color must work as a text color via \code{has-text-{color}}. If
 \dQuote{background} the color must work as a background color via
-\code{has-background-{color}}.}
+\code{has-background-{color}}, if \dQuote{button} the color must work as button
+(background) color via \code{is-{color}}.}
 
 \item{must_be_key}{[\code{logical(1)}: \sQuote{FALSE}]\cr
 If \sQuote{TRUE}, the color to checked must be a key of the SASS \verb{$colors} map.
@@ -43,9 +48,10 @@ future. Thus, we opted for this approach.
 
 \examples{
 validate_bulma_color("black")
-validate_bulma_color("primary-light")
+validate_bulma_color("primary-light", "text")
 ## standard bulma config will be used
 validate_bulma_color("link")
+validate_bulma_color(c("primary", "ghost"), "button")
 if ("flatly" \%in\% get_bulma_themes()) {
    ## flatly theme config will be used
    bulma_page(theme = "flatly")

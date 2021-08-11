@@ -5,7 +5,7 @@
 \alias{bulma_config}
 \title{Colors and Font Used in Bulma}
 \format{
-A data frame with 84 rows and 6
+A data frame with 85 rows and 6
 variables:
 \describe{
 \item{theme}{[\code{character(1)}], the name of the theme (here this equals always

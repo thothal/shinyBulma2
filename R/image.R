@@ -26,6 +26,8 @@
 #'        given ratio. If it does not, you can force it by setting `use_fullwidth` to
 #'        \sQuote{TRUE}.
 #'
+#' @seealso [Bulma Image](https://bulma.io/documentation/elements/image/)
+#'
 #' @return A bulma `figure` tag containing the given `<img>`.
 #' @export
 #'
