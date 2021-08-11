@@ -63,12 +63,27 @@ add_class <- function(old, new) {
 }
 
 
-make_class <- function(..., prefix = c("is", "has")) {
-  prefix <- match.arg(prefix)
+make_class <- function(..., prefix = NULL, collapse = TRUE) {
+  prefix <- match.arg(prefix, c("is", "has"), several.ok = TRUE)
+  if (!length(c(...))) {
+    return(NULL)
+  }
   args <- list(prefix, ..., sep = "-")
   classes <- do.call(paste, args)
   ## remove trailing dashes
   classes <- sub("-$", "", classes)
-  paste(classes,
-        collapse = " ")
+  if (collapse) {
+    paste(classes,
+          collapse = " ")
+  } else {
+    classes
+  }
+}
+
+`%||%` <- function(x, y) {
+  if (is.null(x) | length(x) == 0) {
+    y
+  } else {
+    x
+  }
 }

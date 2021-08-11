@@ -125,7 +125,11 @@ get_css_colors <- function(theme = NULL) {
           group = "color",
           variable = "ghost",
           value = NA_character_
-        )) %>%
+        ),
+        c(theme = if_else(is.null(theme), "bulma", theme),
+          group = "color",
+          variable = "text",
+          value = NA_character_)) %>%
       mutate(is_color_map_key = variable %in% color_map_keys) %>%
       arrange(group,
               desc(is_color_map_key),

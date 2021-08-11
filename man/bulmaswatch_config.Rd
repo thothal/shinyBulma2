@@ -5,7 +5,7 @@
 \alias{bulmaswatch_config}
 \title{Colors and Font Used in the Bulmaswatch Themes}
 \format{
-A data frame with 1770 rows and
+A data frame with 1791 rows and
 6 variables:
 \describe{
 \item{theme}{[\code{character(1)}], the name of the theme.}

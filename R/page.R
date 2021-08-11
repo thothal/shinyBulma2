@@ -64,7 +64,7 @@ bulma_lib <- function(theme = NULL) {
 #' }
 bulma_page <- function(..., title = NULL, theme = NULL, lang = NULL) {
   if (!(is.null(theme) || theme %in% get_bulma_themes())) {
-    msg <- sprintf("theme '%s' is not installed")
+    msg <- sprintf("theme '%s' is not installed", theme)
     stop(msg, domain = NA)
   }
   # store used in theme as a global, needed for determining the used colors for instance
