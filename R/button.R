@@ -288,8 +288,7 @@ bulma_button <- function(label = NULL,
                          state = NULL,
                          container = htmltools::tags$button,
                          ...) {
-  valid_sizes <- c("normal", "small", "medium", "large")
-  size_class <- if (!is.null(size)) make_class(match.arg(size, valid_sizes))
+  size_class <- validate_bulma_size(size, FALSE)
   valid_styles <- c("outlined", "inverted", "rounded")
   style_class <- if (!is.null(style)) make_class(match.arg(style, valid_styles, TRUE))
   valid_states <- c("hovered", "focused", "active", "selected", "loading", "static")
@@ -339,9 +338,7 @@ bulma_buttons <- function(...,
   alignment_class <- if (!is.null(alignment)) make_class(match.arg(alignment,
                                                                    valid_alignments))
   addons_class <- if (addons) make_class("addons", prefix = "has")
-  valid_sizes <- c("small", "medium", "large")
-  size_class <- if (!is.null(size)) make_class(match.arg(size, valid_sizes),
-                                               prefix = "are")
+  size_class <- validate_bulma_size(size, prefix = "are")
   container(..., class = add_class("buttons",
                                    c(alignment_class, addons_class, size_class)))
 
@@ -350,7 +347,6 @@ bulma_buttons <- function(...,
 #' @rdname bulma_button
 #' @export
 bulma_delete <- function(size = NULL) {
-  valid_sizes <- c("normal", "small", "medium", "large")
-  size_class <- if (!is.null(size)) make_class(match.arg(size, valid_sizes))
+  size_class <- validate_bulma_size(size)
   htmltools::tags$button(class = add_class("delete", size_class))
 }

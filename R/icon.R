@@ -8,7 +8,7 @@
 #'        want to skip some text, provide `NA`.
 #' @param color \[`character(1)`; \sQuote{NULL}\]\cr
 #'        A valid bulma color name.
-#' @param size \[`character(1)`; \sQuote{normal}\]\cr
+#' @param size \[`character(1)`; \sQuote{NULL}\]\cr
 #'        The size of the icon *container*. The size of the icon itself is controlled via
 #'        arguments passed to [shiny::icon] and depends on the icon library used.
 #' @param container \[`function`\]\cr
@@ -70,12 +70,12 @@
 #' }
 bulma_icon <- function(name, text = NULL,
                        color = NULL,
-                       size = c("normal", "small", "medium", "large"),
+                       size = NULL,
                        container = htmltools::span,
                        class = NULL, lib = "font-awesome", ...) {
   color <- validate_bulma_color(color)
   container <- match.fun(container)
-  size <- match.arg(size)
+  size <- validate_bulma_size(size)
   if (is.null(text)) {
     if (length(name) > 1) {
       stop("\"name\" must be length one, if no \"text\" is given",
@@ -85,7 +85,7 @@ bulma_icon <- function(name, text = NULL,
       class = "icon",
       shiny::icon(name, class, lib, ...)
     )
-    res <- htmltools::tagAppendAttributes(res, class = make_class(size))
+    res <- htmltools::tagAppendAttributes(res, class = size)
 
   } else {
     if (length(name) != length(text)) {
@@ -97,7 +97,7 @@ bulma_icon <- function(name, text = NULL,
         class = "icon",
         shiny::icon(nm, class, lib, ...)
       )
-      icon <- htmltools::tagAppendAttributes(icon, class = make_class(size))
+      icon <- htmltools::tagAppendAttributes(icon, class = size)
       text <- if (!is.na(txt)) htmltools::span(txt)
       htmltools::tagList(icon, text)
     }, name, text, USE.NAMES = FALSE)

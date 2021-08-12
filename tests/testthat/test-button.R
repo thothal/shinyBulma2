@@ -38,9 +38,9 @@ test_that("bulma_buttons is properly formatted", {
                "'arg' should be one of \"centered\", \"right\"")
 })
 
-test_that("bulma_delete is properl formatted", {
+test_that("bulma_delete is properly formatted", {
   btn <- bulma_delete("small")
   expect_tag_classed_type(btn, "button", c("delete", make_class("small")))
   expect_error(bulma_delete("middle"),
-               "'arg' should be one of .*")
+               "\"middle\" is not a valid bulma size")
 })

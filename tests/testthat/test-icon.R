@@ -12,7 +12,7 @@ test_that("bulma_icon is properly formatted", {
   expect_tag_classed_type(icon_with_text, "span",
                           c("icon-text", "has-text-primary"))
   expect_tag_children(icon_with_text, list("span", "span"),
-                      list("icon is-normal", NULL),
+                      list("icon", NULL),
                       partial = FALSE)
   expect_tag_children(icon_with_text$children[[1L]],
                       "i", "fa fa-cog")
@@ -20,7 +20,7 @@ test_that("bulma_icon is properly formatted", {
   expect_tag_classed_type(multiple_icons, "div", "icon-text")
   expect_tag_children(multiple_icons,
                       rep("span", 7),
-                      rep_len(list("icon is-normal", NULL), 7))
+                      rep_len(list("icon", NULL), 7))
 
   expect_error(bulma_icon(c("cog", "table")),
                "\"name\" must be length one, if no \"text\" is given")

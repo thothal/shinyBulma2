@@ -3,7 +3,7 @@
 #' @param ... \[`html tags` or `html attributes`\]\cr
 #'        Elements to include within the column.
 #' @param width \[`character(n)` or `integer(n)`: \sQuote{NULL}\]\cr
-#'        The width to be used (see [validate_bulma_size] for valid values).
+#'        The width to be used (see [validate_bulma_column_size] for valid values).
 #'        If `NULL`, all available space is used. If several columns use `NULL`, the
 #'        space is distributed among those columns.
 #' @param offset \[`character(n)` or `integer(n)`: \sQuote{NULL}\]\cr
@@ -23,7 +23,7 @@
 #'        `desktop` you can either show columns earlier or later. Other media breakpoints
 #'        are ignored and will raise a warning.
 #'
-#' @seealso [validate_bulma_size],[validate_bulma_offset],
+#' @seealso [validate_bulma_column_size],[validate_bulma_offset],
 #'          [get_bulma_media_breakpoints],
 #'          [Bulma Columns](https://bulma.io/documentation/columns/basics/)
 #'
@@ -200,7 +200,7 @@ bulma_columns <- function(..., center = c("none", "horizontal", "vertical", "bot
 #' @rdname bulma_columns
 #' @export
 bulma_column <- function(..., width = NULL, offset = NULL) {
-  width <- validate_bulma_size(width)
+  width <- validate_bulma_column_size(width)
   offset <- validate_bulma_offset(offset)
   column_classes <- trimws(paste("column", width, offset))
   htmltools::tags$div(class = column_classes, ...)

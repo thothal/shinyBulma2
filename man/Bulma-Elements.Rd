@@ -11,13 +11,13 @@ bulma_block(...)
 
 bulma_box(...)
 
-bulma_content(..., size = c("normal", "small", "medium", "large"))
+bulma_content(..., size = NULL)
 }
 \arguments{
 \item{...}{[\verb{html tags} or \verb{html attributes}]\cr
 Elements to include within the container.}
 
-\item{size}{[\code{character(1)}: \sQuote{normal}]\cr
+\item{size}{[\code{character(1)}: \sQuote{NULL}]\cr
 Text size for the \code{content} container.}
 }
 \value{

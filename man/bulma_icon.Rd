@@ -8,7 +8,7 @@ bulma_icon(
   name,
   text = NULL,
   color = NULL,
-  size = c("normal", "small", "medium", "large"),
+  size = NULL,
   container = htmltools::span,
   class = NULL,
   lib = "font-awesome",
@@ -27,7 +27,7 @@ want to skip some text, provide \code{NA}.}
 \item{color}{[\code{character(1)}; \sQuote{NULL}]\cr
 A valid bulma color name.}
 
-\item{size}{[\code{character(1)}; \sQuote{normal}]\cr
+\item{size}{[\code{character(1)}; \sQuote{NULL}]\cr
 The size of the icon \emph{container}. The size of the icon itself is controlled via
 arguments passed to \link[shiny:icon]{shiny::icon} and depends on the icon library used.}
 

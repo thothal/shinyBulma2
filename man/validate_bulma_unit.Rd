@@ -2,7 +2,7 @@
 % Please edit documentation in R/validate.R
 \name{validate_bulma_unit}
 \alias{validate_bulma_unit}
-\alias{validate_bulma_size}
+\alias{validate_bulma_column_size}
 \alias{validate_bulma_offset}
 \alias{validate_bulma_gap}
 \alias{get_bulma_media_breakpoints}
@@ -10,7 +10,7 @@
 \usage{
 validate_bulma_unit(x, type = c("size", "offset", "gap"))
 
-validate_bulma_size(x)
+validate_bulma_column_size(x)
 
 validate_bulma_offset(x)
 
@@ -26,8 +26,8 @@ The sizes, offsets or gaps to validate.}
 The type of unit we want to validate. Must be one of \code{size}, \code{offset} or \code{gap}.}
 }
 \value{
-The proper bulma size, offset or gap classes, if possible. Otherwise an error
-is raised.
+The proper bulma column size, offset or gap classes, if possible.
+Otherwise an error is raised.
 \code{get_bulma_media_breakpoints} returns a character vector with all valid breakpoints.
 }
 \description{
@@ -35,7 +35,7 @@ is raised.
 width, offset or gap specifier, respectively.
 }
 \details{
-\verb{validate_bulma_\{size|offset|gap\}} are convenience wrappers which set \code{type} to the
+\verb{validate_bulma_\{column_size|offset|gap\}} are convenience wrappers which set \code{type} to the
 respective value.
 
 \code{get_bulma_media_breakpoints} returns all valid media breakpoints.
@@ -58,11 +58,11 @@ duplicated media breakpoints are detected, or if we provide multiple values with
 media breakpoints.
 }
 \examples{
-validate_bulma_size(1)
-validate_bulma_size("one-third")
-validate_bulma_size("1/1")
-validate_bulma_size("narrow-tablet")
-validate_bulma_size(c("1-touch", "2-desktop", "3-fullhd"))
+validate_bulma_column_size(1)
+validate_bulma_column_size("one-third")
+validate_bulma_column_size("1/1")
+validate_bulma_column_size("narrow-tablet")
+validate_bulma_column_size(c("1-touch", "2-desktop", "3-fullhd"))
 
 validate_bulma_offset(6)
 validate_bulma_offset("two-thirds")
@@ -78,13 +78,13 @@ get_bulma_media_breakpoints()
 
 \dontrun{
 ## these will each raise an error
-validate_bulma_size(13)
-validate_bulma_size(11.3)
-validate_bulma_size("one-sixth")
-validate_bulma_size("one.third")
-validate_bulma_size("1-touchscreen")
-validate_bulma_size(c("1-fullhd", "2"))
-validate_bulma_size(c("1-fullhds", "2-fullhds"))
+validate_bulma_column_size(13)
+validate_bulma_column_size(11.3)
+validate_bulma_column_size("one-sixth")
+validate_bulma_column_size("one.third")
+validate_bulma_column_size("1-touchscreen")
+validate_bulma_column_size(c("1-fullhd", "2"))
+validate_bulma_column_size(c("1-fullhds", "2-fullhds"))
 
 validate_bulma_offset("narrow")
 validate_bulma_offset("full")
@@ -95,7 +95,7 @@ validate_bulma_gap(9)
 validate_bulma_gap("one-third")
 
 ## these will raise warnings
-validate_bulma_size(1:3)
+validate_bulma_column_size(1:3)
 validate_bulma_offset(c("1-fullhd", "2-fullhd"))
 }
 }

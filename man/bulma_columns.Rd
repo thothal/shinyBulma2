@@ -38,7 +38,7 @@ on tablets onwards and stacked at lower widths. By specifying either \code{mobil
 are ignored and will raise a warning.}
 
 \item{width}{[\code{character(n)} or \code{integer(n)}: \sQuote{NULL}]\cr
-The width to be used (see \link{validate_bulma_size} for valid values).
+The width to be used (see \link{validate_bulma_column_size} for valid values).
 If \code{NULL}, all available space is used. If several columns use \code{NULL}, the
 space is distributed among those columns.}
 
@@ -191,7 +191,7 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
 }
 }
 \seealso{
-\link{validate_bulma_size},\link{validate_bulma_offset},
+\link{validate_bulma_column_size},\link{validate_bulma_offset},
 \link{get_bulma_media_breakpoints},
 \href{https://bulma.io/documentation/columns/basics/}{Bulma Columns}
 }

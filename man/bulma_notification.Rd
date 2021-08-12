@@ -53,7 +53,6 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
    )
 
    server <- function(input, output) {
-
    }
 
    shinyApp(ui, server)

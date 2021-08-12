@@ -4,7 +4,7 @@
 #'
 #' @param ... \[`html tags` or `html attributes`\]\cr
 #'        Elements to include within the container.
-#' @param size \[`character(1)`: \sQuote{normal}]\cr
+#' @param size \[`character(1)`: \sQuote{NULL}]\cr
 #'        Text size for the `content` container.
 #'
 #' @name Bulma-Elements
@@ -79,7 +79,7 @@ bulma_box <- function(...) {
 #' @rdname Bulma-Elements
 #' @export
 bulma_content <- function(...,
-                          size = c("normal", "small", "medium", "large")) {
-  size <- make_class(match.arg(size))
+                          size = NULL) {
+  size <- validate_bulma_size(size)
   htmltools::div(..., class = add_class("content", size))
 }
