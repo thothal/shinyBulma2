@@ -92,3 +92,49 @@ make_class <- function(..., prefix = NULL, collapse = TRUE) {
     x
   }
 }
+
+parse_attributes <- function(node) {
+  attribs <- as.list(xml2::xml_attrs(node))
+  ## XML does not support attributes without a value
+  ## thus properties wihtut a value receive the name of the attribute as value
+  ## test for this and replace by NA (whihc is the syntax htmltools uses)
+  attribs[names(attribs) == attribs] <- NA
+  attribs
+}
+
+parse_node <- function(node) {
+  tag_name <- xml2::xml_name(node)
+  if (tag_name == "text") {
+    value <- trimws(xml2::xml_text(node))
+    if (nchar(value) > 0) {
+      value
+    } else {
+      NULL
+    }
+  } else if (tag_name != "comment") {
+    attr <- parse_attributes(node)
+    children <- lapply(xml2::xml_contents(node), parse_node)
+    children <- Filter(Negate(is.null), children)
+    args <- c(attr, children)
+    if (tag_name %in% names(htmltools::tags)) {
+      fn <- htmltools::tags[[tag_name]]
+    } else {
+      warning("unknown HTML tag <", tag_name, ">",
+              domain = NA)
+      fn <- htmltools::tag
+      args <- list(`_tag_name` = tag_name, varArgs = args)
+    }
+    do.call(fn, args)
+  }
+}
+
+html_to_tags <- function(html_string) {
+  ## this function is inspired by https://github.com/alandipert/html2r/blob/master/app.R
+  xml <- xml2::read_html(as.character(htmltools::div(id = "parse_me",
+                                                     htmltools::HTML(html_string))))
+  elements <- xml2::xml_find_all(xml, "//div[@id='parse_me']/*")
+  wrap <- if (length(elements) > 1) htmltools::tagList else identity
+  do.call(wrap,
+         lapply(elements, parse_node))
+
+}

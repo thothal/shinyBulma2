@@ -17,11 +17,13 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: 
     htmltools,
-    shiny
+    shiny,
+    xtable
 Suggests: 
     httr,
     testthat (>= 3.0.0),
-    rlang
+    rlang,
+    xml2
 Depends: 
     R (>= 2.10)
 Config/testthat/edition: 3
