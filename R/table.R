@@ -41,6 +41,8 @@
 #' the translation of `data.frame` to HTML is done by a well tested function and we do
 #' not have to reinvent the wheel.
 #'
+#' @seealso [Bulma Table](https://bulma.io/documentation/elements/table/)
+#'
 #' @return A bulma table.
 #' @export
 #'

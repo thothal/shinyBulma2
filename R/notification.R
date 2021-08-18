@@ -7,6 +7,8 @@
 #' @param light \[`logical(1)`: \sQuote{FALSE}\]\cr
 #'        If \sQuote{TRUE} the `is-light` modifier is used, resulting in a lighter color.
 #'
+#' @seealso [Bulma Notification](https://bulma.io/documentation/elements/notification/)
+#'
 #' @return A bulma `notification` element.
 #' @export
 #'
