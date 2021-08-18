@@ -116,7 +116,7 @@ bulma_table <- function(data, stripes = FALSE, hover = FALSE, border = FALSE,
   dots <- list(...)
   data <- as.data.frame(data)
   if (convert_to_tags && !requireNamespace("xml2", quietly = TRUE)) {
-    warning("'convert_to_tags = TRUE` requires package `xml2` to be installed",
+    warning("`convert_to_tags = TRUE` requires package `xml2` to be installed",
             domain = NA)
     convert_to_tags <- FALSE
   }
@@ -162,7 +162,7 @@ bulma_table <- function(data, stripes = FALSE, hover = FALSE, border = FALSE,
         cols <- paste0(rep(align, ncol(data) + 1), collapse = "")
       }
       else {
-        stop("`align` must contain only the characters `l`, `c`, `r` and/or `?` and",
+        stop("`align` must contain only the characters `l`, `c`, `r` and/or `?` and ",
              "have length either equal to 1 or to the total number of columns")
       }
     }
@@ -189,7 +189,8 @@ bulma_table <- function(data, stripes = FALSE, hover = FALSE, border = FALSE,
     print_args <- c(print_args, non_xtable_args)
     if (!escape) {
       if (!is.null(print_args$sanitize.text.function)) {
-        warning("setting `escape = FALSE` will overwrite argument `snitize.text.function",
+        warning("setting `escape = FALSE` will overwrite argument ",
+                "`sanitize.text.function`",
                 domain = NA)
       }
       print_args$sanitize.text.function <- identity
@@ -198,7 +199,7 @@ bulma_table <- function(data, stripes = FALSE, hover = FALSE, border = FALSE,
     tab <- utils::capture.output(do.call(print, print_args))
     if (!is.null(selected_row)) {
       if (selected_row < !col_names | selected_row > nrow(data)) {
-        warning("'selected_row' must be between ", 1 - col_names, " and nrow(data)")
+        warning("`selected_row` must be between ", 1 - col_names, " and `nrow(data)`")
       } else {
         tab[selected_row + 2 - !col_names] <- sub("<tr", "<tr class = 'is-selected'",
                                                   tab[selected_row + 2 - !col_names])
@@ -207,11 +208,13 @@ bulma_table <- function(data, stripes = FALSE, hover = FALSE, border = FALSE,
     tab <- paste(tab, collapse = "\n")
     tab <- gsub("align=\"([^\"]+)\"", "class = 'has-text-\\1'", tab)
     tab <- gsub("has-text-center", "has-text-centered", tab, fixed = TRUE)
-    tab <- gsub(paste(">", na, "<"), paste(" class='",
-                                           make_class("text-grey", prefix = "has"),
-                                           make_class("italic"),
-                                           "'>",
-                                           na, "<"), tab)
+    tab <- gsub(paste(">", na, "<"),
+                paste0(" class='",
+                       make_class("text-grey", prefix = "has"),
+                       " ",
+                       make_class("italic"),
+                       "'>",
+                       na, "<"), tab)
     tab <- gsub("class\\s*=\\s*(['\"])(.*)\\1\\s+class\\s*=\\s*(['\"])(.*)\\3",
                 "class = '\\2 \\4'", tab)
     if (col_names) {
