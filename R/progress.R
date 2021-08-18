@@ -22,21 +22,21 @@
 #'    perc <- 10 * seq_along(cols)
 #'    ui <- bulma_page(
 #'      bulma_block(
-#'        h1("Basic Progressbar", class = "title"),
+#'        bulma_title("Basic Progressbar"),
 #'        bulma_progressbar(15)
 #'      ),
 #'      bulma_block(
-#'        h1("Colored Progressbars", class = "title"),
+#'        bulma_title("Colored Progressbars"),
 #'        Map(function(val, col) bulma_progressbar(val, color = col),
 #'            perc[-c(5, 10)], cols[-c(5, 10)])
 #'      ),
 #'      bulma_block(
-#'        h1("Different Sizes", class = "title"),
+#'        bulma_title("Different Sizes"),
 #'        Map(function(val, size) bulma_progressbar(val, size = size),
 #'            15 * 1:4, c("small", "normal", "medium", "large"))
 #'      ),
 #'      bulma_block(
-#'        h1("Indeterminate Progressbar", class = "title"),
+#'        bulma_title("Indeterminate Progressbar"),
 #'        Map(function(col) bulma_progressbar(color = col), cols)
 #'      )
 #'    )

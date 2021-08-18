@@ -51,30 +51,30 @@
 #'
 #'    ui <- bulma_page(
 #'      bulma_block(
-#'        h1("Basic Table", class = "title"),
+#'        bulma_title("Basic Table"),
 #'        bulma_table(cars)
 #'      ),
 #'      bulma_block(
-#'        h1("Highlight a Row", class = "title"),
+#'        bulma_title("Highlight a Row"),
 #'        bulma_table(cars, selected_row = 3)
 #'      ),
 #'      bulma_block(
-#'        h1("Include Rownames", class = "title"),
+#'        bulma_title("Include Rownames"),
 #'        bulma_table(cars, row_names = TRUE)
 #'      ),
 #'      bulma_block(
-#'        h1("Several Style Flags", class = "title"),
+#'        bulma_title("Several Style Flags"),
 #'        bulma_table(cars, stripes = TRUE, hover = TRUE, border = TRUE, narrow = TRUE,
 #'                    fullwidth = TRUE)
 #'      ),
 #'      bulma_block(
-#'        h1("Format & Align Columns and NAs", class = "title"),
+#'        bulma_title("Format & Align Columns and NAs"),
 #'        bulma_table(cars, align = paste(rep(c("c", "r", "l"), c(4, 4, 3)),
 #'                                        collapse = ""),
 #'                    na = "Missing", digits = -1)
 #'      ),
 #'      bulma_block(
-#'        h1("Add Custom HTML", class = "title"),
+#'        bulma_title("Add Custom HTML"),
 #'        bulma_table(data.frame(`<abbr title = "Played">P</abbr>` = rep(3, 3),
 #'                               `<abbr title = "Lost">L</abbr>` = 1:3,
 #'                               `<abbr title = "Draw">D</abbr>` = c(1, 0, 0),
@@ -84,12 +84,12 @@
 #'                    escape = FALSE)
 #'      ),
 #'      bulma_block(
-#'        h1("Scrollable Table", class = "title"),
+#'        bulma_title("Scrollable Table"),
 #'        bulma_table(matrix(rnorm(1000), 10),
 #'                    scrollable = TRUE)
 #'      ),
 #'      bulma_block(
-#'        h1("Pass Arguments to `print.xtable`", class = "title"),
+#'        bulma_title("Pass Arguments to `print.xtable`"),
 #'        bulma_table(cars,
 #'                    html.table.attributes =
 #'                      "style = 'background-color: steelblue; color:white'")

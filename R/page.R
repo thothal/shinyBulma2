@@ -53,7 +53,7 @@ bulma_lib <- function(theme = NULL) {
 #' ui <- bulma_page(
 #'         tags$section(class = "section",
 #'                      div(class = "container",
-#'                          tags$h1(class = "title", "Hello World!"),
+#'                          bulma_title("Hello World!"),
 #'                          tags$p(class = "subtitle", "My first website with",
 #'                                 tags$strong("Bulma", .noWS = "after"), "!")))
 #'       )

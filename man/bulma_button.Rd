@@ -100,11 +100,11 @@ Create a bulma Button
 if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
    ui <- bulma_page(
      bulma_block(
-       h1("Simple Button", class = "title"),
+       bulma_title("Simple Button"),
        bulma_button("Button")
      ),
      bulma_block(
-       h1("Different Containers", class = "title"),
+       bulma_title("Different Containers"),
        bulma_button("Anchor", container = a),
        bulma_button(container = function(...) tags$input(..., type = "submit",
                                                          value = "Submit Input")),
@@ -112,7 +112,7 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
                                                          value = "Reset Input"))
      ),
      bulma_block(
-       h1("Different Colors", class = "title"),
+       bulma_title("Different Colors"),
        bulma_button("White", color = "white"),
        bulma_button("Light", color = "light"),
        bulma_button("Dark", color = "dark"),
@@ -121,7 +121,7 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
        bulma_button("Ghost", color = "ghost")
      ),
      bulma_block(
-       h1("Button Groups", class = "title"),
+       bulma_title("Button Groups"),
        bulma_buttons(
          bulma_button("Primary", color = "primary"),
          bulma_button("Link", color = "link")
@@ -134,7 +134,7 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
        )
      ),
      bulma_block(
-       h1("Light Colors", class = "title"),
+       bulma_title("Light Colors"),
        bulma_buttons(
          bulma_button("Primary", color = "primary", light = TRUE),
          bulma_button("Link", color = "link", light = TRUE)
@@ -147,7 +147,7 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
        )
      ),
      bulma_block(
-       h1("Different Sizes", class = "title"),
+       bulma_title("Different Sizes"),
        bulma_button("Small", size = "small"),
        bulma_button("Normal [Default]", size = "normal"),
        bulma_button("Medium", size = "medium"),
@@ -168,14 +168,14 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
        )
      ),
      bulma_block(
-       h1("Fullwidth", class = "title"),
+       bulma_title("Fullwidth"),
        bulma_button("Small", size = "small", full_width = TRUE),
        bulma_button("Normal", full_width = TRUE),
        bulma_button("Medium", size = "medium", full_width = TRUE),
        bulma_button("Large", size = "large", full_width = TRUE)
      ),
      bulma_block(
-       h1("Different Styles", class = "title"),
+       bulma_title("Different Styles"),
        h2("Outlined", class = "subtitle"),
        bulma_button("Outlined", style = "outlined"),
        bulma_button("Outlined", color = "primary", style = "outlined"),
@@ -206,7 +206,7 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
        bulma_button("Rounded", color = "success", style = "rounded")
      ),
      bulma_block(
-       h1("Different States", class = "title"),
+       bulma_title("Different States"),
        bulma_button("Hovered", state = "hovered"),
        bulma_button("Focused", color = "primary", state = "focused"),
        bulma_button("Active", color = "link", state = "active"),
@@ -216,7 +216,7 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
        bulma_button("Disabled", color = "success", disabled = TRUE)
      ),
      bulma_block(
-       h1("Icons", class = "title"),
+       bulma_title("Icons"),
        bulma_buttons(
          bulma_button(icon = "bold", icon_class = "fas"),
          bulma_button(icon = "italic", icon_class = "fas"),
@@ -269,7 +269,7 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
        )
      ),
      bulma_block(
-       h1("List of buttons", class = "title"),
+       bulma_title("List of buttons"),
        bulma_buttons(
          bulma_button("Yes"),
          bulma_button("Maybe"),
@@ -310,7 +310,7 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
        )
      ),
      bulma_block(
-       h1("Delete Button", class = "title"),
+       bulma_title("Delete Button"),
        bulma_delete(size = "small"),
        bulma_delete(),
        bulma_delete(size = "medium"),

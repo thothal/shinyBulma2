@@ -39,15 +39,15 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
 
    ui <- bulma_page(
      bulma_block(
-       h1("Basic Notification", class = "title"),
+       bulma_title("Basic Notification"),
        bulma_notification(text)
      ),
      bulma_block(
-       h1("Colored Notification", class = "title"),
+       bulma_title("Colored Notification"),
        lapply(cols, function(col) bulma_notification(text, color = col))
      ),
      bulma_block(
-       h1("Light Colored Notification", class = "title"),
+       bulma_title("Light Colored Notification"),
        lapply(cols, function(col) bulma_notification(text, color = col, light = TRUE))
      )
    )
