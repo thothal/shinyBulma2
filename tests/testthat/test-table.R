@@ -79,18 +79,19 @@ test_that("bulma_table is properly formatted", {
                            NULL,
                            make_class("text-right", prefix = "has")))
 
-  tab <- bulma_table(tmp, align = "crl", scrollable = TRUE,
+  tab <- bulma_table(tmp, align = "cr?", scrollable = TRUE,
                      convert_to_tags = TRUE)
   expect_tag_classed_type(tab, "div" ,"table-container")
   expect_tag_children(tab$children[[1]]$children[[2]]$children[[1]],
                       rep("td", 3),
-                      c(as.list(make_class(c("text-centered", "text-right"),
-                                           prefix = "has", collapse = FALSE)),
-                        list(NULL)))
+                      make_class(c("text-centered", "text-right", "text-right"),
+                                           prefix = "has", collapse = FALSE)
+  )
 
   tmp <- list(1, 2, "text")
-  tab <- bulma_table(tmp, col_names = FALSE,
-                     convert_to_tags = TRUE)
-  expect_tag_children_length(tab, 1L)
+  tab <- bulma_table(tmp, include.colnames = FALSE, include.rownames = FALSE,
+                     html.table.attributes = "style = 'background-color:steelblue'",
+                     align = "c", convert_to_tags = TRUE)
+  expect_tag_children_length(tab, 2L)
 })
 

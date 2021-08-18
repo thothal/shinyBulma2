@@ -203,4 +203,8 @@ test_that("improper sizes are raising an error", {
                "(\".*\",? ?)* are not valid bulma sizes")
   expect_error(validate_bulma_size("large", prefix = "has"),
                "invalid prefix - must be either \"is\", \"are\" or NULL")
+  expect_error(validate_bulma_size(NA),
+               "size must not contain any 'NAs'")
+  expect_error(validate_bulma_size(1),
+               "size must be a character vector")
 })

@@ -4,4 +4,6 @@ test_that("bulma_progressbar is properly formatted", {
                                              make_class(c("primary", "large"))))
   expect_tag_attrib(pgb, c("max", "value"), c(100, 20))
   expect_tag_children(pgb, "text_node")
+  pgb <- bulma_progressbar(NULL)
+  expect_tag_attrib(pgb, "max", 100)
 })
