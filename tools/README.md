@@ -13,7 +13,7 @@ using the flag `--dev` in the `yarn add` call.
 * The standard behavior is to use [Caret Ranges (e.g. `^3.1.4`)](https://classic.yarnpkg.com/en/docs/dependency-versions/#toc-caret-ranges).
 * That means that newer versions of a dependencies are considered (and consequently 
 re-installed if asked to) that do not alter the first non zero digit.
-* We do **not** tsore the dependencies on GitHub. The very idea of yarn is that with the
+* We do **not** store the dependencies on GitHub. The very idea of yarn is that with the
 corresponding `package.json` one should get the same results on any system.
 
 ## [`grunt`](https://gruntjs.com/)
@@ -51,6 +51,36 @@ as issuing `yarn install`.^[NB. Need to fully understand when `yarn` draws a new
 should be needed.
 * Hence, we always have to ensure that `grunt watch` is up and running (which should be 
 the case thanks to the `.Rprofile` hook)
+
+## Getting Started
+
+In order to have all necessary files in place to start working on this repo you have to:
+
+1. Clone this git repo:
+   ```
+   git clone https://github.com/thothal/shinyBulma2
+   ```
+   (or use Rstudio File > New project... > Version Control)
+1. Make sure [Node.js and npm are installed](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+1. Make sure that [yarn](https://classic.yarnpkg.com/en/docs/install/#windows-stable) and 
+[grunt-cli](https://gruntjs.com/getting-started) are installed. If not you can install 
+them via:
+   ```
+   npm install --global grunt-cli yarn
+   ```
+1. Test that your environment is working. In a console type:
+   ```
+   Node -v
+   grunt -V
+   yarn -v
+   ```
+   All commands should print the version.
+1. Switch to `tools/` sub directory on any terminal and type
+   ```
+   yarn install
+   ```
+   to install development and production packages.
+1. Start coding.
 
 ## Inspiring repos for using build tool chains
 
