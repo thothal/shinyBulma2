@@ -2,6 +2,7 @@ get_package_name <- function() {
   environmentName(parent.env(environment()))
 }
 
+# nocov start
 get_download_links_gh <- function(owner, repo,
                                   path,
                                   recursive = TRUE,
@@ -49,12 +50,21 @@ get_download_links_gh <- function(owner, repo,
   }
   download_fun(path, 1L)
 }
+# nocov end
 
 is_integer <- function(x) {
-  is.numeric(x) & x %% 1L == 0L
+  is.numeric(x) && all(x %% 1L == 0L)
 }
 
 add_class <- function(old, new) {
+  if (length(old) > 1 || isTRUE(is.na(old))) {
+    stop("`old` must be either 'NULL' or a character of length one",
+         domain = NA)
+  }
+  if (any(is.na(new))) {
+    stop("`new` must not contain NAs",
+         domain = NA)
+  }
   if (is.null(new)) {
     old
   } else {
@@ -96,7 +106,7 @@ make_class <- function(..., prefix = NULL, collapse = TRUE) {
 parse_attributes <- function(node) {
   attribs <- as.list(xml2::xml_attrs(node))
   ## XML does not support attributes without a value
-  ## thus properties wihtut a value receive the name of the attribute as value
+  ## thus properties without a value receive the name of the attribute as value
   ## test for this and replace by NA (whihc is the syntax htmltools uses)
   attribs[names(attribs) == attribs] <- NA
   attribs

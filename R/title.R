@@ -87,7 +87,8 @@ bulma_heading <- function(...,
                           maintain_space = FALSE) {
   type <- match.arg(type)
   tag <- match.fun(tag)
-  if (!is.null(size) && !(is_integer(size) && size >= 1 && size <= 6)) {
+  if (!is.null(size) && !(is_integer(size) && size >= 1 && size <= 6) ||
+      length(size) > 1) {
     stop("size must be an integer between 1 and 6",
          domain = NA)
   } else {
