@@ -16,7 +16,8 @@ test_that("bulma_image is properly formatted", {
             "http://placehold.it/32x32", "http://placehold.it/48x48",
             "http://placehold.it/64x64", "http://placehold.it/96x96",
             "http://placehold.it/128x128"),
-    is_fixed = rep(c(FALSE, TRUE), c(16, 7)))
+    is_fixed = rep(c(FALSE, TRUE), c(16, 7)),
+    stringsAsFactors = FALSE)
   Map(function(cls, src, is_fixed) {
     if (is_fixed) {
       el <- bulma_image(src, fixed = cls, rounded = TRUE)
