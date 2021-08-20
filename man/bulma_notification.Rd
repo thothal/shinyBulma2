@@ -58,3 +58,6 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
    shinyApp(ui, server)
 }
 }
+\seealso{
+\href{https://bulma.io/documentation/elements/notification/}{Bulma Notification}
+}
