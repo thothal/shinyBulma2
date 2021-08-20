@@ -322,8 +322,11 @@ validate_bulma_color <- function(x, context = c("text", "background", "button"),
 #' @param prefix \[`character(1)`: \sQuote{NULL}\]\cr
 #'        The prefix used for the size class, should be \sQuote{is} (or equivalently
 #'        \sQuote{NULL}) or \sQuote{are}.
+#' @param disallow \[`character(n)`: \sQuote{NULL}\]\cr
+#'        Disallow certain classes in the validation. This is needed in case an element
+#'        does not support all of the standard bulma sizes (e.g. `<tags>`).
 #'
-#' @details This function simply compares its arguents with the list of valid bulma
+#' @details This function simply compares its arguments with the list of valid bulma
 #' sizes and returns the proper class or throws an error if an invalid size is passed.
 #' Valid sizes are:
 #' * `small`
@@ -342,7 +345,8 @@ validate_bulma_color <- function(x, context = c("text", "background", "button"),
 #' ## this will raise an error
 #' validate_bulma_size("xlarge")
 #' }
-validate_bulma_size <- function(x, normal_to_null = TRUE, prefix = NULL) {
+validate_bulma_size <- function(x, normal_to_null = TRUE, prefix = NULL,
+                                disallow = NULL) {
   if (is.null(x)) {
     return(x)
   }
@@ -359,6 +363,13 @@ validate_bulma_size <- function(x, normal_to_null = TRUE, prefix = NULL) {
          domain = NA)
   }
   valid_sizes <- c("small", "normal", "medium", "large")
+  if (!is.null(disallow)) {
+    if (!disallow %in% valid_sizes) {
+      warning(paste0("'", disallow , "' is not a valid size and removing it is a no-op"),
+                     domain = NA)
+    }
+    valid_sizes <- setdiff(valid_sizes, disallow)
+  }
   NOK <- !x %in% valid_sizes
   if (any(NOK)) {
     bad_sizes <- paste(paste0("\"", x[NOK], "\""), collapse = ", ")
