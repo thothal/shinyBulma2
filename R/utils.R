@@ -1,8 +1,8 @@
+# nocov start
 get_package_name <- function() {
   environmentName(parent.env(environment()))
 }
 
-# nocov start
 get_download_links_gh <- function(owner, repo,
                                   path,
                                   recursive = TRUE,
