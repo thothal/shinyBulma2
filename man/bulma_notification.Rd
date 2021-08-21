@@ -4,7 +4,7 @@
 \alias{bulma_notification}
 \title{Create a bulma Notification}
 \usage{
-bulma_notification(..., color = NULL, light = FALSE)
+bulma_notification(..., color = NULL, light = FALSE, add_delete = TRUE)
 }
 \arguments{
 \item{...}{[\verb{html tags} or \verb{html attributes}]\cr
@@ -15,6 +15,9 @@ A valid bulma color name.}
 
 \item{light}{[\code{logical(1)}: \sQuote{FALSE}]\cr
 If \sQuote{TRUE} the \code{is-light} modifier is used, resulting in a lighter color.}
+
+\item{add_delete}{[\code{logical(1)}: \sQuote{TRUE}]\cr
+If \sQuote{TRUE} a delete button is added to the notification.}
 }
 \value{
 A bulma \code{notification} element.
