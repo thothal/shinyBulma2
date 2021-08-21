@@ -8,11 +8,11 @@ bulma_lib <- function(theme = NULL) {
     fn <- system.file("lib", "bulma", "bulma.min.css",
                       package = get_package_name(),
                       mustWork = TRUE)
-  } else {
+  } else { # nocov start
     fn <- system.file("lib", "bulmaswatch", paste0(theme, ".min.css"),
                       package = get_package_name(),
                       mustWork = TRUE)
-  }
+  } # nocov end
   version <- extract_version(fn)
   shiny::addResourcePath("fonts",
                          system.file("fonts",
@@ -53,7 +53,7 @@ bulma_lib <- function(theme = NULL) {
 #' ui <- bulma_page(
 #'         tags$section(class = "section",
 #'                      div(class = "container",
-#'                          tags$h1(class = "title", "Hello World!"),
+#'                          bulma_title("Hello World!"),
 #'                          tags$p(class = "subtitle", "My first website with",
 #'                                 tags$strong("Bulma", .noWS = "after"), "!")))
 #'       )

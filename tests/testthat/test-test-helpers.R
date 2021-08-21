@@ -113,6 +113,8 @@ test_that("type and class of children expectation works as intended", {
     1.4
   )
 
+  empty <- htmltools::p(character(0), list())
+
   expect_success(expect_tag_children(grp, list("h1", "h1")))
   expect_success(expect_tag_children(grp, class = list("c1", "c1")))
   expect_success(expect_tag_children(grp, list("h1", NULL, "h4", "h2"),
@@ -136,6 +138,9 @@ test_that("type and class of children expectation works as intended", {
   expect_success(expect_tag_children(text_node,
                                      list("h1", NULL, NULL, NULL),
                                      partial = FALSE))
+
+  expect_success(expect_tag_children(empty,
+                                     list(NULL)))
 
   expect_failure(expect_tag_children(list(), "h1"),
                  ".* is not a tag object")

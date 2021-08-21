@@ -3,7 +3,7 @@
 #' `validate_bulma_unit` checks that the argument is a valid column
 #' width, offset or gap specifier, respectively.
 #'
-#' `validate_bulma_{size|offset|gap}` are convenience wrappers which set `type` to the
+#' `validate_bulma_{column_size|offset|gap}` are convenience wrappers which set `type` to the
 #' respective value.
 #'
 #' `get_bulma_media_breakpoints` returns all valid media breakpoints.
@@ -31,17 +31,17 @@
 #' duplicated media breakpoints are detected, or if we provide multiple values without
 #' media breakpoints.
 #'
-#' @return The proper bulma size, offset or gap classes, if possible. Otherwise an error
-#' is raised.
+#' @return The proper bulma column size, offset or gap classes, if possible.
+#' Otherwise an error is raised.
 #' `get_bulma_media_breakpoints` returns a character vector with all valid breakpoints.
 #' @export
 #'
 #' @examples
-#' validate_bulma_size(1)
-#' validate_bulma_size("one-third")
-#' validate_bulma_size("1/1")
-#' validate_bulma_size("narrow-tablet")
-#' validate_bulma_size(c("1-touch", "2-desktop", "3-fullhd"))
+#' validate_bulma_column_size(1)
+#' validate_bulma_column_size("one-third")
+#' validate_bulma_column_size("1/1")
+#' validate_bulma_column_size("narrow-tablet")
+#' validate_bulma_column_size(c("1-touch", "2-desktop", "3-fullhd"))
 #'
 #' validate_bulma_offset(6)
 #' validate_bulma_offset("two-thirds")
@@ -57,13 +57,13 @@
 #'
 #' \dontrun{
 #' ## these will each raise an error
-#' validate_bulma_size(13)
-#' validate_bulma_size(11.3)
-#' validate_bulma_size("one-sixth")
-#' validate_bulma_size("one.third")
-#' validate_bulma_size("1-touchscreen")
-#' validate_bulma_size(c("1-fullhd", "2"))
-#' validate_bulma_size(c("1-fullhds", "2-fullhds"))
+#' validate_bulma_column_size(13)
+#' validate_bulma_column_size(11.3)
+#' validate_bulma_column_size("one-sixth")
+#' validate_bulma_column_size("one.third")
+#' validate_bulma_column_size("1-touchscreen")
+#' validate_bulma_column_size(c("1-fullhd", "2"))
+#' validate_bulma_column_size(c("1-fullhds", "2-fullhds"))
 #'
 #' validate_bulma_offset("narrow")
 #' validate_bulma_offset("full")
@@ -74,7 +74,7 @@
 #' validate_bulma_gap("one-third")
 #'
 #' ## these will raise warnings
-#' validate_bulma_size(1:3)
+#' validate_bulma_column_size(1:3)
 #' validate_bulma_offset(c("1-fullhd", "2-fullhd"))
 #' }
 validate_bulma_unit  <- function(x,
@@ -186,7 +186,7 @@ validate_bulma_unit  <- function(x,
 
 #' @rdname validate_bulma_unit
 #' @export
-validate_bulma_size <- function(x) {
+validate_bulma_column_size <- function(x) {
   validate_bulma_unit(x, "size")
 }
 
@@ -220,7 +220,8 @@ get_bulma_media_breakpoints <- function() {
 #' @param context \[`character(1)`: \sQuote{text}\]\cr
 #'        If \dQuote{text} the color must work as a text color via `has-text-{color}`. If
 #'        \dQuote{background} the color must work as a background color via
-#'        `has-background-{color}`.
+#'        `has-background-{color}`, if \dQuote{button} the color must work as button
+#'        (background) color via `is-{color}`.
 #' @param must_be_key \[`logical(1)`: \sQuote{FALSE}\]\cr
 #'        If \sQuote{TRUE}, the color to checked must be a key of the SASS `$colors` map.
 #'        These colors can be used by some elements directly via `is-{color}` instead of
@@ -243,9 +244,10 @@ get_bulma_media_breakpoints <- function() {
 #'
 #' @examples
 #' validate_bulma_color("black")
-#' validate_bulma_color("primary-light")
+#' validate_bulma_color("primary-light", "text")
 #' ## standard bulma config will be used
 #' validate_bulma_color("link")
+#' validate_bulma_color(c("primary", "ghost"), "button")
 #' if ("flatly" %in% get_bulma_themes()) {
 #'    ## flatly theme config will be used
 #'    bulma_page(theme = "flatly")
@@ -254,7 +256,7 @@ get_bulma_media_breakpoints <- function() {
 #'    bulma_page()
 #' }
 #' validate_bulma_color("success", "background")
-validate_bulma_color <- function(x, context = c("text", "background"),
+validate_bulma_color <- function(x, context = c("text", "background", "button"),
                                  must_be_key = FALSE) {
   if (is.null(x)) {
     return(x)
@@ -271,11 +273,11 @@ validate_bulma_color <- function(x, context = c("text", "background"),
   theme <- bulma_global$theme
   if (is.null(theme) || is.na(theme)) {
     lkp <- bulma_config
-  } else {
+  } else { # nocov start
     message("using config for theme <", theme, ">",
             domain = NA)
     lkp <- bulmaswatch_config[bulmaswatch_config$theme == theme, ]
-  }
+  } # nocov end
   lkp <- lkp[lkp$group == "color" &
                !is.na(lkp$color_class), ]
   lkp <- lkp[grepl(context, lkp$color_class, fixed = TRUE), ]
@@ -288,8 +290,8 @@ validate_bulma_color <- function(x, context = c("text", "background"),
     bad_cols <- paste(paste0("\"", x[NOK], "\""), collapse = ", ")
     not_key <- x[NOK] %in% orig$variable
     msg <- ngettext(sum(NOK),
-                    paste(bad_cols, "is not a valid bulma color"),
-                    paste(bad_cols, "are not valid bulma colors"))
+                    paste(bad_cols, "is not a valid bulma", context, "color"),
+                    paste(bad_cols, "are not valid bulma", context, "colors"))
     if (any(not_key)) {
       bad_cols <- paste(paste0("\"", x[NOK][not_key], "\""), collapse = ", ")
       msg <- ngettext(sum(not_key),
@@ -302,6 +304,83 @@ validate_bulma_color <- function(x, context = c("text", "background"),
          domain = NA)
   }
   lkp <- lkp[lkp$variable %in% x, ]
-  make_class(context, lkp$variable,
-    prefix = "has", collapse = FALSE)
+  if (must_be_key || context == "button") {
+    make_class(lkp$variable, collapse = FALSE)
+  } else {
+    make_class(context, lkp$variable,
+               prefix = "has", collapse = FALSE)
+  }
+}
+
+#' Validate Proper Bulma Size Definition
+#'
+#' @param x \[`character(n)`\]\cr
+#'        The size to validate.
+#' @param normal_to_null \[`logical(1)`: \sQuote{TRUE}\]\cr
+#'        If \sQuote{TRUE} size \sQuote{normal} is replaced by \sQuote{NULL}. This is
+#'        useful if \sQuote{normal} is anyways the default.
+#' @param prefix \[`character(1)`: \sQuote{NULL}\]\cr
+#'        The prefix used for the size class, should be \sQuote{is} (or equivalently
+#'        \sQuote{NULL}) or \sQuote{are}.
+#' @param disallow \[`character(n)`: \sQuote{NULL}\]\cr
+#'        Disallow certain classes in the validation. This is needed in case an element
+#'        does not support all of the standard bulma sizes (e.g. `<tags>`).
+#'
+#' @details This function simply compares its arguments with the list of valid bulma
+#' sizes and returns the proper class or throws an error if an invalid size is passed.
+#' Valid sizes are:
+#' * `small`
+#' * `normal`
+#' * `medium`
+#' * `large`
+#'
+#' @return The proper bulma size class, if possible. Otherwise an error is raised.
+#' @export
+#'
+#' @examples
+#' validate_bulma_size(c("small", "normal", "medium", "large"), FALSE)
+#' validate_bulma_size("normal") ## returns NULL as it is replaced
+#'
+#' \dontrun{
+#' ## this will raise an error
+#' validate_bulma_size("xlarge")
+#' }
+validate_bulma_size <- function(x, normal_to_null = TRUE, prefix = NULL,
+                                disallow = NULL) {
+  if (is.null(x)) {
+    return(x)
+  }
+  if (!is.null(prefix) && !prefix %in% c("is", "are")) {
+    stop("invalid prefix - must be either \"is\", \"are\" or NULL",
+         domain = NA)
+  }
+  if (any(is.na(x))) {
+    stop("size must not contain any 'NAs'",
+         domain = NA)
+  }
+  if (!is.character(x)) {
+    stop("size must be a character vector",
+         domain = NA)
+  }
+  valid_sizes <- c("small", "normal", "medium", "large")
+  if (!is.null(disallow)) {
+    if (!disallow %in% valid_sizes) {
+      warning(paste0("'", disallow , "' is not a valid size and removing it is a no-op"),
+                     domain = NA)
+    }
+    valid_sizes <- setdiff(valid_sizes, disallow)
+  }
+  NOK <- !x %in% valid_sizes
+  if (any(NOK)) {
+    bad_sizes <- paste(paste0("\"", x[NOK], "\""), collapse = ", ")
+    msg <- ngettext(sum(NOK),
+                    paste(bad_sizes, "is not a valid bulma size"),
+                    paste(bad_sizes, "are not valid bulma sizes"))
+    stop(msg,
+         domain = NA)
+  }
+  if (normal_to_null) {
+    x <- x[x != "normal"]
+  }
+  make_class(x, prefix = prefix, collapse = FALSE)
 }

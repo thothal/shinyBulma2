@@ -3,7 +3,7 @@
 #' @param ... \[`html tags` or `html attributes`\]\cr
 #'        Elements to include within the column.
 #' @param width \[`character(n)` or `integer(n)`: \sQuote{NULL}\]\cr
-#'        The width to be used (see [validate_bulma_size] for valid values).
+#'        The width to be used (see [validate_bulma_column_size] for valid values).
 #'        If `NULL`, all available space is used. If several columns use `NULL`, the
 #'        space is distributed among those columns.
 #' @param offset \[`character(n)` or `integer(n)`: \sQuote{NULL}\]\cr
@@ -23,7 +23,7 @@
 #'        `desktop` you can either show columns earlier or later. Other media breakpoints
 #'        are ignored and will raise a warning.
 #'
-#' @seealso [validate_bulma_size],[validate_bulma_offset],
+#' @seealso [validate_bulma_column_size],[validate_bulma_offset],
 #'          [get_bulma_media_breakpoints],
 #'          [Bulma Columns](https://bulma.io/documentation/columns/basics/)
 #'
@@ -42,30 +42,30 @@
 #'   }
 #'
 #'   ui <- bulma_page(
-#'     h1("Equal Size", class = "title"),
+#'     bulma_title("Equal Size"),
 #'     bulma_columns(
 #'       bulma_column(make_notification("First Column")),
 #'       bulma_column(make_notification("Second Column")),
 #'       bulma_column(make_notification("Third Column")),
 #'       bulma_column(make_notification("Fourth Column"))
 #'     ),
-#'     h1("Proportional Size", class = "title"),
+#'     bulma_title("Proportional Size"),
 #'     bulma_columns(
 #'       bulma_column(make_notification("is-two-third"), width = "2/3"),
 #'       bulma_column(make_notification("auto", color = FALSE)),
 #'       bulma_column(make_notification("auto", color = FALSE))
 #'     ),
-#'     h1("1-12 \"Grid\" Sizes", class = "title"),
+#'     bulma_title("1-12 \"Grid\" Sizes"),
 #'     bulma_columns(
 #'       bulma_column(make_notification("is-11"), width = 11),
 #'       bulma_column(make_notification("1", color = FALSE))
 #'     ),
-#'     h1("Offset", class = "title"),
+#'     bulma_title("Offset"),
 #'     bulma_columns(
 #'       bulma_column(make_notification(span("is-half", tags$br(), "is-offset-one-third")),
 #'                    width = "half", offset = "one-third")
 #'     ),
-#'     h1("Narrow Size", class = "title"),
+#'     bulma_title("Narrow Size"),
 #'     bulma_columns(
 #'       bulma_column(div(class = "box", style = "width: 200px",
 #'                        p(class = "title is-5", "Narrow Column"),
@@ -76,7 +76,7 @@
 #'                        p(class = "subtitle", paste("This column will take up the",
 #'                        "remaining space available."))))
 #'     ),
-#'     h1("Responisve Sizes", class = "title"),
+#'     bulma_title("Responisve Sizes"),
 #'     bulma_columns(
 #'       bulma_column(make_notification(tags$code("is-three-quarters-mobile"), tags$br(),
 #'                                      tags$code("is-two-thirds-tablet"), tags$br(),
@@ -91,7 +91,7 @@
 #'       bulma_column(make_notification(5)),
 #'       enable_from = "mobile"
 #'     ),
-#'     h1("Nesting", class = "title"),
+#'     bulma_title("Nesting"),
 #'     bulma_columns(
 #'       bulma_column(
 #'         make_notification("First column"),
@@ -121,7 +121,7 @@
 #'         )
 #'       )
 #'     ),
-#'     h1("Gap Size & Multiline", class = "title"),
+#'     bulma_title("Gap Size & Multiline"),
 #'     bulma_columns(
 #'       bulma_column(make_notification("is-one-quarter"),
 #'                    width = "1/4"),
@@ -143,7 +143,7 @@
 #'       multiline = TRUE, gap_width = "gapless",
 #'       enable_from = "mobile"
 #'     ),
-#'     h1("Vertical Alignment", class = "title"),
+#'     bulma_title("Vertical Alignment"),
 #'     bulma_columns(
 #'       bulma_column(
 #'         make_notification("First Column"),
@@ -155,7 +155,7 @@
 #'       ),
 #'       center = "vertical"
 #'     ),
-#'     h1("Horizontal", class = "title"),
+#'     bulma_title("Horizontal"),
 #'     bulma_columns(
 #'       bulma_column(make_notification("is-half"), width = "1/2"),
 #'       center = "horizontal"
@@ -200,7 +200,7 @@ bulma_columns <- function(..., center = c("none", "horizontal", "vertical", "bot
 #' @rdname bulma_columns
 #' @export
 bulma_column <- function(..., width = NULL, offset = NULL) {
-  width <- validate_bulma_size(width)
+  width <- validate_bulma_column_size(width)
   offset <- validate_bulma_offset(offset)
   column_classes <- trimws(paste("column", width, offset))
   htmltools::tags$div(class = column_classes, ...)
