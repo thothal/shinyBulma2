@@ -6,6 +6,8 @@
 #'        A valid bulma color name.
 #' @param light \[`logical(1)`: \sQuote{FALSE}\]\cr
 #'        If \sQuote{TRUE} the `is-light` modifier is used, resulting in a lighter color.
+#' @param add_delete \[`logical(1)`: \sQuote{TRUE}\]\cr
+#'        If \sQuote{TRUE} a delete button is added to the notification.
 #'
 #' @seealso [Bulma Notification](https://bulma.io/documentation/elements/notification/)
 #'
@@ -47,10 +49,10 @@
 #'
 #'    shinyApp(ui, server)
 #' }
-bulma_notification <- function(..., color = NULL, light = FALSE) {
+bulma_notification <- function(..., color = NULL, light = FALSE, add_delete = TRUE) {
   color <- validate_bulma_color(color, "background", must_be_key = TRUE)
   if (light) {
     color <- add_class(color, make_class("light"))
   }
-  htmltools::div(bulma_delete(), ..., class = add_class("notification", color))
+  htmltools::div(if (add_delete) bulma_delete(), ..., class = add_class("notification", color))
 }

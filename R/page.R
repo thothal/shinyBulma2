@@ -54,7 +54,7 @@ bulma_lib <- function(theme = NULL) {
 #'         tags$section(class = "section",
 #'                      div(class = "container",
 #'                          bulma_title("Hello World!"),
-#'                          tags$p(class = "subtitle", "My first website with",
+#'                          bulma_subtitle("My first website with",
 #'                                 tags$strong("Bulma", .noWS = "after"), "!")))
 #'       )
 #' server <- function(input, output) {
