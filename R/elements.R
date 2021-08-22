@@ -1,11 +1,15 @@
 #' Create Various bulma Elements
 #'
-#' These functions create the respective bulma containers.
+#' These functions create the respective bulma containers. `bulma_heading` creates the not
+#' documented 'heading' class, which is used in `level` items.
 #'
 #' @param ... \[`html tags` or `html attributes`\]\cr
 #'        Elements to include within the container.
 #' @param size \[`character(1)`: \sQuote{NULL}]\cr
 #'        Text size for the `content` container.
+#' @param container \[`function`: \sQuote{htmltools::div}\]\cr
+#'        The container to be used for the respective bulma element. Typically, it is a
+#'        `<div>`(generated via `htmltools::div`), but can be overridden.
 #'
 #' @name Bulma-Elements
 #'
@@ -41,20 +45,22 @@
 #'
 #'
 #'   ui <- bulma_page(
-#'     h1("Block", class = "title is-1"),
+#'     bulma_title("Block"),
 #'     bulma_block("This text is within a", strong("block"), "."),
 #'     bulma_block("This text is within a", strong("second block"), ". Lorem ipsum",
 #'                 "dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit",
 #'                 "amet massa fringilla egestas. Nullam condimentum luctus turpis."),
 #'     bulma_block("This text is within a ", strong("third block"), ". This block",
 #'                 "has no margin at the bottom."),
-#'     h1("Box", class = "title is-1"),
+#'     bulma_title("Box"),
 #'     bulma_box("I'm a box"),
-#'     h1("Content", class = "title is-1"),
-#'     h2("Normal Size", class = "title is-3"),
+#'     bulma_title("Content"),
+#'     bulma_subtitle("Normal Size"),
 #'     bulma_content(blind_text),
-#'     h2("Small Size", class = "title is-3"),
-#'     bulma_content(blind_text, size = "small")
+#'     bulma_subtitle("Small Size"),
+#'     bulma_content(blind_text, size = "small"),
+#'     bulma_title("Heading"),
+#'     bulma_heading("Text is transformed to CAPS")
 #'   )
 #'
 #'   server <- function(input, output) {
@@ -66,20 +72,31 @@ NULL
 
 #' @rdname Bulma-Elements
 #' @export
-bulma_block <- function(...) {
-  htmltools::div(..., class = "block")
+bulma_block <- function(...,
+                        container = htmltools::div) {
+  container(..., class = "block")
 }
 
 #' @rdname Bulma-Elements
 #' @export
-bulma_box <- function(...) {
-  htmltools::div(..., class = "box")
+bulma_box <- function(...,
+                      container = htmltools::div) {
+  container(..., class = "box")
 }
 
 #' @rdname Bulma-Elements
 #' @export
 bulma_content <- function(...,
-                          size = NULL) {
+                          size = NULL,
+                          container = htmltools::div) {
   size <- validate_bulma_size(size)
-  htmltools::div(..., class = add_class("content", size))
+  container(..., class = add_class("content", size))
+}
+
+
+#' @rdname Bulma-Elements
+#' @export
+bulma_heading <- function(...,
+                          container = htmltools::div) {
+  container(..., class = "heading")
 }

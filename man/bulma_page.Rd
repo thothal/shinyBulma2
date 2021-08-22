@@ -31,17 +31,17 @@ This function creates a bulma page and allows themes from bulmsawatch to be used
 ## Only run examples in interactive R sessions
 if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
 
-ui <- bulma_page(
-        tags$section(class = "section",
-                     div(class = "container",
-                         bulma_title("Hello World!"),
-                         bulma_subtitle("My first website with",
-                                tags$strong("Bulma", .noWS = "after"), "!")))
-      )
-server <- function(input, output) {
-}
+  ui <- bulma_page(
+    tags$section(class = "section",
+                 bulma_container(
+                   bulma_title("Hello World!"),
+                   bulma_subtitle("My first website with",
+                                  tags$strong("Bulma", .noWS = "after"), "!")))
+  )
+  server <- function(input, output) {
+  }
 
-shiny::shinyApp(ui, server)
+  shiny::shinyApp(ui, server)
 }
 }
 \seealso{

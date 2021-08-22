@@ -1,6 +1,6 @@
 #' Create a bulma Title or Subtitle
 #'
-#' `bulma_heading` creates a title or a subtitle for bulma.
+#' `bulma_header` creates a title or a subtitle for bulma.
 #'
 #' `bulma_title` and `bulma_subtitle` are convenience wrappers which set `type`
 #'  accordingly.
@@ -80,15 +80,15 @@
 #'
 #'    shinyApp(ui, server)
 #' }
-bulma_heading <- function(...,
-                          tag = if (type == "title") htmltools::h1 else htmltools::h2,
-                          size = NULL,
-                          type = c("title", "subtitle"),
-                          maintain_space = FALSE) {
+bulma_header <- function(...,
+                         tag = if (type == "title") htmltools::h1 else htmltools::h2,
+                         size = NULL,
+                         type = c("title", "subtitle"),
+                         maintain_space = FALSE) {
   type <- match.arg(type)
   tag <- match.fun(tag)
   if (!is.null(size) && (length(size) > 1 ||
-      !(is_integer(size) && size >= 1 && size <= 6))) {
+                         !(is_integer(size) && size >= 1 && size <= 6))) {
     stop("size must be an integer between 1 and 6",
          domain = NA)
   } else {
@@ -103,26 +103,26 @@ bulma_heading <- function(...,
   tag(..., class = add_class(type, c(size_class, maintain_class)))
 }
 
-#' @rdname bulma_heading
+#' @rdname bulma_header
 #' @export
 bulma_title <- function(...,
                         tag = htmltools::h1,
                         size = NULL,
                         maintain_space = FALSE) {
-  bulma_heading(...,
-                tag = tag,
-                size = size,
-                type = "title",
-                maintain_space = maintain_space)
+  bulma_header(...,
+               tag = tag,
+               size = size,
+               type = "title",
+               maintain_space = maintain_space)
 }
 
-#' @rdname bulma_heading
+#' @rdname bulma_header
 #' @export
 bulma_subtitle <- function(...,
                            tag = htmltools::h2,
                            size = NULL) {
-  bulma_heading(...,
-                tag = tag,
-                size = size,
-                type = "subtitle")
+  bulma_header(...,
+               tag = tag,
+               size = size,
+               type = "subtitle")
 }

@@ -5,17 +5,24 @@
 \alias{bulma_block}
 \alias{bulma_box}
 \alias{bulma_content}
+\alias{bulma_heading}
 \title{Create Various bulma Elements}
 \usage{
-bulma_block(...)
+bulma_block(..., container = htmltools::div)
 
-bulma_box(...)
+bulma_box(..., container = htmltools::div)
 
-bulma_content(..., size = NULL)
+bulma_content(..., size = NULL, container = htmltools::div)
+
+bulma_heading(..., container = htmltools::div)
 }
 \arguments{
 \item{...}{[\verb{html tags} or \verb{html attributes}]\cr
 Elements to include within the container.}
+
+\item{container}{[\code{function}: \sQuote{htmltools::div}]\cr
+The container to be used for the respective bulma element. Typically, it is a
+\verb{<div>}(generated via \code{htmltools::div}), but can be overridden.}
 
 \item{size}{[\code{character(1)}: \sQuote{NULL}]\cr
 Text size for the \code{content} container.}
@@ -24,7 +31,8 @@ Text size for the \code{content} container.}
 The bulma element container.
 }
 \description{
-These functions create the respective bulma containers.
+These functions create the respective bulma containers. \code{bulma_heading} creates the not
+documented 'heading' class, which is used in \code{level} items.
 }
 \examples{
 
@@ -54,20 +62,22 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
 
 
   ui <- bulma_page(
-    h1("Block", class = "title is-1"),
+    bulma_title("Block"),
     bulma_block("This text is within a", strong("block"), "."),
     bulma_block("This text is within a", strong("second block"), ". Lorem ipsum",
                 "dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit",
                 "amet massa fringilla egestas. Nullam condimentum luctus turpis."),
     bulma_block("This text is within a ", strong("third block"), ". This block",
                 "has no margin at the bottom."),
-    h1("Box", class = "title is-1"),
+    bulma_title("Box"),
     bulma_box("I'm a box"),
-    h1("Content", class = "title is-1"),
-    h2("Normal Size", class = "title is-3"),
+    bulma_title("Content"),
+    bulma_subtitle("Normal Size"),
     bulma_content(blind_text),
-    h2("Small Size", class = "title is-3"),
-    bulma_content(blind_text, size = "small")
+    bulma_subtitle("Small Size"),
+    bulma_content(blind_text, size = "small"),
+    bulma_title("Heading"),
+    bulma_heading("Text is transformed to CAPS")
   )
 
   server <- function(input, output) {
