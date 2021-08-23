@@ -183,7 +183,7 @@ test_that("previously used theme will print a message", {
   expect_message(validate_bulma_color("link"), NA)
 })
 
-test_that("valid sizes are properl translated", {
+test_that("valid sizes are properly translated", {
   expect_null(validate_bulma_size(NULL))
   expect_null(validate_bulma_size("normal"))
   expect_equal(validate_bulma_size(c("small", "normal", "medium", "large")),
@@ -207,4 +207,8 @@ test_that("improper sizes are raising an error", {
                "size must not contain any 'NAs'")
   expect_error(validate_bulma_size(1),
                "size must be a character vector")
+  expect_warning(validate_bulma_size("small", disallow = "xlarge"),
+                 "'xlarge' is not a valid size and removing it is a no-op")
+  expect_error(validate_bulma_size("small", disallow = "small"),
+               "\".*\" is not a valid bulma size")
 })

@@ -176,7 +176,7 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
      ),
      bulma_block(
        bulma_title("Different Styles"),
-       h2("Outlined", class = "subtitle"),
+       bulma_subtitle("Outlined"),
        bulma_button("Outlined", style = "outlined"),
        bulma_button("Outlined", color = "primary", style = "outlined"),
        bulma_button("Outlined", color = "link", style = "outlined"),
@@ -186,7 +186,7 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
        bulma_button("Outlined", color = "success", style = "outlined")
      ),
      bulma_block(
-       h2("Inverted", class = "subtitle"),
+       bulma_subtitle("Inverted"),
        bulma_button("Inverted", style = "inverted"),
        bulma_button("Inverted", color = "primary", style = "inverted"),
        bulma_button("Inverted", color = "link", style = "inverted"),
@@ -196,7 +196,7 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
        bulma_button("Inverted", color = "success", style = "inverted")
      ),
      bulma_block(
-       h2("Rounded", class = "subtitle"),
+       bulma_subtitle("Rounded"),
        bulma_button("Rounded", style = "rounded"),
        bulma_button("Rounded", color = "primary", style = "rounded"),
        bulma_button("Rounded", color = "link", style = "rounded"),

@@ -1,9 +1,3 @@
-test_that("get_package_name is in sync with DESCRIPTION", {
-  desc <- readLines(here::here("DESCRIPTION"))
-  desc_name <- sub("^Package: ", "", desc[grep("^Package:", desc)])
-  expect_equal(get_package_name(), desc_name)
-})
-
 test_that("is_integer recognizes integers", {
   expect_true(is_integer(1L))
   expect_true(is_integer(1))
@@ -74,10 +68,29 @@ test_that("parse_attributes returns all attributes", {
                     `i-am-an-attribute` = NA))
 })
 
-test_that("parse_node returns all nodes", {
-  ## stub
+test_that("html parsing from text and tags works", {
+  skip_if_not_installed("xml2")
+  html <- paste("<p id = 'start'>",
+                "<span class = 'a'>",
+                "<strong>Text</strong>",
+                "<!-- comment -->",
+                "<button disabled type = 'button'>Button</button>",
+                "</span>",
+                "</p>", sep = "\n")
+  node <- xml2::xml_find_first(
+    xml2::read_html(html),
+    "/html/body/p")
+  tags <- htmltools::tags
+  goal <- tags$p(id = "start",
+                       tags$span(class = "a",
+                                       tags$strong("Text"),
+                                       tags$button(disabled = NA, type = "button",
+                                                   "Button")))
+  expect_equal(parse_node(node),
+               goal)
+  expect_equal(html_to_tags(html),
+               goal)
+  expect_warning(html_to_tags(paste(html, "<invalid>Invalid</invalid>", sep = "\n")),
+                 "unknown HTML tag <invalid>")
 })
 
-test_that("html_to_tags parses HTML to tags", {
-  ## stub
-})

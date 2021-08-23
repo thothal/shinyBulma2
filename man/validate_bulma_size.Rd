@@ -4,7 +4,7 @@
 \alias{validate_bulma_size}
 \title{Validate Proper Bulma Size Definition}
 \usage{
-validate_bulma_size(x, normal_to_null = TRUE, prefix = NULL)
+validate_bulma_size(x, normal_to_null = TRUE, prefix = NULL, disallow = NULL)
 }
 \arguments{
 \item{x}{[\code{character(n)}]\cr
@@ -17,6 +17,10 @@ useful if \sQuote{normal} is anyways the default.}
 \item{prefix}{[\code{character(1)}: \sQuote{NULL}]\cr
 The prefix used for the size class, should be \sQuote{is} (or equivalently
 \sQuote{NULL}) or \sQuote{are}.}
+
+\item{disallow}{[\code{character(n)}: \sQuote{NULL}]\cr
+Disallow certain classes in the validation. This is needed in case an element
+does not support all of the standard bulma sizes (e.g. \verb{<tags>}).}
 }
 \value{
 The proper bulma size class, if possible. Otherwise an error is raised.
@@ -25,7 +29,7 @@ The proper bulma size class, if possible. Otherwise an error is raised.
 Validate Proper Bulma Size Definition
 }
 \details{
-This function simply compares its arguents with the list of valid bulma
+This function simply compares its arguments with the list of valid bulma
 sizes and returns the proper class or throws an error if an invalid size is passed.
 Valid sizes are:
 \itemize{
