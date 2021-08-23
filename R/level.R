@@ -175,7 +175,7 @@ bulma_level_item <- function(heading = NULL, title = NULL, content = NULL,
     container(content, class = class, ...)
   } else {
     if (is.null(heading) && is.null(title)) {
-      warning("'heading', 'title' and 'content' are NULL - will result",
+      warning("'heading', 'title' and 'content' are NULL - will result ",
               "in an empty element", domain = NA)
     }
     heading <- bulma_heading(heading, container = htmltools::p)
