@@ -23,6 +23,9 @@ test_that("tag class expectation works as intended", {
   e2 <- htmltools::p(class = "a b")
   e3 <- htmltools::p(class = "a", class = "b")
   e4 <- list(class = "a")
+  e5 <- htmltools::p(class = "a b c")
+  expect_warning(expect_tag_class(e2, "a", "any", exact = TRUE),
+                 "'exact == TRUE' makes sense only for 'all' - ignoring it")
   expect_failure(expect_tag_class(e0, "a"), "`e0` does not have a class attribute")
   expect_success(expect_tag_class(e1, "a"))
   expect_success(expect_tag_class(e2, "a"))
@@ -36,11 +39,16 @@ test_that("tag class expectation works as intended", {
   expect_success(expect_tag_class(e2, c("a", "b")))
   expect_success(expect_tag_class(e2, "a c", "any"))
   expect_success(expect_tag_class(e2, c("a", "c"), "any"))
+  expect_success(expect_tag_class(e2, c("a", "b"), exact = TRUE))
   expect_failure(expect_tag_class(e2, "c d"),
                  "'c', 'd' are not part of `e2`'s classes \\['a b'\\]")
   expect_failure(expect_tag_class(e2, c("c", "d")),
                  "'c', 'd' are not part of `e2`'s classes \\['a b'\\]")
+  expect_failure(expect_tag_class(e2, "a", exact = TRUE),
+                 "'b' is not matched by given class \\['a'\\]")
 
+  expect_failure(expect_tag_class(e5, "a", exact = TRUE),
+                 "'b', 'c' are not matched by given class \\['a'\\]")
 })
 
 test_that("tag type expectation works as intended", {
