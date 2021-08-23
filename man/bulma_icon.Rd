@@ -8,7 +8,7 @@ bulma_icon(
   name,
   text = NULL,
   color = NULL,
-  size = c("normal", "small", "medium", "large"),
+  size = NULL,
   container = htmltools::span,
   class = NULL,
   lib = "font-awesome",
@@ -27,7 +27,7 @@ want to skip some text, provide \code{NA}.}
 \item{color}{[\code{character(1)}; \sQuote{NULL}]\cr
 A valid bulma color name.}
 
-\item{size}{[\code{character(1)}; \sQuote{normal}]\cr
+\item{size}{[\code{character(1)}; \sQuote{NULL}]\cr
 The size of the icon \emph{container}. The size of the icon itself is controlled via
 arguments passed to \link[shiny:icon]{shiny::icon} and depends on the icon library used.}
 
@@ -49,15 +49,15 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
   ui <- bulma_page(
     tags$head(tags$style(HTML("#sizes > span {vertical-align: middle;}"))),
     bulma_block(
-      h1("Icon with Text", class = "title"),
+      bulma_title("Icon with Text"),
       bulma_icon("home", "Home")),
     bulma_block(
-      h1("Several Icons with Text", class = "title"),
+      bulma_title("Several Icons with Text"),
       bulma_icon(c("train", "arrow-right", "arrow-right",
                    "arrow-right", "flag-checkered"),
                  c("Paris", "Budapest", "Bucharest", "Istanbul", NA))),
     bulma_block(
-      h1("Inline Icon", class = "title"),
+      bulma_title("Inline Icon"),
       p("An invitation to", bulma_icon("utensils", "dinner"), "was soon afterwards ",
         "dispatched; and already had Mrs. Bennet planned the courses that were to do",
         "credit to her housekeeping, when an answer arrived which deferred it all.",
@@ -66,7 +66,7 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
         bulma_icon("envelope-open-text", "invitation"), ", etc.")
     ),
     bulma_block(
-      h1("Icon With Text, Color in a Different Container", class = "title"),
+      bulma_title("Icon With Text, Color in a Different Container"),
       bulma_icon("info-circle", "Information", color = "link", container = div),
       bulma_block("Your package will be delivered on", strong("Tuesday, 08:00")),
       bulma_icon("check-square", "Success", color = "success", container = div),
@@ -74,7 +74,7 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
     ),
     bulma_block(
       id = "sizes",
-      h1("Icons with Sizing", class = "title"),
+      bulma_title("Icons with Sizing"),
       tagAppendAttributes(bulma_icon("home", size = "medium", class = "fas"),
                           class = "has-background-warning"),
       tagAppendAttributes(bulma_icon("home", size = "medium", class = "fas fa-lg"),

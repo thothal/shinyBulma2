@@ -34,8 +34,8 @@ if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
 ui <- bulma_page(
         tags$section(class = "section",
                      div(class = "container",
-                         tags$h1(class = "title", "Hello World!"),
-                         tags$p(class = "subtitle", "My first website with",
+                         bulma_title("Hello World!"),
+                         bulma_subtitle("My first website with",
                                 tags$strong("Bulma", .noWS = "after"), "!")))
       )
 server <- function(input, output) {

@@ -44,7 +44,7 @@ grepl0 <- function(pattern, x, ...) {
 flatten_children <- function(tag) {
   ## code copied from htmltools:::flattenTags
   flatten <- function(x) {
-    if (inherits(x, "shiny.tag") || is.character(x)) {
+    if (inherits(x, "shiny.tag")) {
       list(x)
     } else if (is.list(x) && (inherits(x, "shiny.tag.list") ||
                               identical(class(x), "list"))) {
@@ -53,6 +53,8 @@ flatten_children <- function(tag) {
       } else {
         unlist(lapply(x, flatten), recursive = FALSE)
       }
+    } else if (is.character(x)) {
+      list(x)
     } else {
       flatten(htmltools::as.tags(x))
     }
@@ -77,7 +79,7 @@ expect_has_slots <- function(object, expected) {
     }
   }
   testthat::succeed()
-  invisible(act$val)
+  invisible(act$val) #nocov
 }
 
 expect_tag_class <- function(object, class, all_or_any = c("all", "any")) {
@@ -186,7 +188,7 @@ expect_tag_children_length <- function(object, n) {
     }
   }
   testthat::succeed()
-  invisible(act$val)
+  invisible(act$val) #nocov
 }
 
 expect_tag_children <- function(object, type = NULL, class = NULL,
