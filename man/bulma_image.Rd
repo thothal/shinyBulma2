@@ -11,7 +11,8 @@ bulma_image(
   fixed = NULL,
   ratio = NULL,
   rounded = FALSE,
-  use_fullwidth = FALSE
+  use_fullwidth = FALSE,
+  container = htmltools::tags$figure
 )
 }
 \arguments{
@@ -40,6 +41,9 @@ Should the image be rounded?}
 By default, the image container takes up the full width while maintaining the
 given ratio. If it does not, you can force it by setting \code{use_fullwidth} to
 \sQuote{TRUE}.}
+
+\item{container}{[\code{function}]\cr
+The container to be used for the bulma image.}
 }
 \value{
 A bulma \code{figure} tag containing the given \verb{<img>}.
