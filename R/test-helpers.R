@@ -82,8 +82,15 @@ expect_has_slots <- function(object, expected) {
   invisible(act$val) #nocov
 }
 
-expect_tag_class <- function(object, class, all_or_any = c("all", "any")) {
-  all_or_any <- match.fun(match.arg(all_or_any))
+expect_tag_class <- function(object, class, all_or_any = c("all", "any"),
+                             exact = FALSE) {
+  all_or_any <- match.arg(all_or_any)
+  if (exact && all_or_any == "any") {
+    warning("'exact == TRUE' makes sense only for 'all' - ignoring it",
+            domain = NA)
+    exact <- FALSE
+  }
+  all_or_any <- match.fun(all_or_any)
   act <- testthat::quasi_label(rlang::enquo(object), arg = "object")
   if (!inherits(act$val, "shiny.tag")) {
     testthat::fail(sprintf("%s is not a tag object.", act$lab))
@@ -99,6 +106,16 @@ expect_tag_class <- function(object, class, all_or_any = c("all", "any")) {
                                paste0("'", class[!OK], "'", collapse = ", "),
                                ifelse(sum(!OK) > 1, "are not part", "is not a part"),
                                act$lab, paste(all_classes, collapse = " ")))
+      }
+      if (exact) {
+        OK <- all_classes %in% class
+        if (!all(OK)) {
+          testthat::fail(sprintf("%s %s not matched by given class%s ['%s']",
+                                 paste0("'", all_classes[!OK], "'", collapse = ", "),
+                                 ifelse(sum(!OK) > 1, "are", "is"),
+                                 ifelse(length(class) > 1, "es", ""),
+                                 paste(class, collapse = " ")))
+        }
       }
     }
   }
