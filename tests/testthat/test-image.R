@@ -33,6 +33,9 @@ test_that("bulma_image is properly formatted", {
     }
   }, args$class, args$ref, args$is_fixed)
 
+  expect_tag_classed_type(bulma_image(args$ref[1], fixed = 16, container = htmltools::p),
+                          "p", "image")
+
   expect_error(bulma_image(args$ref[1]),
                "either \"fixed\" or \"ratio\" must be non NULL")
   expect_error(bulma_image(args$ref[1], fixed = 16, ratio = "square"),
