@@ -4,7 +4,13 @@
 \alias{validate_bulma_size}
 \title{Validate Proper Bulma Size Definition}
 \usage{
-validate_bulma_size(x, normal_to_null = TRUE, prefix = NULL, disallow = NULL)
+validate_bulma_size(
+  x,
+  normal_to_null = TRUE,
+  prefix = NULL,
+  disallow = NULL,
+  additional = NULL
+)
 }
 \arguments{
 \item{x}{[\code{character(n)}]\cr
@@ -21,6 +27,10 @@ The prefix used for the size class, should be \sQuote{is} (or equivalently
 \item{disallow}{[\code{character(n)}: \sQuote{NULL}]\cr
 Disallow certain classes in the validation. This is needed in case an element
 does not support all of the standard bulma sizes (e.g. \verb{<tags>}).}
+
+\item{additional}{[\code{character(n)}: \sQUote{NULL}]\cr
+Include additional classes in the validation. This is needed for elements like
+\code{bulma_hero} which allow sizes like \code{fullheight}.}
 }
 \value{
 The proper bulma size class, if possible. Otherwise an error is raised.
@@ -37,14 +47,19 @@ Valid sizes are:
 \item \code{normal}
 \item \code{medium}
 \item \code{large}
+\item plus additional elements from \code{additional}
 }
 }
 \examples{
 validate_bulma_size(c("small", "normal", "medium", "large"), FALSE)
 validate_bulma_size("normal") ## returns NULL as it is replaced
+## in this form this is pretty useless, but in a function it makes
+## snese to allow additional elements to be valid
+validate_bulma_size("fullheight", addiitonal = "fullheight")
 
 \dontrun{
-## this will raise an error
+## these will all raise an error
 validate_bulma_size("xlarge")
+validate_bulma_size("small", disallow = "small")
 }
 }

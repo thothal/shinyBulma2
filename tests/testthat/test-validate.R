@@ -194,6 +194,8 @@ test_that("valid sizes are properly translated", {
                "are-small")
   expect_equal(validate_bulma_size("large", prefix = "is"),
                "is-large")
+  expect_equal(validate_bulma_size("fullheight", additional = "fullheight"),
+               "is-fullheight")
 })
 
 test_that("improper sizes are raising an error", {
