@@ -25,6 +25,8 @@
 #'        By default, the image container takes up the full width while maintaining the
 #'        given ratio. If it does not, you can force it by setting `use_fullwidth` to
 #'        \sQuote{TRUE}.
+#' @param container \[`function`\]\cr
+#'        The container to be used for the bulma image.
 #'
 #' @seealso [Bulma Image](https://bulma.io/documentation/elements/image/)
 #'
@@ -61,7 +63,7 @@
 #' }
 bulma_image <- function(src, alt = NULL, ...,
                         fixed = NULL, ratio = NULL, rounded = FALSE,
-                        use_fullwidth = FALSE) {
+                        use_fullwidth = FALSE, container = htmltools::tags$figure) {
   ## need the `is.null` clause, because otherwise it will take the first per default
   if (!is.null(fixed)) {
     valid_sizes <- c(16, 24, 32, 48, 64, 96, 128)
@@ -90,7 +92,7 @@ bulma_image <- function(src, alt = NULL, ...,
   img <- htmltools::tags$img(src = src, alt = alt,
                              class = if(rounded) make_class("rounded"),
                              ...)
-  res <- htmltools::tags$figure(class = class, img)
+  res <- container(class = class, img)
   htmltools::tagAppendAttributes(res,
                                  class = if(use_fullwidth) make_class("fullwidth"))
 }
