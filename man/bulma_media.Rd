@@ -2,7 +2,7 @@
 % Please edit documentation in R/media.R
 \name{bulma_media}
 \alias{bulma_media}
-\title{Create bulma Media Object}
+\title{Create a bulma Media Object}
 \usage{
 bulma_media(
   left = NULL,
@@ -28,7 +28,7 @@ Elements to include within the container.}
 A bulma media object.
 }
 \description{
-Create bulma Media Object
+Create a bulma Media Object
 }
 \examples{
 if (interactive() && requireNamespace("shiny", quietly = TRUE)) {
