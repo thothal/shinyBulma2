@@ -113,7 +113,7 @@ bulma_level <- function(left = NULL, right = NULL, center = NULL,
                         horizontal_on_mobile = FALSE,
                         container = htmltools::tags$nav, ...) {
   if (!is.null(center) && !(is.null(left) && is.null(right))) {
-    warning("both 'center' and 'left'/'right' are non NULL - ignoring 'center'",
+    warning("both 'center' and 'left'/'right' are not NULL - ignoring 'center'",
             domain = NA)
     center <- NULL
   }
@@ -169,7 +169,8 @@ bulma_level_item <- function(heading = NULL, title = NULL, content = NULL,
   }
   if (!is.null(content)) {
     if (!is.null(heading) || !is.null(title)) {
-      warning("'content' is not NULL - heading' / 'title' will be ignored",
+      warning("both 'heading' / 'title' and 'content' are not NULL - ",
+              "ignoring 'heading' / 'title'",
               domain = NA)
     }
     container(content, class = class, ...)
@@ -179,7 +180,7 @@ bulma_level_item <- function(heading = NULL, title = NULL, content = NULL,
               "in an empty element", domain = NA)
     }
     heading <- bulma_heading(heading, container = htmltools::p)
-    title <- bulma_title(title, tag = htmltools::p)
+    title <- bulma_title(title, container = htmltools::p)
     if (heading_on_top) {
       container(htmltools::div(heading, title), class = class, ...)
     } else {

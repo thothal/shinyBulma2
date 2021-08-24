@@ -7,7 +7,7 @@
 #'
 #' @param ... \[`html tags` or `html attributes`\]\cr
 #'        Elements to include within the container.
-#' @param tag \[`function`\: \sQuote{h1} or \sQuote{h2}]\cr
+#' @param container \[`function`\: \sQuote{h1} or \sQuote{h2}]\cr
 #'        The container for the title. Typically one of `htmltools::h[1-6]`.
 #' @param size \[`numeric(1)`: \sQuote{NULL}\]\cr
 #'        The size for the title. A valid size is an integer between 1 and 6.
@@ -81,12 +81,13 @@
 #'    shinyApp(ui, server)
 #' }
 bulma_header <- function(...,
-                         tag = if (type == "title") htmltools::h1 else htmltools::h2,
+                         container = if (type == "title") htmltools::h1 else
+                           htmltools::h2,
                          size = NULL,
                          type = c("title", "subtitle"),
                          maintain_space = FALSE) {
   type <- match.arg(type)
-  tag <- match.fun(tag)
+  container <- match.fun(container)
   if (!is.null(size) && (length(size) > 1 ||
                          !(is_integer(size) && size >= 1 && size <= 6))) {
     stop("size must be an integer between 1 and 6",
@@ -100,17 +101,17 @@ bulma_header <- function(...,
     maintain_space <- FALSE
   }
   maintain_class <- if (maintain_space) make_class("spaced")
-  tag(..., class = add_class(type, c(size_class, maintain_class)))
+  container(..., class = add_class(type, c(size_class, maintain_class)))
 }
 
 #' @rdname bulma_header
 #' @export
 bulma_title <- function(...,
-                        tag = htmltools::h1,
+                        container = htmltools::h1,
                         size = NULL,
                         maintain_space = FALSE) {
   bulma_header(...,
-               tag = tag,
+               container = container,
                size = size,
                type = "title",
                maintain_space = maintain_space)
@@ -119,10 +120,10 @@ bulma_title <- function(...,
 #' @rdname bulma_header
 #' @export
 bulma_subtitle <- function(...,
-                           tag = htmltools::h2,
+                           container = htmltools::h2,
                            size = NULL) {
   bulma_header(...,
-               tag = tag,
+               container = container,
                size = size,
                type = "subtitle")
 }

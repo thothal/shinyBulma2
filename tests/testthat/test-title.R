@@ -1,7 +1,7 @@
 test_that("bulma_header warns/stops when mal-formatted arguments are passed", {
   expect_error(bulma_header(type = "h1"),
                "'arg' should be one of \"title\", \"subtitle\"")
-  expect_error(bulma_header(tag = "no_func"),
+  expect_error(bulma_header(container = "no_func"),
                "object 'no_func' of mode 'function' was not found")
   size_err_msg <- "size must be an integer between 1 and 6"
   invalid_sizes <- list(NA, 1:2, 0, 7, "small")
@@ -15,7 +15,7 @@ test_that("bulma_header warns/stops when mal-formatted arguments are passed", {
 })
 
 test_that("bulma_header is properly formatted", {
-  title <- bulma_header("Test", tag = htmltools::h2,
+  title <- bulma_header("Test", container = htmltools::h2,
                          size = 3, type = "title",
                          maintain_space = TRUE)
   expect_tag_classed_type(title, "h2", add_class("title",

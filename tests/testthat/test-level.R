@@ -1,11 +1,11 @@
 test_that("bulma_level warns/stops when mal-formatted arguments are passed", {
   tmp <- htmltools::p()
   expect_warning(bulma_level(tmp, center = tmp),
-                 "both 'center' and 'left'/'right' are non NULL - ignoring 'center'")
+                 "both 'center' and 'left'/'right' are not NULL - ignoring 'center'")
   expect_warning(bulma_level(right = tmp, center = tmp),
-                 "both 'center' and 'left'/'right' are non NULL - ignoring 'center'")
+                 "both 'center' and 'left'/'right' are not NULL - ignoring 'center'")
   expect_warning(bulma_level(tmp, tmp, tmp),
-                 "both 'center' and 'left'/'right' are non NULL - ignoring 'center'")
+                 "both 'center' and 'left'/'right' are not NULL - ignoring 'center'")
 })
 
 test_that("bulma_level is properly formatted", {
@@ -36,12 +36,14 @@ test_that("bulma_level is properly formatted", {
 
 test_that("bulma_level_item warns/stops when mal-formatted arguments are passed", {
   tmp <- htmltools::p()
+  warn_msg <- paste("both 'heading' / 'title' and 'content' are not NULL -",
+                    "ignoring 'heading' / 'title'")
   expect_warning(bulma_level_item("Test", content = tmp),
-                 "'content' is not NULL - heading' / 'title' will be ignored")
+                 warn_msg)
   expect_warning(bulma_level_item(title = "Test", content = tmp),
-                 "'content' is not NULL - heading' / 'title' will be ignored")
+                 warn_msg)
   expect_warning(bulma_level_item("Test", "Test", tmp),
-                 "'content' is not NULL - heading' / 'title' will be ignored")
+                 warn_msg)
   expect_warning(bulma_level_item(),
                  paste("'heading', 'title' and 'content' are NULL - will result",
                        "in an empty element"))

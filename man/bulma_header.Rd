@@ -8,21 +8,26 @@
 \usage{
 bulma_header(
   ...,
-  tag = if (type == "title") htmltools::h1 else htmltools::h2,
+  container = if (type == "title") htmltools::h1 else htmltools::h2,
   size = NULL,
   type = c("title", "subtitle"),
   maintain_space = FALSE
 )
 
-bulma_title(..., tag = htmltools::h1, size = NULL, maintain_space = FALSE)
+bulma_title(
+  ...,
+  container = htmltools::h1,
+  size = NULL,
+  maintain_space = FALSE
+)
 
-bulma_subtitle(..., tag = htmltools::h2, size = NULL)
+bulma_subtitle(..., container = htmltools::h2, size = NULL)
 }
 \arguments{
 \item{...}{[\verb{html tags} or \verb{html attributes}]\cr
 Elements to include within the container.}
 
-\item{tag}{[\code{function}\: \sQuote{h1} or \sQuote{h2}]\cr
+\item{container}{[\code{function}\: \sQuote{h1} or \sQuote{h2}]\cr
 The container for the title. Typically one of \code{htmltools::h[1-6]}.}
 
 \item{size}{[\code{numeric(1)}: \sQuote{NULL}]\cr

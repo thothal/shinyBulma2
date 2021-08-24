@@ -325,7 +325,7 @@ validate_bulma_color <- function(x, context = c("text", "background", "button"),
 #' @param disallow \[`character(n)`: \sQuote{NULL}\]\cr
 #'        Disallow certain classes in the validation. This is needed in case an element
 #'        does not support all of the standard bulma sizes (e.g. `<tags>`).
-#' @param additional \[`character(n)`: \sQUote{NULL}\]\cr
+#' @param additional \[`character(n)`: \sQuote{NULL}\]\cr
 #'        Include additional classes in the validation. This is needed for elements like
 #'        `bulma_hero` which allow sizes like `fullheight`.
 #'
@@ -346,7 +346,7 @@ validate_bulma_color <- function(x, context = c("text", "background", "button"),
 #' validate_bulma_size("normal") ## returns NULL as it is replaced
 #' ## in this form this is pretty useless, but in a function it makes
 #' ## snese to allow additional elements to be valid
-#' validate_bulma_size("fullheight", addiitonal = "fullheight")
+#' validate_bulma_size("fullheight", additional = "fullheight")
 #'
 #' \dontrun{
 #' ## these will all raise an error
