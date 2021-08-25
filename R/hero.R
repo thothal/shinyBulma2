@@ -1,17 +1,30 @@
 #' Title
 #'
-#' @param title
-#' @param subtitle
-#' @param body
-#' @param header
-#' @param footer
-#' @param color
-#' @param size
-#' @param with_navbar
-#' @param container
-#' @param ...
+#' @param title,subtitle,body \[`shiny.tag` or `listish`; \sQuote{NULL}\]\cr
+#'        The title and the subtitle of the bulma hero banner. Either one specifies
+#'        `title` and `subtitle` to display a title and subtitle on the hero banner,
+#'        or one uses `body` to freely style the content. If, for instance, you want to
+#'        use a different size for the title, you can also use
+#'        `body = bulma_title("Title", size = 1)`.
+#' @param header,footer \[`shiny.tag` or `listish`; \sQuote{NULL}\]\cr
+#'        The header and footer of the bulma hero banner. Can be used wit
+#'        `title`/`subtitle`  and `body`.
+#' @param color \[`character(1)`: \sQuote{NULL}\]\cr
+#'        A valid bulma color name.
+#' @param size \[`character(1)`: \sQuote{NULL}\]\cr
+#'        The size of the hero banner. Valid sizes are
+#'        `small`, `medium`, `large`, `halfheight` and `fullheight`.
+#' @param with_navbar \[`logical(1)`: \sQuote{FALSE}\]\cr
+#'        If \sQuote{TRUE}, the hero banner will be made smaller to allow space for
+#'        the navabr.
+#' @param container \[`function`\]\cr
+#'        The container to be used for the bulma hero banner.
+#' @param ... \[`html tags` or `html attributes`\]\cr
+#'        Further arguments passed down to `container`.
 #'
-#' @return
+#' @seealso [Bulma Hero Banner](https://bulma.io/documentation/layout/hero/)
+#'
+#' @return A bulma hero banner.
 #' @export
 #'
 #' @examples
@@ -95,7 +108,7 @@ bulma_hero <- function(title = NULL, subtitle = NULL,
     footer,
     class = "hero-foot"
   )
-  if (with_navbar && !is.null(size) && size != "fullheight") {
+  if (with_navbar && (size %||% "") != "fullheight") {
     warning("'with_navbar' makes only sense with fullheight sized hero banners",
             domain = NA)
     with_navbar <- FALSE
@@ -104,7 +117,9 @@ bulma_hero <- function(title = NULL, subtitle = NULL,
   size_class <- validate_bulma_size(size,
                                     disallow = "normal",
                                     additional = c("halfheight", "fullheight"))
-  navbar_class <- if (with_navbar) make_class("fullheight-with-navbar")
+  if (with_navbar) {
+    size_class <- paste0(size_class, "-with-navbar")
+  }
   if (!is.null(body)) {
     if (!is.null(title) || !is.null(subtitle)) {
       warning("both 'title' / 'subtitle' and 'body' are not NULL - ",
@@ -121,7 +136,7 @@ bulma_hero <- function(title = NULL, subtitle = NULL,
     title_tag <- bulma_title(title, container = htmltools::p)
     subtitle_tag <- bulma_subtitle(subtitle, container = htmltools::p)
     if (!is.null(size) && size %in% c("halfheight", "fullheight")) {
-      ## wrap in div b/v in hh/fh divs are flex and thus floating
+      ## wrap in div b/c in hh/fh divs are flex and thus floating
       body <- htmltools::div(
         htmltools::div(
           if (!is.null(title)) title_tag,
@@ -141,6 +156,7 @@ bulma_hero <- function(title = NULL, subtitle = NULL,
   container(if (!is.null(header)) header_tag,
             body,
             if (!is.null(footer)) footer_tag,
-            class = add_class("hero", c(color_class, size_class, navbar_class)))
+            class = add_class("hero", c(color_class, size_class)),
+            ...)
 
 }
