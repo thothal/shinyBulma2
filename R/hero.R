@@ -137,26 +137,35 @@ bulma_hero <- function(title = NULL, subtitle = NULL,
     subtitle_tag <- bulma_subtitle(subtitle, container = htmltools::p)
     if (!is.null(size) && size %in% c("halfheight", "fullheight")) {
       ## wrap in div b/c in hh/fh divs are flex and thus floating
+      ## use the tagAppendChild approach to avoid NULLs in the div
+      ## which would make unit testing more difficult
+      title_div <- htmltools::div()
+      if (!is.null(title)) {
+        title_div <- htmltools::tagAppendChild(title_div, title_tag)
+      }
+      if (!is.null(subtitle)) {
+        title_div <- htmltools::tagAppendChild(title_div, subtitle_tag)
+      }
       body <- htmltools::div(
-        htmltools::div(
-          if (!is.null(title)) title_tag,
-          if (!is.null(subtitle)) subtitle_tag
-        ),
+        title_div,
         class = "hero-body"
       )
     } else {
       body <- htmltools::div(
-        if (!is.null(title)) title_tag,
-        if (!is.null(subtitle)) subtitle_tag,
         class = "hero-body"
       )
+      if (!is.null(title)) {
+        body <- htmltools::tagAppendChild(body, title_tag)
+      }
+      if (!is.null(subtitle)) {
+        body <- htmltools::tagAppendChild(body, subtitle_tag)
+      }
     }
   }
-
-  container(if (!is.null(header)) header_tag,
-            body,
-            if (!is.null(footer)) footer_tag,
-            class = add_class("hero", c(color_class, size_class)),
-            ...)
-
+  args <- list(if (!is.null(header)) header_tag,
+               body,
+               if (!is.null(footer)) footer_tag,
+               class = add_class("hero", c(color_class, size_class)),
+               ...)
+  do.call(container, args[vapply(args, length, integer(1L)) > 0])
 }

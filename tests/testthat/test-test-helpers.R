@@ -173,3 +173,41 @@ test_that("type and class of children expectation works as intended", {
                  "element <h1> could not be matched at position #3")
 })
 
+test_that("split_class splits classes properly", {
+  expect_null(split_class(NULL))
+  expect_equal(split_class("a b  c\td\n e"),
+               c("a", "b", "c", "d", "e"))
+})
+
+test_that("get_class returns the classes of the tag", {
+  expect_null(get_class(NULL))
+  p <- htmltools::p(class = "a  b", class = "c\td\ne")
+  expect_equal(get_class(p), c("a", "b", "c", "d", "e"))
+})
+
+test_that("get_type returns the tag type", {
+  expect_equal(get_type(htmltools::div()), "div")
+  expect_equal(get_type("text"), "text_node")
+})
+
+test_that("`%in0%` returns TRUE for members and NULL values", {
+  expect_error(1:2 %in0% 1:3,
+               "length\\(x\\) <= 1 \\|\\| length\\(x\\) == length\\(y\\) is not TRUE")
+  expect_equal("a" %in0% letters[1:3],
+               c(TRUE, FALSE, FALSE))
+  expect_equal(NULL %in0% LETTERS[1:3],
+               rep(TRUE, 3))
+})
+
+test_that("grepl0 returns TRUE for members and and NULL values", {
+  expect_equal(grepl0(letters[1:2], c("a\tb", "c\ta\tb", "d\te")),
+               c(TRUE, TRUE, FALSE))
+  expect_equal(grepl0(NULL, letters[1:3]),
+               rep(TRUE, 3))
+})
+
+test_that("flatten_children flattens nested lists", {
+  x <- htmltools::span(list(list("1")))
+  expect_equal(flatten_children(x), htmltools::span("1"),
+               ignore_attr = TRUE)
+})

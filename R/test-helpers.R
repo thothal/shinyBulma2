@@ -23,6 +23,7 @@ get_type <- function(tag) {
 }
 
 `%in0%` <- function(x, y) {
+  stopifnot(length(x) <= 1 || length(x) == length(y))
   if (is.null(x)) {
     res <- rep(TRUE, length(y))
   } else {
