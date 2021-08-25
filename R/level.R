@@ -1,28 +1,28 @@
 #' Create bulma Level & bulma Level Item
 #'
 #' @param left,right,center \[`shiny.tag` or `listish`; \sQuote{NULL}\]\cr
-#'                          These elements are placed in the left or right part of the
-#'                          level. Alternatively (but not simulataneously) you can set
-#'                          `center`, in which case it will be placed horizontally
-#'                          centered. Typically, you want to pass a [htmltools::tagList()]
-#'                          to these arguments. The function will then loop through all
-#'                          elements in the list and place them in the right place.
+#'        These elements are placed in the left or right part of the
+#'        level. Alternatively (but not simultaneously) you can set
+#'        `center`, in which case it will be placed horizontally
+#'        centered. Typically, you want to pass a [htmltools::tagList()]
+#'        to these arguments. The function will then loop through all
+#'        elements in the list and place them in the right place.
 #' @param horizontal_on_mobile \[`logical(1)`: \sQuote{FALSE}\]\cr
-#'                             If \sQuote{TRUE}, the level is displayed horizonatlly on
-#'                             mobile devices and not vertically as per default.
+#'        If \sQuote{TRUE}, the level is displayed horizonatlly on
+#'        mobile devices and not vertically as per default.
 #' @param container \[`function`\]\cr
 #'        The container to be used for the bulma level or bulma level item.
 #' @param heading,title,content \[shiny.tag` or `listish`; \sQuote{NULL}\]\cr
-#'                              The heading, title or free content of the level item.
-#'                              Either one specifies heading and title to display a
-#'                              simple heading with a value, or one uses `content` to
-#'                              freely style the content.
+#'        The heading, title or free content of the level item.
+#'        Either one specifies heading and title to display a
+#'        simple heading with a value, or one uses `content` to
+#'        freely style the content.
 #' @param centered \[`logical(1)`: \sQuote{TRUE}\]\cr
-#'                 If \sQuote{TRUE}, the content (either given by `heading/title` or
-#'                 `content`) is centered using class `has-text-centered`.
+#'        If \sQuote{TRUE}, the content (either given by `heading/title` or
+#'        `content`) is centered using class `has-text-centered`.
 #' @param heading_on_top \[`logical(1)`: \sQuote{TRUE}\]\cr
-#'                        If \sQuote{TRUE}, the heading is placed on top of the title,
-#'                        otherwise reversed.
+#'        If \sQuote{TRUE}, the heading is placed on top of the title,
+#'        otherwise reversed.
 #' @param ... \[`html tags` or `html attributes`\]\cr
 #'        Further arguments passed down to `container`.
 #'

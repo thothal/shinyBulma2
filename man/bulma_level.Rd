@@ -27,7 +27,7 @@ bulma_level_item(
 \arguments{
 \item{left, right, center}{[\code{shiny.tag} or \code{listish}; \sQuote{NULL}]\cr
 These elements are placed in the left or right part of the
-level. Alternatively (but not simulataneously) you can set
+level. Alternatively (but not simultaneously) you can set
 \code{center}, in which case it will be placed horizontally
 centered. Typically, you want to pass a \code{\link[htmltools:tag]{htmltools::tagList()}}
 to these arguments. The function will then loop through all
